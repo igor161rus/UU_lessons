@@ -12,9 +12,13 @@ while True:
     cprint('Ход игорока {}'.format(user_number), color=user_color)
     pos = input(colored('Откуда берем?', color=user_color))
     qua = input(colored('Сколько берем?', color=user_color))
-    take_from_brunch(position=int(pos), quantity=int(qua))
+    step_successed = take_from_brunch(position=int(pos), quantity=int(qua))
+    if step_successed:
+        user_number = 2 if user_number == 1 else 1
+    else:
+        cprint('невозможный ход', color='red')
     if is_gameover():
         break
     user_number = 2 if user_number == 1 else 1
 
-cprint('Выиграл игрок номер {}'.format(user_number, color='red'))
+cprint('Выиграл игрок номер {}'.format(user_number), color='red')
