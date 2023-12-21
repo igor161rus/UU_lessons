@@ -3,11 +3,13 @@ import math
 
 class House:
     """
-    Класс House принимает на входе два параметра:
+    Класс House принимает на входе 4 параметра:
     number_of_floors - количество этажей
     number_of_apart_floor - количество квартир на этаже
+    start_apart - этаж с котого начинаются квартиры
+    entrance - количество подъездов
 
-    Друшие атрибуты
+    Другие атрибуты
     apart - список всех квартир
     ap_fl - список квартир по этажам. Зачем так сделал - хотел повозиться с генераторами
     mode - режим ответов: 1 - нормальный, 2 - злая бабуся
@@ -18,6 +20,9 @@ class House:
     Методы:
     list_apart - выводит поэтажный список квартир
     get_apart - выводит этаж на котором находится квартира
+    get_entrance - Функция выбора подъезда
+    setNewNumberOfFloors - Функция для 2го домашнего задания
+    calc_apart - Функция заполнения списка квартир
     house_menu - меню
     """
 
@@ -28,24 +33,18 @@ class House:
         self.start_apart = start_apart
         self.entrance_count = entrance
         self.entrance_select = 1
-        # self.apart = [i for i in range(self.entrance_select, (self.number_of_floors - self.start_apart + 1)
-        #                                * self.number_of_apart_floor + 1)]
-        # self.ap_fl = [self.apart[i:i + self.number_of_apart_floor] for i in
-        #               range(0, len(self.apart), self.number_of_apart_floor)]
         self.apart = []
         self.ap_fl = []
         self.calc_apart()
-        print(self.apart)
-        print(self.ap_fl)
         print(f'Вумный коньсерж Вас приветствует!\n'
               f'В нашем доме {self.entrance_count} подъездов по {self.number_of_floors} этажей\n'
+              f'{(self.number_of_floors - 1) * self.number_of_apart_floor * self.entrance_count} квартир\n'
               f'Вы находитесь в {self.entrance_select} подъезде\n'
               f'В нашем подъезде:\n {len(self.apart)} квартир\n'
               f'Квартиры начинаются с {self.start_apart} этажа\n')
 
     def list_apart(self):
-        print(self.apart)
-        print(self.ap_fl)
+        """Функция вывода поэтажного списка квартир"""
         for i in range(len(self.ap_fl)):
             print(f'Этаж {i + self.start_apart}: квартиры')
             for j in range(len(self.ap_fl[i])):
@@ -53,11 +52,12 @@ class House:
             print()
 
     def get_apart(self):
-        print(self.apart)
-        print(self.ap_fl)
+        """Функция для определения этажа по номеру квартиры"""
         my_ap = int(input('В какую квартиру желаете попасть? '))
         if my_ap in self.apart:
-            print(f'Вам на {math.ceil(my_ap / self.number_of_apart_floor / self.entrance_select) + self.start_apart - 1} этаж')
+            print(f'Вам на '
+                  f'{math.ceil(my_ap / self.number_of_apart_floor / self.entrance_select) + self.start_apart - 1} '
+                  f'этаж\n')
         else:
             # Культурный режим
             if self.mode == 0:
@@ -67,23 +67,27 @@ class House:
                 print('Куды прешь, нету такой квартиры. Топчут тут...')
 
     def get_entrance(self):
-        self.entrance_select = int(input())
+        """Функция выбора подъезда"""
+        self.entrance_select = int(input('Введите номер подъезда '))
         self.calc_apart()
 
     def setNewNumberOfFloors(self, floors):
+        """Функция для 2го домашнего задания"""
         self.number_of_floors = floors
         print(self.number_of_floors)
         self.calc_apart()
 
     def calc_apart(self):
-        start_range = self.number_of_floors * self.number_of_apart_floor * (self.entrance_select - 1) + 1
-        end_range = (self.number_of_floors - self.start_apart + 1) * self.number_of_apart_floor + 1
+        """Функция заполнения списка квартир"""
+        start_range = ((self.number_of_floors - self.start_apart + 1) * self.number_of_apart_floor *
+                       (self.entrance_select - 1) + 1)
+        end_range = (self.number_of_floors - self.start_apart + 1) * self.number_of_apart_floor + start_range
         self.apart = [i for i in range(start_range, end_range)]
-        print(f'calc_apart {self.apart}')
         self.ap_fl = [self.apart[i:i + self.number_of_apart_floor] for i in
                       range(0, len(self.apart), self.number_of_apart_floor)]
 
     def house_menu(self):
+        """Функция обработки меню"""
         dict_menu = {0: 'Подъезд', 1: 'Список квартир', 2: 'Ищу квартиру', 3: 'Справка', 4: 'Выполнить задание урока 1',
                      5: 'Выполнить задание урока 2', 6: 'Переключить режим', 7: 'Выход'}
         print('Выберите пункт меню:')
@@ -133,41 +137,26 @@ while loop:
     loop = my_house.house_menu()
 
 # Результат:
-# D:\Python\Python39\python.exe D:\Python\Projects\UU\lessons\lesson_005\attributes_methods.py
+# C:\Users\admin\AppData\Local\Programs\Python\Python311\python.exe E:\python\projects\UU_lessons\lesson_005\attributes_methods.py
 # Вумный коньсерж Вас приветствует!
+# В нашем доме 8 подъездов по 15 этажей
+# 448 квартир
+# Вы находитесь в 1 подъезде
 # В нашем подъезде:
-#  40 квартир
-#  10 этажей
+#  56 квартир
+# Квартиры начинаются с 2 этажа
 #
 # Выберите пункт меню:
+# 0: Подъезд
 # 1: Список квартир
 # 2: Ищу квартиру
 # 3: Справка
-# 4: Выполнить задание урока
-# 5: Переключить режим
-# 6: Выход
-# _
-#
-# _1
-# Этаж 1: квартиры
-# 1 2 3 4
-# Этаж 2: квартиры
-# 5 6 7 8
-# ...
-# ...
-# Этаж 9: квартиры
-# 33 34 35 36
-# Этаж 10: квартиры
-# 37 38 39 40
+# 4: Выполнить задание урока 1
+# 5: Выполнить задание урока 2
+# 6: Переключить режим
+# 7: Выход
 
-# _2
-# В какую квартиру желаете попасть? 23
-# Вам на 6 этаж
-#
-# _2
-# В какую квартиру желаете попасть? 100
-# Не туда попали, нет такой квартиры
-
+# Домашняя работа по уроку "Атрибуты и методы объекта."
 # _4
 # Текущий этаж равен: 1
 # Текущий этаж равен: 2
@@ -179,9 +168,23 @@ while loop:
 # Текущий этаж равен: 8
 # Текущий этаж равен: 9
 # Текущий этаж равен: 10
+# Текущий этаж равен: 11
+# Текущий этаж равен: 12
+# Текущий этаж равен: 13
+# Текущий этаж равен: 14
+# Текущий этаж равен: 15
 
+# Выберите пункт меню:
+# 0: Подъезд
+# 1: Список квартир
+# 2: Ищу квартиру
+# 3: Справка
+# 4: Выполнить задание урока 1
+# 5: Выполнить задание урока 2
+# 6: Переключить режим
+# 7: Выход
+
+# Домашняя работа по уроку "Специальные методы классов"
 # _5
-# Режим злой бабуси включен
-# _2
-# В какую квартиру желаете попасть? 100
-# Куды прешь, нету такой квартиры. Топчут тут...
+# _8
+# 8
