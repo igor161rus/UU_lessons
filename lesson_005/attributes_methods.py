@@ -26,7 +26,7 @@ class House:
     house_menu - меню
     """
 
-    def __init__(self, floors, aparts_floor, start_apart, entrance):
+    def __init__(self, floors, aparts_floor, start_apart, entrance, buildingType=''):
         self.number_of_floors = floors
         self.number_of_apart_floor = aparts_floor
         self.mode = 0
@@ -92,7 +92,7 @@ class House:
     def house_menu(self):
         """Функция обработки меню"""
         dict_menu = {0: 'Подъезд', 1: 'Список квартир', 2: 'Ищу квартиру', 3: 'Справка', 4: 'Выполнить задание урока 1',
-                     5: 'Выполнить задание урока 2', 6: 'Выполнить задание урока 3', 7: 'Переключить режим', 8: 'Выход'}
+                     5: 'Выполнить задание урока 2', 6: 'Переключить режим', 7: 'Выход'}
         print('Выберите пункт меню:')
         for i in dict_menu:
             print(f'{i}: {dict_menu[i]}')
@@ -118,9 +118,6 @@ class House:
             self.setNewNumberOfFloors(floors)
             return True
         elif sel_menu == 6:
-            print('Домашняя работа по уроку "Перегрузка операторов.')
-
-        elif sel_menu == 7:
             if self.mode == 0:
                 self.mode = 1
                 print('Режим злой бабуси включен')
@@ -129,7 +126,7 @@ class House:
                 self.mode = 0
                 print('Нормальный режим включен')
                 return True
-        elif sel_menu == 8:
+        elif sel_menu == 7:
             if self.mode == 0:
                 print('Хорошего дня! До встречи!')
             else:
@@ -137,8 +134,10 @@ class House:
             return False
 
 
-my_house = House(15, 4, 2, 8)
-my_house2 = House(6, 4, 1, 3)
+my_house = House(15, 4, 2, 8, 'панельный')
+my_house2 = House(5, 4, 1, 3, 'кирпичный')
+print('my_house = my_house', my_house == my_house)
+print('my_house = my_house2', my_house == my_house2)
 loop = True
 while loop:
     loop = my_house.house_menu()
