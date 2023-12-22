@@ -43,6 +43,9 @@ class House:
               f'В нашем подъезде:\n {len(self.apart)} квартир\n'
               f'Квартиры начинаются с {self.start_apart} этажа\n')
 
+    def __eq__(self, other):
+        return self.number_of_floors == other.number_of_floors and self.entrance_count == other.entrance_count
+
     def list_apart(self):
         print(self.apart)
         print(self.ap_fl)
@@ -85,7 +88,7 @@ class House:
 
     def house_menu(self):
         dict_menu = {0: 'Подъезд', 1: 'Список квартир', 2: 'Ищу квартиру', 3: 'Справка', 4: 'Выполнить задание урока 1',
-                     5: 'Выполнить задание урока 2', 6: 'Переключить режим', 7: 'Выход'}
+                     5: 'Выполнить задание урока 2', 6: 'Выполнить задание урока 3', 7: 'Переключить режим', 8: 'Выход'}
         print('Выберите пункт меню:')
         for i in dict_menu:
             print(f'{i}: {dict_menu[i]}')
@@ -111,6 +114,9 @@ class House:
             self.setNewNumberOfFloors(floors)
             return True
         elif sel_menu == 6:
+            print('Домашняя работа по уроку "Перегрузка операторов.')
+
+        elif sel_menu == 7:
             if self.mode == 0:
                 self.mode = 1
                 print('Режим злой бабуси включен')
@@ -119,7 +125,7 @@ class House:
                 self.mode = 0
                 print('Нормальный режим включен')
                 return True
-        elif sel_menu == 7:
+        elif sel_menu == 8:
             if self.mode == 0:
                 print('Хорошего дня! До встречи!')
             else:
@@ -128,6 +134,7 @@ class House:
 
 
 my_house = House(15, 4, 2, 8)
+my_house2 = House(6, 4, 1, 3)
 loop = True
 while loop:
     loop = my_house.house_menu()
