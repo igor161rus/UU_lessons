@@ -16,7 +16,7 @@ class Car:
         self.hp = 100
 
     def __str__(self):
-        return '{} {} {}'.format(self.__class__.__name__, self.price, self.horse_powers())
+        return '{} {} {}'.format(self.__class__.__name__, self.price, self.hp)
 
 
 class Nissan(Car):
@@ -34,4 +34,4 @@ class Kia(Car):
 my_car = Nissan()
 print(my_car)
 my_car.horse_powers()
-print(my_car)
+print(my_car.hp)
