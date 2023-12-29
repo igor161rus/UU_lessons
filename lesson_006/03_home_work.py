@@ -8,13 +8,20 @@
 
 class Vehicle:
     vehicle_type = "none"
+    price = 2
+
+    def __init__(self):
+        print(f'init Vehicle {self.__class__}')
 
 
 class Car:
-    price = 1000000
+    price = 2000000
+    hp = 0
 
     def __init__(self):
-        self.hp = 0
+        print(f'init Car {self.__class__}')
+
+    #        self.hp = 0
 
     def horse_powers(self, hp):
         self.hp = hp
@@ -26,6 +33,26 @@ class Nissan(Car, Vehicle):
     vehicle_type = 'gibrid'
 
 
+# Примечания для меня, что я понял
 car = Nissan()
+# Вызвался метод __init__ при создании экземляра класса Nissan
+# init Car <class '__main__.Nissan'>
+# зависит от порядка наследования Nissan(Car, Vehicle)
 print(car.vehicle_type)
+# gibrid
+# Атрибут vehicle_type переопределен из базового класса Vehicle, в пространстве имен Nissan появилось значение 'gibrid'
+# В базовом классе Vehicle vehicle_type = "none", там оно таким и осталось
 print(car.price)
+# Тоже самое с price, только этот атрибут взят из Car
+print(car.__dict__)
+# У объекта car нет в его пространстве имен собственных значений, все из базовых классов: {}
+car.price = 10
+# А вот теперь должно появится его собственное price
+print(car.__dict__)
+# Появилось: {'price': 10}
+print(Nissan.__dict__)
+# Видно, что в пространстве имен Nissan 'price': 1000000, 'vehicle_type': 'gibrid'
+print(Car.__dict__)
+# Пространство имен Car 'price': 2000000, 'hp': 0
+print(Vehicle.__dict__)
+# Пространство имен Vehicle: 'vehicle_type': 'none', 'price': 2
