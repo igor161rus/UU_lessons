@@ -23,14 +23,18 @@ class Car:
 
     #        self.hp = 0
 
-    def horse_powers(self, hp):
-        self.hp = hp
+    def horse_powers(self):
+        self.hp = 100
         return self.hp
 
 
 class Nissan(Car, Vehicle):
     price = 1000000
     vehicle_type = 'gibrid'
+
+    def horse_powers(self):
+        self.hp = 105
+        return self.hp
 
 
 # Примечания для меня, что я понял
@@ -56,13 +60,28 @@ print(Car.__dict__)
 # Пространство имен Car 'price': 2000000, 'hp': 0
 print(Vehicle.__dict__)
 # Пространство имен Vehicle: 'vehicle_type': 'none', 'price': 2
+print(car.horse_powers())
+print(car.horse_powers)
+# Вызвали функию horse_powers(), она из Nissan:
+# bound method Nissan.horse_powers of <__main__.Nissan object at 0x0000027D7DCDAFD0>
+print(car.__dict__)
+# В пространстве имен car появилось значение 'hp': 105
+# {'price': 10, 'hp': 105}
+print(Nissan.__dict__)
+# Но в пр-ве Nissan собственного hp нет, функция horse_powers этого класса его переопределяет, но для Nissan она
+# нигде не вызывается
+
 
 # Консоль:
-# init Vehicle <class '__main__.Nissan'>
+# init Car <class '__main__.Nissan'>
 # gibrid
 # 1000000
 # {}
 # {'price': 10}
-# {'__module__': '__main__', 'price': 1000000, 'vehicle_type': 'gibrid', '__doc__': None}
-# {'__module__': '__main__', 'price': 2000000, 'hp': 0, '__init__': <function Car.__init__ at 0x000001AC595FC790>, 'horse_powers': <function Car.horse_powers at 0x000001AC595FC820>, '__dict__': <attribute '__dict__' of 'Car' objects>, '__weakref__': <attribute '__weakref__' of 'Car' objects>, '__doc__': None}
-# {'__module__': '__main__', 'vehicle_type': 'none', 'price': 2, '__init__': <function Vehicle.__init__ at 0x000001AC595FC700>, '__dict__': <attribute '__dict__' of 'Vehicle' objects>, '__weakref__': <attribute '__weakref__' of 'Vehicle' objects>, '__doc__': None}
+# {'__module__': '__main__', 'price': 1000000, 'vehicle_type': 'gibrid', 'horse_powers': <function Nissan.horse_powers at 0x0000027D7DCCC8B0>, '__doc__': None}
+# {'__module__': '__main__', 'price': 2000000, 'hp': 0, '__init__': <function Car.__init__ at 0x0000027D7DCCC790>, 'horse_powers': <function Car.horse_powers at 0x0000027D7DCCC820>, '__dict__': <attribute '__dict__' of 'Car' objects>, '__weakref__': <attribute '__weakref__' of 'Car' objects>, '__doc__': None}
+# {'__module__': '__main__', 'vehicle_type': 'none', 'price': 2, '__init__': <function Vehicle.__init__ at 0x0000027D7DCCC700>, '__dict__': <attribute '__dict__' of 'Vehicle' objects>, '__weakref__': <attribute '__weakref__' of 'Vehicle' objects>, '__doc__': None}
+# 105
+# <bound method Nissan.horse_powers of <__main__.Nissan object at 0x0000027D7DCDAFD0>>
+# {'price': 10, 'hp': 105}
+# {'__module__': '__main__', 'price': 1000000, 'vehicle_type': 'gibrid', 'horse_powers': <function Nissan.horse_powers at 0x0000027D7DCCC8B0>, '__doc__': None}
