@@ -5,7 +5,7 @@
 # функцию horse_powers Получившийся код прикрепите к заданию текстом
 
 class Car:
-    price = 0
+    price = 1000000
 
     def __init__(self):
         self.hp = 0
@@ -22,7 +22,6 @@ class Car:
 
 
 class Nissan(Car):
-    price = self.price
     def horse_powers(self, hp):
         self.hp = hp
         power = hp // 1.35962
