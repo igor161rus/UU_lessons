@@ -56,3 +56,13 @@ print(Car.__dict__)
 # Пространство имен Car 'price': 2000000, 'hp': 0
 print(Vehicle.__dict__)
 # Пространство имен Vehicle: 'vehicle_type': 'none', 'price': 2
+
+# Консоль:
+# init Vehicle <class '__main__.Nissan'>
+# gibrid
+# 1000000
+# {}
+# {'price': 10}
+# {'__module__': '__main__', 'price': 1000000, 'vehicle_type': 'gibrid', '__doc__': None}
+# {'__module__': '__main__', 'price': 2000000, 'hp': 0, '__init__': <function Car.__init__ at 0x000001AC595FC790>, 'horse_powers': <function Car.horse_powers at 0x000001AC595FC820>, '__dict__': <attribute '__dict__' of 'Car' objects>, '__weakref__': <attribute '__weakref__' of 'Car' objects>, '__doc__': None}
+# {'__module__': '__main__', 'vehicle_type': 'none', 'price': 2, '__init__': <function Vehicle.__init__ at 0x000001AC595FC700>, '__dict__': <attribute '__dict__' of 'Vehicle' objects>, '__weakref__': <attribute '__weakref__' of 'Vehicle' objects>, '__doc__': None}
