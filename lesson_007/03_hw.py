@@ -33,3 +33,16 @@ for root, dirs, files in os.walk(path_normalized):
 # Обнаружен файл: work_5.py, Путь: E:\python\projects\UU_lessons\lesson_007, Размер: 618 байт, Время изменения: 14.01.2024 16:37, Родительская директория: E:\python\projects\UU_lessons\lesson_007
 
 # linux
+# /usr/bin/python3.10 /home/ha/python/projects/UU_lessons/lesson_007/03_hw.py
+# /home/ha/python/projects/UU_lessons/lesson_007
+# Обнаружен файл: work_3.py, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 151 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
+# Обнаружен файл: hw_03.py, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 3331 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
+# Обнаружен файл: out.txt, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 5 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
+# Обнаружен файл: byron.txt, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 607 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
+# Обнаружен файл: work_4.py, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 627 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
+# Обнаружен файл: 01_hw.py, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 309 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
+# Обнаружен файл: 02_hw.py, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 1947 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
+# Обнаружен файл: 03_hw.py, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 3723 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
+# Обнаружен файл: work.py, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 777 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
+# Обнаружен файл: work_5.py, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 598 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
+# Обнаружен файл: work_2.py, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 327 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
