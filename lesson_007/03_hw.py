@@ -1,50 +1,35 @@
-# Создайте новый проект или продолжите работу в текущем проекте.
-# Используйте os.walk для обхода каталога, путь к которому указывает переменная directory
-# Примените os.path.join для формирования полного пути к файлам.
-# Используйте os.path.getmtime и модуль time для получения и отображения времени последнего изменения файла.
-# Используйте os.path.getsize для получения размера файла.
-# Используйте os.path.dirname для получения родительской директории файла.
-#
-# Комментарии к заданию:
-#
-# Ключевая идея – использование вложенного for
-#
-# for root, dirs, files in os.walk(directory):
-#   for file in files:
-#     filepath = ?
-#     filetime = ?
-#     formatted_time = time.strftime("%d.%m.%Y %H:%M", time.localtime(filetime))
-#     filesize = ?
-#     parent_dir = ?
-#     print(f'Обнаружен файл: {file}, Путь: {filepath}, Размер: {filesize} байт, Время изменения: {formatted_time}, Родительская директория: {parent_dir}')
-#
-# Так как в разных операционных системах разная схема расположения папок, тестировать проще всего в папке проекта (directory = “.”)
-# Пример возможного вывода:
-# Обнаружен файл: main.py, Путь: ./main.py, Размер: 111 байт, Время изменения: 11.11.1111 11:11, Родительская директория: .
-#
-# Пример решения:
-#
-# Обнаружен файл: main.py, Путь: ./main.py, Размер: 111 байт, Время изменения: 11.11.1111 11:11, Родительская директория: .
-# Пример кода:
-import os, time
+import os
+import time
 
 directory = os.path.dirname(__file__)
 path_normalized = os.path.normpath(directory)
 print(path_normalized)
-# widows
+
+for root, dirs, files in os.walk(path_normalized):
+    for file in files:
+        filepath = path_normalized
+        filetime = time.time()
+
+        formatted_time = time.strftime("%d.%m.%Y %H:%M", time.localtime(filetime))
+        filesize = os.path.getsize(file)
+        parent_dir = os.path.dirname(__file__)
+        print(f'Обнаружен файл: {file}, Путь: {filepath}, '
+              f'Размер: {filesize} байт, Время изменения: {formatted_time}, '
+              f'Родительская директория: {parent_dir}')
+
+# windows:
 # C:\Users\admin\AppData\Local\Programs\Python\Python311\python.exe E:\python\projects\UU_lessons\lesson_007\03_hw.py
 # E:\python\projects\UU_lessons\lesson_007
-
+# Обнаружен файл: 01_hw.py, Путь: E:\python\projects\UU_lessons\lesson_007, Размер: 318 байт, Время изменения: 14.01.2024 16:37, Родительская директория: E:\python\projects\UU_lessons\lesson_007
+# Обнаружен файл: 02_hw.py, Путь: E:\python\projects\UU_lessons\lesson_007, Размер: 1968 байт, Время изменения: 14.01.2024 16:37, Родительская директория: E:\python\projects\UU_lessons\lesson_007
+# Обнаружен файл: 03_hw.py, Путь: E:\python\projects\UU_lessons\lesson_007, Размер: 3149 байт, Время изменения: 14.01.2024 16:37, Родительская директория: E:\python\projects\UU_lessons\lesson_007
+# Обнаружен файл: byron.txt, Путь: E:\python\projects\UU_lessons\lesson_007, Размер: 624 байт, Время изменения: 14.01.2024 16:37, Родительская директория: E:\python\projects\UU_lessons\lesson_007
+# Обнаружен файл: hw_03.py, Путь: E:\python\projects\UU_lessons\lesson_007, Размер: 3388 байт, Время изменения: 14.01.2024 16:37, Родительская директория: E:\python\projects\UU_lessons\lesson_007
+# Обнаружен файл: out.txt, Путь: E:\python\projects\UU_lessons\lesson_007, Размер: 5 байт, Время изменения: 14.01.2024 16:37, Родительская директория: E:\python\projects\UU_lessons\lesson_007
+# Обнаружен файл: work.py, Путь: E:\python\projects\UU_lessons\lesson_007, Размер: 821 байт, Время изменения: 14.01.2024 16:37, Родительская директория: E:\python\projects\UU_lessons\lesson_007
+# Обнаружен файл: work_2.py, Путь: E:\python\projects\UU_lessons\lesson_007, Размер: 341 байт, Время изменения: 14.01.2024 16:37, Родительская директория: E:\python\projects\UU_lessons\lesson_007
+# Обнаружен файл: work_3.py, Путь: E:\python\projects\UU_lessons\lesson_007, Размер: 156 байт, Время изменения: 14.01.2024 16:37, Родительская директория: E:\python\projects\UU_lessons\lesson_007
+# Обнаружен файл: work_4.py, Путь: E:\python\projects\UU_lessons\lesson_007, Размер: 647 байт, Время изменения: 14.01.2024 16:37, Родительская директория: E:\python\projects\UU_lessons\lesson_007
+# Обнаружен файл: work_5.py, Путь: E:\python\projects\UU_lessons\lesson_007, Размер: 618 байт, Время изменения: 14.01.2024 16:37, Родительская директория: E:\python\projects\UU_lessons\lesson_007
 
 # linux
-# /usr/bin/python3.10 /home/ha/python/projects/UU_lessons/lesson_007/03_hw.py
-# /home/ha/python/projects/UU_lessons/lesson_007
-
-# for root, dirs, files in os.walk(directory):
-#   for file in files:
-#     filepath = ?
-#     filetime = ?
-#     formatted_time = time.strftime("%d.%m.%Y %H:%M", time.localtime(filetime))
-#     filesize = ?
-#     parent_dir = ?
-#     print(f'Обнаружен файл: {file}, Путь: {filepath}, Размер: {filesize} байт, Время изменения: {formatted_time}, Родительская директория: {parent_dir}')
