@@ -46,3 +46,4 @@ for root, dirs, files in os.walk(path_normalized):
 # Обнаружен файл: work.py, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 777 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
 # Обнаружен файл: work_5.py, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 598 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
 # Обнаружен файл: work_2.py, Путь: /home/ha/python/projects/UU_lessons/lesson_007, Размер: 327 байт, Время изменения: 14.01.2024 16:39, Родительская директория: /home/ha/python/projects/UU_lessons/lesson_007
+
