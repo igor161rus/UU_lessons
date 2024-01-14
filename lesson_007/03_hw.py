@@ -32,6 +32,10 @@ directory = os.path.dirname(__file__)
 path_normalized = os.path.normpath(directory)
 print(path_normalized)
 
+# linux
+# /usr/bin/python3.10 /home/ha/python/projects/UU_lessons/lesson_007/03_hw.py
+# /home/ha/python/projects/UU_lessons/lesson_007
+
 # for root, dirs, files in os.walk(directory):
 #   for file in files:
 #     filepath = ?
