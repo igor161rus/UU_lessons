@@ -31,6 +31,10 @@ import os, time
 directory = os.path.dirname(__file__)
 path_normalized = os.path.normpath(directory)
 print(path_normalized)
+# widows
+# C:\Users\admin\AppData\Local\Programs\Python\Python311\python.exe E:\python\projects\UU_lessons\lesson_007\03_hw.py
+# E:\python\projects\UU_lessons\lesson_007
+
 
 # linux
 # /usr/bin/python3.10 /home/ha/python/projects/UU_lessons/lesson_007/03_hw.py
