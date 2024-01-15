@@ -38,6 +38,16 @@ class Chatterer:
                         self.stat[sequence] = {char: 1}
                     sequence = sequence[1:] + char
 
+    def prepare(self):
+        self.totals = {}
+        self.stat_for_generate = {}
+        for sequence, char_stat in self.stat.items():
+            self.totals[sequence] = 0
+            self.stat_for_generate[sequence] = []
+            for char, count in char_stat.items():
+                self.totals[sequence] += count
+                self.stat_for_generate[sequence].append([count, char])
+            self.stat_for_generate[sequence].sort(reverse=True)
 
 # filename = 'voyna-i-mir.txt'
 # stat = {}
@@ -62,15 +72,15 @@ class Chatterer:
 # pprint(stat)
 # pprint(len(stat))
 
-totals = {}
-stat_for_generate = {}
-for sequence, char_stat in stat.items():
-    totals[sequence] = 0
-    stat_for_generate[sequence] = []
-    for char, count in char_stat.items():
-        totals[sequence] += count
-        stat_for_generate[sequence].append([count, char])
-    stat_for_generate[sequence].sort(reverse=True)
+# totals = {}
+# stat_for_generate = {}
+# for sequence, char_stat in stat.items():
+#     totals[sequence] = 0
+#     stat_for_generate[sequence] = []
+#     for char, count in char_stat.items():
+#         totals[sequence] += count
+#         stat_for_generate[sequence].append([count, char])
+#     stat_for_generate[sequence].sort(reverse=True)
 
 # pprint(totals)
 # pprint(stat_for_generate)
