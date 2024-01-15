@@ -46,3 +46,23 @@ else:
 finally:
     if f is not None:
         f.close()
+
+
+# with open('myfile.txt') as ff:
+#     first_line = ff.readline()
+# print(first_line)
+
+class InOutBlock:
+    def __enter__(self):
+        print('Входим в блок кода')
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print(f'Выходим из блока кода {exc_type}, {exc_val}, {exc_tb}')
+        return  True
+
+with InOutBlock() as in_out:
+    print('Работаем...')
+    a = bla_bla / number
+    print('Вычисляем значение')
+print('После контекстного менеджера')
+
