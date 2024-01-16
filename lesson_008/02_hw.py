@@ -35,16 +35,20 @@ class ProcessingException(Exception):
         return f'Ошибка класса ProcessingException: {self.message}'
 
 
-def my_function(a, b):
-    try:
+def my_function(a, b, c):
+    if c:
         c = a / b
         print(c)
-    except ZeroDivisionError as exc:
-        print(f'Ошибка {exc} при делении {a} на {b}')
+    else:
+        try:
+            c = a / b
+            print(c)
+        except ZeroDivisionError as exc:
+            print(f'Ошибка {exc} при делении {a} на {b}')
 
 
 try:
-    my_function(2, 0)
+    my_function(2, 0, True)
     print('ok')
 except:
     raise InvalidDataException('Деление на ноль')
