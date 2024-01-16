@@ -25,6 +25,8 @@ class Chatterer:
         self.file_name = filename
 
     def collect(self):
+        # if self.file_name.endswith('.zip'):
+        #     self.unzip()
         sequence = ' ' * self.analize_count
         with open(self.file_name, 'r', encoding='cp1251') as file:
             for line in file:
@@ -55,7 +57,7 @@ class Chatterer:
         N = 1000
         printed = 0
         if out_file_name is not None:
-            file = open(out_file_name, 'w')
+            file = open(out_file_name, 'w', encoding='utf8')
         else:
             file = None
 
@@ -77,7 +79,10 @@ class Chatterer:
             if char == ' ':
                 spaces_printed += 1
                 if spaces_printed >= 10:
-                    print()
+                    if file:
+                        file.write('/n')
+                    else:
+                        print()
                     spaces_printed = 0
             printed += 1
             sequence = sequence[1:] + char
