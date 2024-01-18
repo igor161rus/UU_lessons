@@ -15,9 +15,13 @@ def is_odd(x):
 
 
 list1 = [1, 2, 5, 7, 12, 11, 35, 4, 89, 10]
-# res = map(mul_by_2, filter(is_odd, [y for y in list1 if y % 2]))
+# res = map(mul_by_2, filter(is_odd, [x for x in list1 if x % 2]))
 res = map(mul_by_2, filter(is_odd, list1))
 print(list(res))
 
 res = map(mul_by_2, [x for x in list1 if x % 2])
 print(list(res))
+
+# D:\Python\Python39\python.exe D:\Python\Projects\UU\lessons\lesson_009\01_hw.py
+# [1, 25, 49, 121, 1225, 7921]
+# [1, 25, 49, 121, 1225, 7921]
