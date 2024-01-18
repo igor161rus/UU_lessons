@@ -5,3 +5,19 @@
 # [1, 2, 5, 7, 12, 11, 35, 4, 89, 10]
 # Выходные данные
 # [1, 25, 49, 121, 1225, 7921]
+
+def mul_by_2(x):
+    return x ** 2
+
+
+def is_odd(x):
+    return x % 2
+
+
+list1 = [1, 2, 5, 7, 12, 11, 35, 4, 89, 10]
+# res = map(mul_by_2, filter(is_odd, [y for y in list1 if y % 2]))
+res = map(mul_by_2, filter(is_odd, list1))
+print(list(res))
+
+res = map(mul_by_2, [x for x in list1 if x % 2])
+print(list(res))
