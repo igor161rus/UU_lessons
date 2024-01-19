@@ -105,7 +105,7 @@ def enter_data():
         elif i == 2:
             list_data.append(j)
         else:
-            raise CountDataException('Введено не верное число аргументов')
+            raise CountDataException(f'Введено не верное число аргументов: {len(list_input_data)}, необходимо 3')
     return list_data
 
 
