@@ -88,7 +88,7 @@ except (InvalidDataException, CountDataException) as err:
 
 # Задача 2: Лямбда-Функции
 print('Возведение в степень')
-a, b = int(input('Введите два целых числа через пробел: 1 основание, 2 показатель: '))
+a, b = map(int, input('Введите два целых числа через пробел: 1 основание, 2 показатель: ').split())
 exp = lambda x, y: x ** y
 print(exp(a, b))
 
