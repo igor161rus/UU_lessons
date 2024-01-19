@@ -1,72 +1,4 @@
-# Теоретический комментарий:
-# 1. Динамическое определение функций (def):
-# В Python можно определять функции внутри других функций. Такие функции могут создаваться и возвращаться.
-# Это основа для создания "фабрик функций" - функций, создающих функции.
-#
-# 2. Лямбда-функции:
-# Лямбда-функции в Python — это анонимные функции, определённые одной строкой.
-# Они удобны для создания простых функций на лету, особенно когда функция нужна временно или
-# для одноразового использования.
-#
-# 3. Вызываемые объекты (__call__):
-# В Python у класса может быть метод __call__, что позволяет его экземплярам вести себя как функции.
-# Это дает возможность создавать объекты, которые могут быть вызваны как функции и хранить состояние между вызовами.
-# Задание:
 # Задача 1: Фабрика Функций
-# Написать функцию, которая возвращает различные математические функции (например, деление, умножение)
-# в зависимости от переданных аргументов.
-#
-# Задача 2: Лямбда-Функции
-# Использовать лямбда-функцию для реализации простой операции и написать такую же функцию с использованием def.
-# Например, возведение числа в квадрат
-#
-# Задача 3: Вызываемые Объекты
-# Создать класс с Rect c полями a, b которые задаются в __init__ и методом __call__, который возвращает площадь прямоугольника, то есть a*b.
-#
-# Комментарии к заданию:
-# Фабрика функций для сложения и вычитания:
-# def create_operation(operation):
-#     if operation == "add":
-#         def add(x, y):
-#             return x + y
-#         return add # возвращаем функцию, как объект!! Тут скобки не нужны
-#     elif operation == "subtract":
-#         def subtract(x, y):
-#             return x - y
-#         return subtract
-# my_func_add = create_operation("add")
-# print(my_func_add(1,2))
-#
-# Пример лямбда функции с аналогом через def
-# multiply = lambda x, y: x * y
-# print(multiply(2, 3)) # Выводит 6
-#
-# def multiply_def(x, y):
-#    return x * y
-# print(multiply_def(2, 3)) # Выводит 6
-#
-# Пример создания вызываемого объекта
-# class Repeater:
-#    def __init__(self, value):
-#        self.value = value
-#    def __call__(self, n):
-#        return [self.value] * n
-#
-# repeat_five = Repeater(5)
-# print(repeat_five(3)) # Выводит [5, 5, 5]
-#
-# Пример вывода программы
-# Задача 1: Фабрика функций
-# 6
-# 2.0
-# Error: Division by zero
-# Задача 2 лямбда
-# 16
-# 16
-# Задача 3: Вызываемые oбъекты
-# Стороны: 2, 4
-# Площадь: 8
-
 class CountDataException(Exception):
     """Класс CountDataException"""
 
@@ -125,7 +57,6 @@ def create_operation(operation):
         return division
 
 
-# a, b, c = map(int, input('Введите через пробел два числа и операцию: ').split())
 try:
     calc_data = enter_data()
     my_calculator = create_operation(calc_data[2])
@@ -135,4 +66,58 @@ try:
 except (InvalidDataException, CountDataException) as err:
     print(f'{err}')
 
+# D:\Python\Python39\python.exe D:\Python\Projects\UU\lessons\lesson_009\02_hw.py
+# Введите через пробел два числа и операцию: 2 45 умножение
+# умножение 2 на 45 = 90
 
+# D:\Python\Python39\python.exe D:\Python\Projects\UU\lessons\lesson_009\02_hw.py
+# Введите через пробел два числа и операцию: 2.8 123 деление
+# деление 2.8 на 123 = 0.02276422764227642
+
+# D:\Python\Python39\python.exe D:\Python\Projects\UU\lessons\lesson_009\02_hw.py
+# Введите через пробел два числа и операцию: 2 0 деление
+# Ошибка, деление 2 на 0 - деление на 0
+
+# D:\Python\Python39\python.exe D:\Python\Projects\UU\lessons\lesson_009\02_hw.py
+# Введите через пробел два числа и операцию: в 25 умножение
+# Ошибка класса InvalidDataException: Введен не верный аргумент в
+
+# D:\Python\Python39\python.exe D:\Python\Projects\UU\lessons\lesson_009\02_hw.py
+# Введите через пробел два числа и операцию: 2.5 45 4 умножение
+# Ошибка класса CountDataException: Введено не верное число аргументов: 4, необходимо 3
+
+# Задача 2: Лямбда-Функции
+print('Возведение в степень')
+a, b = int(input('Введите два целых числа через пробел: 1 основание, 2 показатель: '))
+exp = lambda x, y: x ** y
+print(exp(a, b))
+
+
+def exp_1(x, y):
+    return x ** y
+
+
+print(exp_1(a, b))
+
+
+# D:\Python\Python39\python.exe D:\Python\Projects\UU\lessons\lesson_009\02_hw.py
+# Возведение в степень
+# Введите два целых числа через пробел: 1 основание, 2 показатель: 5 3
+# 125
+# 125
+
+# Задача 3: Вызываемые Объекты
+class Rect:
+    def __init__(self, a, b):
+        self.a = a
+        self.b = b
+        self.area = 0
+
+    def __call__(self):
+        return self.a * self.b
+
+
+area_sq = Rect(5, 6)
+print(f'Площадь: {area_sq()}')
+
+# 30
