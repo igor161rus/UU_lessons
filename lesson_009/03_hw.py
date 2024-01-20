@@ -27,12 +27,23 @@ class EvenNumbers:
     def __init__(self, start=0, end=1):
         self.start = start
         self.end = end
+        self.step = 1
+        self.value = self.start - self.step
 
     def __iter__(self):
-        pass
+        # self.value = self.value + self.step
+        return self
 
     def __next__(self):
-        raise StopIteration()
+        if self.value + self.step < self.end:
+            self.value += self.step
+            if not self.value % 2:
+                return self.value
+            else:
+                self.__next__()
+                return self.value
+        else:
+            raise StopIteration()
 
 
 en = EvenNumbers(10, 25)
