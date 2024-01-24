@@ -119,5 +119,6 @@ class Rect:
 
 area_sq = Rect(5, 6)
 print(f'Площадь: {area_sq()}')
+print('Стороны: ', area_sq.a, area_sq.b)
 
 # 30
