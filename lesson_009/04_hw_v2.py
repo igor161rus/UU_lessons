@@ -1,6 +1,6 @@
 def all_variants(in_str):
-    lst_str = sorted(in_str)
-    sort_str = ''.join(lst_str)
+    # lst_str = sorted(in_str)
+    sort_str = ''.join(sorted(in_str))
     # for i in range(len(sort_str)):
     #     for j in range(i + 1, len(sort_str) + 1):
     #         # print(f'in_str[{i}: {j}] - ', sort_str[i: j])
