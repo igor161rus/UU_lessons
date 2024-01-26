@@ -1,42 +1,27 @@
 def all_variants(in_str):
-    # j = 0
-    # len_str = len(in_str)
-    # for i in in_str:
-    #     yield i
-    # while j < len_str-1:
-    #     yield in_str[j] + in_str[j + 1]
-    #     j += 1
-    # yield in_str
+    lst_str = sorted(in_str)
+    sort_str = ''.join(lst_str)
+    # for i in range(len(sort_str)):
+    #     for j in range(i + 1, len(sort_str) + 1):
+    #         # print(f'in_str[{i}: {j}] - ', sort_str[i: j])
+    #         print(sort_str[i:j])
 
-    lst_str = list(sorted(in_str))
-    lst_2 = []
-    # k = 1
-    # len_str = len(lst_str)
-    # print(lst_str)
-    # for j in lst_str:
-    #     if k <= len(lst_str):
-    #         for i in lst_str:
-    #             k += 1
-    #             print(i)
-    #
-    #     print('jlkj - ', j)
-    for i in range(len(in_str)):
-        for j in range(i + 1, len(in_str) + 1):
-            print(f'in_str[{i}: {j}] - ', in_str[i: j])
-
-    res = sorted([in_str[i: j] for i in range(len(in_str)) for j in range(i + 1, len(in_str) + 1)])
-    print(res)
-
-    # for i in lst_str:
-    #     print(i)
-    #     for n, j in enumerate(lst_str):
-    #         end_str = lst_str.pop(0)
-    #         print(end_str)
-    #         # print(end_str, lst_str[n+1])
+    res = sorted([sort_str[i: j] for i in range(len(sort_str)) for j in range(i + 1, len(sort_str) + 1)], key=len)
+    # print(sorted(res, key=len))
+    for i in res:
+        yield i
 
 
-all_variants("abс")
+# all_variants("abcfed")
 
-# a = all_variants("abc")
-# for i in a:
-#     print(i)
+a = all_variants("acb")
+for i in a:
+    print(i)
+
+# D:\Python\Python39\python.exe D:\Python\Projects\UU\lessons\lesson_009\04_hw_v2.py
+# a
+# b
+# c
+# ab
+# bc
+# abc
