@@ -69,3 +69,23 @@ good_count = defaultdict(lambda: [])
 for name, quantity in goods:
     good_count[name].append(quantity)
 print(good_count)
+
+from collections import OrderedDict
+
+my_pets = OrderedDict()
+my_pets['собака'] = 'Жучка'
+my_pets['мышка'] = 'Норушка'
+my_pets['кошка'] = 'Мурка'
+my_pets['попугай'] = 'Кеша'
+my_pets['рыбка'] = 'Геннадий'
+my_pets['таракан'] = 'Виссегауд'
+my_pets['кролик'] = 'Савелий'
+print(my_pets)
+for k, v in my_pets.items():
+    print(k, v)
+print()
+
+from  functools import reduce
+
+my_numbers = [1, 2, 3, 4, 5, 6]
+print(reduce(lambda x, y: x + y, my_numbers))
