@@ -17,3 +17,55 @@ print(my_pairs)
 
 my_pairs.sort(key=lambda x: x[1])
 print(my_pairs)
+print()
+print('*******************************')
+print()
+
+goods = [
+    ['спички', 12],
+    ['соль', 34],
+    ['крупа', 56],
+    ['спички', 78],
+    ['соль', 90],
+    ['крупа', 100],
+]
+good_count = {}
+for name, quantity in goods:
+    if name in good_count:
+        good_count[name] += quantity
+    else:
+        good_count[name] = quantity
+print(good_count)
+print()
+good_count = {}
+for name, quantity in goods:
+    try:
+        good_count[name] += quantity
+    except KeyError:
+        good_count[name] = quantity
+print(good_count)
+print()
+
+from collections import defaultdict
+
+good_count = defaultdict(lambda: 0)
+for name, quantity in goods:
+    good_count[name] += quantity
+print(good_count)
+print()
+
+good_count = defaultdict(int)
+for name, quantity in goods:
+    good_count[name] += quantity
+print(good_count)
+print()
+
+good_count = defaultdict(list)
+for name, quantity in goods:
+    good_count[name].append(quantity)
+print(good_count)
+
+good_count = defaultdict(lambda: [])
+for name, quantity in goods:
+    good_count[name].append(quantity)
+print(good_count)
