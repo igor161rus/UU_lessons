@@ -17,6 +17,7 @@
 # Функция is_prime должна возвращать wrapper
 # @is_prime - декоратор для функции sum_three
 
+
 def is_prime(func):
     def wrapper(*args, **kwargs):
         res = func(*args, **kwargs)
@@ -28,11 +29,13 @@ def is_prime(func):
             d += 2
         print('Простое' if d * d > res else 'Составное')
         return res
+
     return wrapper
 
 
 @is_prime
 def sum_three(*args):
+    """Функция вычесления суммы аргументов"""
     res = 0
     for arg in args:
         res += arg
