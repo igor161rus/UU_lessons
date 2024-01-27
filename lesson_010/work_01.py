@@ -3,6 +3,7 @@ from collections import defaultdict
 
 FISH = (None, 'плотва', 'окунь', 'лещ')
 
+
 def fishing(name, worms):
     catch = defaultdict(int)
     for worm in range(worms):
