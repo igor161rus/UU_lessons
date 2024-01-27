@@ -41,3 +41,11 @@ def sum_three(*args):
 
 result = sum_three(2, 3, 6)
 print(result)
+
+# result = sum_three(2, 3, 6)
+# Простое
+# 11
+
+# result = sum_three(2, 3, 6, 5, 46)
+# Составное
+# 62
