@@ -21,7 +21,7 @@ def fishing(name, worms):
         print(f'   {fish} - {count}', flush=True)
 
 
-fishing(name='', worms=10)
+# fishing(name='Вася', worms=10)
 
 thread = Thread(target=fishing, kwargs=dict(name='Вася', worms=10))
 thread.start()
