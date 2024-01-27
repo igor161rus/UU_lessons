@@ -39,5 +39,5 @@ def sum_three(*args):
     return res
 
 
-result = sum_three(1, 6, 2, 7, 8)
+result = sum_three(2, 3, 6)
 print(result)
