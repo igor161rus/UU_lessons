@@ -85,9 +85,9 @@ def func_out(nl):
 num_list = (i for i in range(1, 11))
 letter_list = (chr(a) for a in range(97, 107))
 
-thread = Thread(target=func_out, args=(0,))
-thread.start()
-thread = Thread(target=func_out, args=(1,))
-thread.start()
+for n in range(2):
+    thread = Thread(target=func_out, args=(n,))
+    thread.start()
 
 thread.join()
+print()
