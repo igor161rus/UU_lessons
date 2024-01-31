@@ -1,5 +1,5 @@
 from collections import defaultdict
-from random import random
+import random
 from threading import Thread
 
 FISH = (None, 'плотва', 'окунь', 'лещ')
@@ -10,6 +10,7 @@ class Fisher(Thread):
         super(Fisher, self).__init__(*args, **kwargs)
         self.name = name
         self.worms = worms
+        self.catch = defaultdict(int)
 
     def run(self):
         catch = defaultdict(int)
@@ -21,10 +22,10 @@ class Fisher(Thread):
                 print(f'{self.name}: Тьфу, сожрали червяка...', flush=True)
             else:
                 print(f'{self.name}: Ага, у меня {fish}', flush=True)
-                catch[fish] += 1
-        print(f'Итого рыбак {self.name} поймал:', flush=True)
-        for fish, count in catch.items():
-            print(f'   {fish} - {count}', flush=True)
+                self.catch[fish] += 1
+        # print(f'Итого рыбак {self.name} поймал:', flush=True)
+        # for fish, count in catch.items():
+        #     print(f'   {fish} - {count}', flush=True)
 
 
 vasya = Fisher(name='Вася', worms=10)
@@ -39,4 +40,10 @@ print('.' * 20, 'Ждем пока они вернуться...')
 
 vasya.join()
 kolya.join()
+
 print(print('.' * 20, 'Итак они вернулись'))
+
+for fisher in (vasya, kolya):
+    print(f'Итого рыбак {fisher.name} поймал:')
+    for fish, count in fisher.catch.items():
+        print(f'   {fish} - {count}')
