@@ -24,7 +24,9 @@
 # j
 
 import time
-from threading import Thread
+from threading import Thread, Lock
+
+print_lock = Lock()
 
 num_list = (i for i in range(1, 11))
 letter_list = (chr(a) for a in range(97, 107))
@@ -46,7 +48,8 @@ def get_time_track(func):
 def thread_numb():
     """Функция вывода букв от 'a' до 'j' с интервалом в 1 секунду"""
     for i in num_list:
-        print(i, flush=True)
+        with print_lock:
+            print(i, flush=True)
         time.sleep(1)
 
 
@@ -54,7 +57,8 @@ def thread_numb():
 def thread_letter():
     """Функция вывода букв от 'a' до 'j' с интервалом в 1 секунду"""
     for i in letter_list:
-        print(i, flush=True)
+        with print_lock:
+            print(i, flush=True)
         time.sleep(1)
 
 
@@ -74,11 +78,15 @@ def func_out(nl):
     """Функция вывода цифр и букв"""
     if nl == 0:
         for i in num_list:
+            print_lock.acquire()
             print(i, flush=True)
+            print_lock.release()
             time.sleep(1)
     elif nl == 1:
         for i in letter_list:
+            print_lock.acquire()
             print(i, flush=True)
+            print_lock.release()
             time.sleep(1)
 
 
@@ -90,4 +98,3 @@ for n in range(2):
     thread.start()
 
 thread.join()
-print()
