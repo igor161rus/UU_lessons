@@ -46,6 +46,7 @@ from time import sleep
 
 lock = Lock()
 
+
 class Knight(Thread):
     def __init__(self, name, skill, *args, **kwargs):
         super(Knight, self).__init__(*args, **kwargs)
