@@ -38,7 +38,8 @@ def get_time_track(func):
         result = func(*args, **kwargs)
         ended_at = time.time()
         elapsed = round(ended_at - strted_at, 6)
-        print(f'{func.__doc__} работала {elapsed} секунд(ы)')
+        with print_lock:
+            print(f'{func.__doc__} работала {elapsed} секунд(ы)')
         return result
 
     return wrapper
@@ -98,3 +99,49 @@ for n in range(2):
     thread.start()
 
 thread.join()
+
+# /usr/bin/python3.10 /home/ha/python/projects/UU_lessons/lesson_010/01_hw.py
+# 1
+# a
+# b
+# 2
+# c
+# 3
+# 4
+# d
+# 5
+# e
+# f
+# 6
+# g
+# 7
+# h
+# 8
+# i
+# 9
+# j
+# 10
+# Функция вывода букв от 'a' до 'j' с интервалом в 1 секунду работала 10.013288 секунд(ы)
+# Функция вывода букв от 'a' до 'j' с интервалом в 1 секунду работала 10.0133 секунд(ы)
+# 1
+# a
+# 2
+# b
+# 3
+# c
+# d
+# 4
+# e
+# 5
+# f
+# 6
+# g
+# 7
+# h
+# 8
+# i
+# 9
+# j
+# 10
+# Функция вывода цифр и букв работала 10.011216 секунд(ы)
+# Функция вывода цифр и букв работала 10.01339 секунд(ы)
