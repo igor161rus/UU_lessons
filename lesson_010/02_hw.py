@@ -40,3 +40,39 @@
 # Примечание:
 # В классе наследника (Knight), переопределите метод run, именно там будет заложена основная логика работы потоков.
 # Используйте функцию sleep из модуля time для задержки времени.
+import random
+from threading import Thread, Lock
+from time import sleep
+
+lock = Lock()
+
+class Knight(Thread):
+    def __init__(self, name, skill, *args, **kwargs):
+        super(Knight, self).__init__(*args, **kwargs)
+        self.name = name
+        self.skill = skill
+
+    def run(self):
+        day = 1
+        warriors = random.randrange(30, 100, 10)
+        print(f'{self.name}: на нас напали {warriors} человек!', flush=True)
+        for i in range(warriors, 0, -self.skill):
+            remainder = warriors - self.skill
+            with lock:
+                print(f'{self.name}: сражается {day} день(дня)..., осталось '
+                      f'{remainder if remainder > 0 else 0} воинов', flush=True)
+            warriors -= self.skill
+            day += 1
+            sleep(5)
+        with lock:
+            print(f'{self.name}: одержал победу спустя {day - 1} дней!', flush=True)
+
+
+knight1 = Knight("Sir Lancelot", 10)  # Низкий уровень умения
+knight2 = Knight("Sir Galahad", 20)  # Высокий уровень умения
+knight1.start()
+knight2.start()
+knight1.join()
+knight2.join()
+print('Все битвы закончились!')
+
