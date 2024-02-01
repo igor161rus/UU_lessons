@@ -57,18 +57,3 @@ total_fish_in_tank = sum(global_fish_tank.values())
 
 print(f'Итого рыбаки поймали {total_fish_from_fishers} шт., а с берега увидели {total_fish_in_tank} шт')
 
-
-lock = threading.RLock()
-
-def func_1(n):
-    global a, b
-    for i in range(n):
-        print(f'{i}: func_1 wait lock_A', flush=True)
-        with lock_A:
-            print(f'{i}: func_1 take lock_A', flush=True)
-            a += 1
-            print(f'{i}: func_1 wait lock_B', flush=True)
-            with lock_B:
-                print(f'{i}: func_1 take lock_B', flush=True)
-                b += 1
-
