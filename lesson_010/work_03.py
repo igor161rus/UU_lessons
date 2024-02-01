@@ -5,26 +5,47 @@ import threading
 FISH = (None, 'плотва', 'окунь', 'лещ')
 
 
+# class Fisher(threading.Thread):
+#     def __init__(self, name, worms, fish_tank,  *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.name = name
+#         self.worms = worms
+#         self.catched = 0
+#         self.fish_tank = fish_tank
+#
+#     def run(self):
+#         for worm in range(self.worms):
+#             fish = random.choice(FISH)
+#             if fish is None:
+#                 self.fish_tank[fish] += 1
+#                 self.catched += 1
+
 class Fisher(threading.Thread):
-    def __init__(self, name, worms, fish_tank,  *args, **kwargs):
+    def __init__(self, name, worms, fish_tank, lock, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = name
         self.worms = worms
         self.catched = 0
         self.fish_tank = fish_tank
+        self.fish_tank_lock = lock
 
     def run(self):
         for worm in range(self.worms):
             fish = random.choice(FISH)
             if fish is None:
-                self.fish_tank[fish] += 1
+                # self.fish_tank_lock.acquire()
+                # self.fish_tank[fish] += 1
+                # self.fish_tank_lock.release()
+                with self.fish_tank_lock:
+                    self.fish_tank[fish] += 1
                 self.catched += 1
 
 
 global_fish_tank = defaultdict(int)
 
 humans = ['Васек', 'Колян', 'Петрович', 'Хмурый', 'Клава']
-fishers = [Fisher(name=name, worms=1000000, fish_tank=global_fish_tank) for name in humans]
+lock = threading.Lock()
+fishers = [Fisher(name=name, worms=10000, fish_tank=global_fish_tank, lock=lock) for name in humans]
 
 for fisher in fishers:
     fisher.start()
@@ -35,3 +56,19 @@ total_fish_from_fishers = sum(fisher.catched for fisher in fishers)
 total_fish_in_tank = sum(global_fish_tank.values())
 
 print(f'Итого рыбаки поймали {total_fish_from_fishers} шт., а с берега увидели {total_fish_in_tank} шт')
+
+
+lock = threading.RLock()
+
+def func_1(n):
+    global a, b
+    for i in range(n):
+        print(f'{i}: func_1 wait lock_A', flush=True)
+        with lock_A:
+            print(f'{i}: func_1 take lock_A', flush=True)
+            a += 1
+            print(f'{i}: func_1 wait lock_B', flush=True)
+            with lock_B:
+                print(f'{i}: func_1 take lock_B', flush=True)
+                b += 1
+
