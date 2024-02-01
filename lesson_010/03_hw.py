@@ -44,6 +44,7 @@
 
 from threading import Thread, Lock
 
+lock = Lock()
 
 class BankAccount(Thread):
     def __init__(self, *args, **kwargs):
@@ -55,12 +56,14 @@ class BankAccount(Thread):
         pass
 
     def deposit(self, amount):
-        self.balance = self.balance + amount
-        print(f'Deposited {amount}, new balance is {self.balance}')
+        with lock:
+            self.balance = self.balance + amount
+            print(f'Deposited {amount}, new balance is {self.balance}')
 
     def withdraw(self, amount):
-        self.balance = self.balance - amount
-        print(f'Withdrew {amount}, new balance is {self.balance}')
+        with lock:
+            self.balance = self.balance - amount
+            print(f'Withdrew {amount}, new balance is {self.balance}')
 
 
 def deposit_task(account, amount):
