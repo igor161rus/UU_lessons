@@ -55,10 +55,12 @@ class BankAccount(Thread):
         pass
 
     def deposit(self, amount):
-        pass
+        self.balance = self.balance + amount
+        print(f'Deposited {amount}, new balance is {self.balance}')
 
     def withdraw(self, amount):
-        pass
+        self.balance = self.balance - amount
+        print(f'Withdrew {amount}, new balance is {self.balance}')
 
 
 def deposit_task(account, amount):
