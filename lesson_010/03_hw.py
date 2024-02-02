@@ -46,14 +46,12 @@ from threading import Thread, Lock
 
 lock = Lock()
 
+
 class BankAccount(Thread):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # self.account = account
         self.balance = 1000
-
-    def run(self):
-        pass
 
     def deposit(self, amount):
         with lock:
