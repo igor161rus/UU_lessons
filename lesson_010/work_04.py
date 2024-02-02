@@ -16,10 +16,12 @@ class Fisher(Thread):
     def run(self):
         self.catch = defaultdict(int)
         for worm in range(self.worms):
+            # time.sleep(0.01)
             print(f'{self.name}: Червяк № {worm} - Забросил, ждем...', flush=True)
             _ = 3 ** 10000
             fish = random.choice(FISH)
             self.catch[fish] += 1
+
 
 def time_track(func):
     def wrapper(*args, **kwargs):
@@ -29,4 +31,26 @@ def time_track(func):
         elapsed = round(ended_at - strted_at, 6)
         print(f'{func.__doc__} работала {elapsed} секунд(ы)')
         return result
+
     return wrapper
+
+
+@time_track
+def run_in_one_threades(fishers):
+    for fisher in fishers:
+        fisher.run()
+
+
+@time_track
+def run_in_threads(fishers):
+    for fisher in fishers:
+        fisher.start()
+    for fisher in fishers:
+        fisher.join()
+
+
+humans = ['Васек', 'Колян', 'Петрович', 'Хмурый', 'Клава']
+fishers = [Fisher(name=name, worms=100) for name in humans]
+
+run_in_one_threades(fishers)
+run_in_threads(fishers)
