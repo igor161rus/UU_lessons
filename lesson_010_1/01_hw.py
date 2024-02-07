@@ -72,6 +72,7 @@ class Table(Thread):
 
 class Cafe(Thread):
     """класс для симуляции процессов в кафе"""
+
     def __init__(self, queue, *args, **kwargs):
         super(Cafe, self).__init__(*args, **kwargs)
         self.queue = queue
@@ -92,8 +93,7 @@ class Cafe(Thread):
                 print(f'Посетитель номер {self.person} сел за стол {i}', flush=True)
 
 
-
-class Customer:
+class Customer(Thread):
     """класс (поток) посетителя. Запускается, если есть свободные столы."""
     pass
 
