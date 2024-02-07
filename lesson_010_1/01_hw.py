@@ -58,29 +58,45 @@
 # Посетитель номер 18 покушал и ушёл.
 # Посетитель номер 19 покушал и ушёл.
 # Посетитель номер 20 покушал и ушёл.
+from datetime import time
 from threading import Thread
+from time import sleep
 
 
-class Table:
-    def __init__(self, number, is_busy):
+class Table(Thread):
+    def __init__(self, number, *args, **kwargs):
+        super(Table, self).__init__(*args, **kwargs)
         self.number = number
-        self.is_busy = is_busy
+        self.is_busy = True
 
 
-class Cafe:
-    def __init__(self, queue, tables):
+class Cafe(Thread):
+    """класс для симуляции процессов в кафе"""
+    def __init__(self, queue, *args, **kwargs):
+        super(Cafe, self).__init__(*args, **kwargs)
         self.queue = queue
         self.tables = tables
+        self.person = 0
+        self.table = []
 
     def customer_arrival(self):
-        pass
+        """моделирует приход посетителя(каждую секунду)."""
+        sleep(1)
+        self.person += 1
+        print(f'Посетитель номер {self.person} прибыл', flush=True)
 
     def serve_customer(self, customer):
-        pass
+        """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
+        for i in self.tables:
+            if i:
+                print(f'Посетитель номер {self.person} сел за стол {i}', flush=True)
+
 
 
 class Customer:
+    """класс (поток) посетителя. Запускается, если есть свободные столы."""
     pass
+
 
 # Создаем столики в кафе
 table1 = Table(1)
