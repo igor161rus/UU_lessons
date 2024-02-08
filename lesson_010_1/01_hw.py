@@ -61,6 +61,7 @@
 from datetime import time
 from threading import Thread
 from time import sleep
+import queue
 
 
 class Table(Thread):
@@ -77,27 +78,52 @@ class Cafe(Thread):
         super(Cafe, self).__init__(*args, **kwargs)
         self.queue = 0
         self.tables = tables
-        self.person = 0
-        # self.table = []
+        self.customer = 0
+        self.table_status = []
 
     def customer_arrival(self):
         """моделирует приход посетителя(каждую секунду)."""
         sleep(1)
-        self.person += 1
-        print(f'Посетитель номер {self.person} прибыл', flush=True)
-        self.serve_customer(self.person)
+        self.customer += 1
+        print(f'Посетитель номер {self.customer} прибыл', flush=True)
+        self.serve_customer(self.customer)
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
         for table in self.tables:
-            if not table.is_busy:
-                print(f'Посетитель номер {self.person} сел за стол {table.number}', flush=True)
-                table.is_busy = True
+            self.table_status .append(table.is_busy)
+        try:
+            index = self.table_status.index(False)
+            # print(f'Посетитель номер {self.customer} сел за стол {index + 1}', flush=True)
+            self.tables[index].is_busy = True
+            cust = Customer(index + 1, self.customer)
+            cust.start()
+            cust.join()
+        except ValueError:
+            print(f'Посетитель номер {self.customer} ожидает свободный стол')
+            self.queue += 1
+
+        # if False in self.table_status:
+        #     print(f'Посетитель номер {self.person} сел за стол {table.number}', flush=True)
+
+        # for table in self.tables:
+        #     if not table.is_busy:
+        #         print(f'Посетитель номер {self.person} сел за стол {table.number}', flush=True)
+        #         table.is_busy = True
+        #         break
 
 
 class Customer(Thread):
     """класс (поток) посетителя. Запускается, если есть свободные столы."""
-    pass
+    def __init__(self, number, customer, *args, **kwargs):
+        super(Customer, self).__init__(*args, **kwargs)
+        self.number = number
+        self.customer = customer
+
+    def run(self):
+        print(f'Посетитель номер {self.customer} сел за стол {self.number}', flush=True)
+        sleep(5)
+        print(f'Посетитель номер {self.customer} освободил стол {self.number}', flush=True)
 
 
 # Создаем столики в кафе
@@ -108,6 +134,7 @@ tables = [table1, table2, table3]
 
 # Инициализируем кафе
 cafe = Cafe(tables)
+
 
 # Запускаем поток для прибытия посетителей
 customer_arrival_thread = Thread(target=cafe.customer_arrival)
