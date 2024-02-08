@@ -77,27 +77,44 @@ class Cafe(Thread):
 
     def __init__(self, tables, *args, **kwargs):
         super(Cafe, self).__init__(*args, **kwargs)
-        self.queue = queue
+        self.queue = queue.Queue()
         self.tables = tables
-        self.customer = 0
+        self.table_status = []
 
     def customer_arrival(self):
         """моделирует приход посетителя(каждую секунду)."""
-        sleep(1)
-        customer = Customer(1, random.randint(1, 20))
-        queue.Queue.put(customer)
-
+        for i in range(1, 6):
+            sleep(1)
+            customer = Customer(i, 0)
+            self.queue.put(customer)
+            print(f'Посетитель номер {i} прибыл', flush=True)
+            self.serve_customer(customer)
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
+        for table in self.tables:
+            self.table_status.append(table.is_busy)
+        try:
+            index = self.table_status.index(False)
+            # print(f'Посетитель номер {self.customer} сел за стол {index + 1}', flush=True)
+            self.tables[index].is_busy = True
+            i = self.queue.get()
+            i.table = index
+            print(f'Обслуживается посетитель номер {i.customer}', flush=True)
+
+            i.start()
+            i.join()
+        except ValueError:
+            print(f'Посетитель номер {customer} ожидает свободный стол')
+            # self.queue += 1
 
 
 class Customer(Thread):
     """класс (поток) посетителя. Запускается, если есть свободные столы."""
 
-    def __init__(self, number, customer, *args, **kwargs):
+    def __init__(self, customer, table, *args, **kwargs):
         super(Customer, self).__init__(*args, **kwargs)
-        self.number = number
+        self.number = table
         self.customer = customer
 
 
