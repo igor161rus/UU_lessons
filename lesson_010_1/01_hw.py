@@ -85,12 +85,14 @@ class Cafe(Thread):
         sleep(1)
         self.person += 1
         print(f'Посетитель номер {self.person} прибыл', flush=True)
+        for table in self.tables:
+
+            # if i:
+            #     print(f'Посетитель номер {self.person} сел за стол {i}', flush=True)
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
-        for i in self.tables:
-            if i:
-                print(f'Посетитель номер {self.person} сел за стол {i}', flush=True)
+        pass
 
 
 class Customer(Thread):
