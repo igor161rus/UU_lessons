@@ -59,12 +59,13 @@
 # Посетитель номер 19 покушал и ушёл.
 # Посетитель номер 20 покушал и ушёл.
 import random
+from datetime import time
 from threading import Thread
 from time import sleep
 import queue
 
 
-class Table(Thread):
+class Table():
     def __init__(self, number, *args, **kwargs):
         super(Table, self).__init__(*args, **kwargs)
         self.number = number
@@ -76,57 +77,28 @@ class Cafe(Thread):
 
     def __init__(self, tables, *args, **kwargs):
         super(Cafe, self).__init__(*args, **kwargs)
-        self.queue = 0
+        self.queue = queue
         self.tables = tables
         self.customer = 0
-        self.table_status = []
 
     def customer_arrival(self):
         """моделирует приход посетителя(каждую секунду)."""
-        customers = random.randint(1, 20)
-        print(customers)
-        for i in range(customers):
-            sleep(1)
-            self.customer += 1
-            print(f'Посетитель номер {self.customer} прибыл', flush=True)
-            self.serve_customer(self.customer)
+        sleep(1)
+        customer = Customer(1, random.randint(1, 20))
+        queue.Queue.put(customer)
+
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
-        for table in self.tables:
-            self.table_status .append(table.is_busy)
-        try:
-            index = self.table_status.index(False)
-            # print(f'Посетитель номер {self.customer} сел за стол {index + 1}', flush=True)
-            self.tables[index].is_busy = True
-            cust = Customer(index + 1, self.customer)
-            cust.start()
-            cust.join()
-        except ValueError:
-            print(f'Посетитель номер {self.customer} ожидает свободный стол')
-            self.queue += 1
-
-        # if False in self.table_status:
-        #     print(f'Посетитель номер {self.person} сел за стол {table.number}', flush=True)
-
-        # for table in self.tables:
-        #     if not table.is_busy:
-        #         print(f'Посетитель номер {self.person} сел за стол {table.number}', flush=True)
-        #         table.is_busy = True
-        #         break
 
 
 class Customer(Thread):
     """класс (поток) посетителя. Запускается, если есть свободные столы."""
+
     def __init__(self, number, customer, *args, **kwargs):
         super(Customer, self).__init__(*args, **kwargs)
         self.number = number
         self.customer = customer
-
-    def run(self):
-        print(f'Посетитель номер {self.customer} сел за стол {self.number}', flush=True)
-        sleep(5)
-        print(f'Посетитель номер {self.customer} освободил стол {self.number}', flush=True)
 
 
 # Создаем столики в кафе
@@ -137,7 +109,6 @@ tables = [table1, table2, table3]
 
 # Инициализируем кафе
 cafe = Cafe(tables)
-
 
 # Запускаем поток для прибытия посетителей
 customer_arrival_thread = Thread(target=cafe.customer_arrival)
