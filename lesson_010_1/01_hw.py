@@ -67,32 +67,32 @@ class Table(Thread):
     def __init__(self, number, *args, **kwargs):
         super(Table, self).__init__(*args, **kwargs)
         self.number = number
-        self.is_busy = True
+        self.is_busy = False
 
 
 class Cafe(Thread):
     """класс для симуляции процессов в кафе"""
 
-    def __init__(self, queue, *args, **kwargs):
+    def __init__(self, tables, *args, **kwargs):
         super(Cafe, self).__init__(*args, **kwargs)
-        self.queue = queue
+        self.queue = 0
         self.tables = tables
         self.person = 0
-        self.table = []
+        # self.table = []
 
     def customer_arrival(self):
         """моделирует приход посетителя(каждую секунду)."""
         sleep(1)
         self.person += 1
         print(f'Посетитель номер {self.person} прибыл', flush=True)
-        for table in self.tables:
-
-            # if i:
-            #     print(f'Посетитель номер {self.person} сел за стол {i}', flush=True)
+        self.serve_customer(self.person)
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
-        pass
+        for table in self.tables:
+            if not table.is_busy:
+                print(f'Посетитель номер {self.person} сел за стол {table.number}', flush=True)
+                table.is_busy = True
 
 
 class Customer(Thread):
