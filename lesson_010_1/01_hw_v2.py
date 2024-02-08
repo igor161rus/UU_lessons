@@ -117,6 +117,11 @@ class Customer(Thread):
         self.number = table
         self.customer = customer
 
+    def run(self):
+        print(f'Посетитель номер {self.customer} сел за стол {self.number}', flush=True)
+        sleep(5)
+        print(f'Посетитель номер {self.customer} освободил стол {self.number}', flush=True)
+
 
 # Создаем столики в кафе
 table1 = Table(1)
