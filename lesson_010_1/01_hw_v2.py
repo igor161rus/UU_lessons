@@ -88,38 +88,28 @@ class Cafe(Thread):
             sleep(1)
             customer = Customer(i, 0)
             self.queue.put(customer)
+            # следующим шагом вызываю функцию обслуживания посетителя. Но получается, что посетитель пришел,
+            # запустилось его обслуживание, он ест и тп, а дальше никто не приходит. Переделать,
+            # но как передать первого посетителя или что-то не так в serve_customer...
             self.serve_customer(customer)
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
         for table in self.tables:
             self.table_status.append(table.is_busy)
-        # while True:
-        while True:
+        while not self.queue.empty():
             try:
                 index = self.table_status.index(False) + 1
                 self.tables[index].is_busy = True
-                j = self.queue.get()
-                i = Customer(j, index)
-                print(f'Обслуживается посетитель номер {i.number}', flush=True)
+                self.queue.get()
+                # i = Customer(j, index)
+                print(f'Обслуживается посетитель номер {customer.customer}', flush=True)
                 sleep(5)
-                self.queue.task_done()
-                i.start()
-                i.join()
-
-                # print(f'Обслуживается посетитель номер {i.number}', flush=True)
-
+                customer.number = index
+                customer.start()
+                customer.join()
             except ValueError:
                 print(f'Посетитель номер {customer} ожидает свободный стол')
-            except queue.Empty:
-                print(f'Свободная касса!!!', flush=True)
-                break
-            # else:
-            #     print(f'Обслуживается посетитель номер {i.number}', flush=True)
-            #     sleep(5)
-            #     self.queue.task_done()
-            #     i.start()
-            #     i.join()
 
 
 class Customer(Thread):
