@@ -65,7 +65,7 @@ from time import sleep
 import queue
 
 
-class Table():
+class Table:
     def __init__(self, number, *args, **kwargs):
         super(Table, self).__init__(*args, **kwargs)
         self.number = number
@@ -84,35 +84,42 @@ class Cafe(Thread):
     def customer_arrival(self):
         """моделирует приход посетителя(каждую секунду)."""
         for i in range(1, 6):
+            print(f'Посетитель номер {i} прибыл', flush=True)
             sleep(1)
             customer = Customer(i, 0)
             self.queue.put(customer)
-            print(f'Посетитель номер {i} прибыл', flush=True)
-        self.serve_customer(customer)
+            self.serve_customer(customer)
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
         for table in self.tables:
             self.table_status.append(table.is_busy)
+        # while True:
         while True:
             try:
                 index = self.table_status.index(False) + 1
-                # print(f'Посетитель номер {self.customer} сел за стол {index + 1}', flush=True)
                 self.tables[index].is_busy = True
-                i = self.queue.get()
-                i.table = index
-
-                print(f'Обслуживается посетитель номер {i.customer}', flush=True)
-
+                j = self.queue.get()
+                i = Customer(j, index)
+                print(f'Обслуживается посетитель номер {i.number}', flush=True)
+                sleep(5)
+                self.queue.task_done()
                 i.start()
                 i.join()
+
+                # print(f'Обслуживается посетитель номер {i.number}', flush=True)
+
             except ValueError:
                 print(f'Посетитель номер {customer} ожидает свободный стол')
-                # self.queue += 1
             except queue.Empty:
                 print(f'Свободная касса!!!', flush=True)
-                # if not any(fisher.is_alive() for fisher in self.fishers):
                 break
+            # else:
+            #     print(f'Обслуживается посетитель номер {i.number}', flush=True)
+            #     sleep(5)
+            #     self.queue.task_done()
+            #     i.start()
+            #     i.join()
 
 
 class Customer(Thread):
@@ -127,6 +134,7 @@ class Customer(Thread):
         print(f'Посетитель номер {self.customer} сел за стол {self.number}', flush=True)
         sleep(5)
         print(f'Посетитель номер {self.customer} освободил стол {self.number}', flush=True)
+        tables[self.number].is_busy = False
 
 
 # Создаем столики в кафе
