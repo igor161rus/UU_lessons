@@ -90,7 +90,7 @@ class Cafe(Thread):
         numb_customer = self.customer.get()
         print(f'Посетитель номер {numb_customer} прибыл', flush=True)
         sleep(1)
-        customer = Customer(numb_customer, 0)
+        customer = Custo mer(numb_customer, 0)
         # self.queue.put(customer)
         self.serve_customer(customer)
 
