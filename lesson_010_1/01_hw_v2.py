@@ -90,23 +90,19 @@ class Cafe(Thread):
         numb_customer = self.customer.get()
         print(f'Посетитель номер {numb_customer} прибыл', flush=True)
         sleep(1)
-        customer = Customer(i, 0)
-        self.queue.put(customer)
-        # следующим шагом вызываю функцию обслуживания посетителя. Но получается, что посетитель пришел,
-        # запустилось его обслуживание, он ест и тп, а дальше никто не приходит,
-        # т.к. следующий шаг будет после завершения обслуживания.
-        # Переделать. или что-то не так в serve_customer...
+        customer = Customer(numb_customer, 0)
+        # self.queue.put(customer)
         self.serve_customer(customer)
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
         for table in self.tables:
             self.table_status.append(table.is_busy)
-        while not self.queue.empty():
+        while not self.customer.empty():
             try:
                 index = self.table_status.index(False) + 1
                 self.tables[index].is_busy = True
-                self.queue.get()
+                self.customer.get()
                 # i = Customer(j, index)
                 print(f'Обслуживается посетитель номер {customer.customer}', flush=True)
                 sleep(5)
@@ -145,8 +141,8 @@ cafe = Cafe(tables)
 for i in range(1, 6):
     sleep(1)
     cafe.customer.put(i)
-    customer_arrival_thread = Thread(target=cafe.customer_arrival)
-    customer_arrival_thread.start()
+customer_arrival_thread = Thread(target=cafe.customer_arrival)
+customer_arrival_thread.start()
 
 # Ожидаем завершения работы прибытия посетителей
-    customer_arrival_thread.join()
+customer_arrival_thread.join()
