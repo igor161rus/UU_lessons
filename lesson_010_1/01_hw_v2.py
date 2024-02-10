@@ -80,19 +80,23 @@ class Cafe(Thread):
         self.queue = queue.Queue()
         self.tables = tables
         self.table_status = []
+        self.customer = queue.Queue()
+
+    # def run(self):
+    #     self.customer.put()
 
     def customer_arrival(self):
         """моделирует приход посетителя(каждую секунду)."""
-        for i in range(1, 6):
-            print(f'Посетитель номер {i} прибыл', flush=True)
-            sleep(1)
-            customer = Customer(i, 0)
-            self.queue.put(customer)
-            # следующим шагом вызываю функцию обслуживания посетителя. Но получается, что посетитель пришел,
-            # запустилось его обслуживание, он ест и тп, а дальше никто не приходит,
-            # т.к. следующий шаг будет после завершения обслуживания.
-            # Переделать. или что-то не так в serve_customer...
-            self.serve_customer(customer)
+        numb_customer = self.customer.get()
+        print(f'Посетитель номер {numb_customer} прибыл', flush=True)
+        sleep(1)
+        customer = Customer(i, 0)
+        self.queue.put(customer)
+        # следующим шагом вызываю функцию обслуживания посетителя. Но получается, что посетитель пришел,
+        # запустилось его обслуживание, он ест и тп, а дальше никто не приходит,
+        # т.к. следующий шаг будет после завершения обслуживания.
+        # Переделать. или что-то не так в serve_customer...
+        self.serve_customer(customer)
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
@@ -138,8 +142,11 @@ tables = [table1, table2, table3]
 cafe = Cafe(tables)
 
 # Запускаем поток для прибытия посетителей
-customer_arrival_thread = Thread(target=cafe.customer_arrival)
-customer_arrival_thread.start()
+for i in range(1, 6):
+    sleep(1)
+    cafe.customer.put(i)
+    customer_arrival_thread = Thread(target=cafe.customer_arrival)
+    customer_arrival_thread.start()
 
 # Ожидаем завершения работы прибытия посетителей
-customer_arrival_thread.join()
+    customer_arrival_thread.join()
