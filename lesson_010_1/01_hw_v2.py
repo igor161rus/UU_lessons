@@ -76,14 +76,14 @@ class Cafe(Thread):
 
     def __init__(self, tables, *args, **kwargs):
         super(Cafe, self).__init__(*args, **kwargs)
-        self.queue = queue.Queue()
+        self.table = queue.Queue()
         self.tables = tables
         self.customer = queue.Queue()
 
     def customer_arrival(self):
         """моделирует приход посетителя(каждую секунду)."""
         for i, table in enumerate(self.tables):
-            self.queue.put(i + 1)
+            self.table.put(i + 1)
         for i in range(1, 6):
             self.customer.put(i)
         numb_customer = self.customer.get()
@@ -92,16 +92,20 @@ class Cafe(Thread):
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
-        while not self.queue.empty():
+        while not self.customer.empty():
             try:
-                table = self.customer.get()
-                customer = self.customer.get()
-                print(f'Обслуживается посетитель номер {table}', flush=True)
-                cust = Customer(customer=customer, table=table)
-                cust.start()
-                cust.join()
+                if not self.table.empty():
+                    try:
+                        table = self.table.get()
+                        # customer = self.customer.get()
+                        print(f'Обслуживается посетитель номер {table}', flush=True)
+                        cust = Customer(customer=customer, table=table)
+                        cust.start()
+                        cust.join()
+                    except ValueError:
+                        print(f'Посетитель номер {self.customer} ожидает свободный стол')
             except ValueError:
-                print(f'Посетитель номер {self.customer} ожидает свободный стол')
+                print(f'всех обслужили')
 
 
 class Customer(Thread):
@@ -116,7 +120,7 @@ class Customer(Thread):
         print(f'Посетитель номер {self.customer} сел за стол {self.table}', flush=True)
         sleep(5)
         print(f'Посетитель номер {self.customer} освободил стол {self.table}', flush=True)
-        cafe.queue.put(self.table)
+        cafe.table.put(self.table)
 
 
 # Создаем столики в кафе
