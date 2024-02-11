@@ -69,7 +69,6 @@ class Table:
     def __init__(self, number, *args, **kwargs):
         super(Table, self).__init__(*args, **kwargs)
         self.number = number
-        self.is_busy = False
 
 
 class Cafe(Thread):
@@ -79,45 +78,26 @@ class Cafe(Thread):
         super(Cafe, self).__init__(*args, **kwargs)
         self.queue = queue.Queue()
         self.tables = tables
-        self.table_status = []
         self.customer = queue.Queue()
-
-    # def run(self):
-    #     for table in self.tables:
-    #         self.queue.put(table)
 
     def customer_arrival(self):
         """моделирует приход посетителя(каждую секунду)."""
-        for table in self.tables:
-            self.queue.put(table)
+        for i, table in enumerate(self.tables):
+            self.queue.put(i + 1)
         for i in range(1, 6):
             self.customer.put(i)
         numb_customer = self.customer.get()
         print(f'Посетитель номер {numb_customer} прибыл', flush=True)
-        # sleep(1)
-        # for i in range(1, 6):
-        #     sleep(1)
-        #     self.customer.put(i)
-        # cust = Customer(customer=numb_customer, table=0)
-        # self.queue.put(customer)
-        # self.serve_customer(cust)
         self.serve_customer(numb_customer)
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
-        for table in self.tables:
-            self.table_status.append(table.is_busy)
-        # while not self.customer.empty():
         while not self.queue.empty():
             try:
-
-                # index = self.table_status.index(False) + 1
-                # self.tables[index].is_busy = True
-                # self.customer.get()
-                # i = Customer(j, index)
                 print(f'Обслуживается посетитель номер {self.customer}', flush=True)
-                # sleep(5)
                 cust = Customer(customer=self.customer.get(), table=self.queue.get())
+                cust.start()
+                cust.join()
             except ValueError:
                 print(f'Посетитель номер {self.customer} ожидает свободный стол')
 
@@ -131,14 +111,10 @@ class Customer(Thread):
         self.customer = customer
 
     def run(self):
-        # cust = Customer(customer=cafe.customer, table=0)
-        # cust.table = index
-        cafe.cust.start()
-        cust.join()
         print(f'Посетитель номер {self.customer} сел за стол {self.table}', flush=True)
         sleep(5)
         print(f'Посетитель номер {self.customer} освободил стол {self.table}', flush=True)
-        tables[self.table].is_busy = False
+        # tables[self.table].is_busy = False
 
 
 # Создаем столики в кафе
