@@ -95,8 +95,9 @@ class Cafe(Thread):
         while not self.queue.empty():
             try:
                 table = self.customer.get()
+                customer = self.customer.get()
                 print(f'Обслуживается посетитель номер {table}', flush=True)
-                cust = Customer(customer=self.customer.get(), table=table)
+                cust = Customer(customer=customer, table=table)
                 cust.start()
                 cust.join()
             except ValueError:
@@ -115,7 +116,7 @@ class Customer(Thread):
         print(f'Посетитель номер {self.customer} сел за стол {self.table}', flush=True)
         sleep(5)
         print(f'Посетитель номер {self.customer} освободил стол {self.table}', flush=True)
-        # tables[self.table].is_busy = False
+        cafe.queue.put(self.table)
 
 
 # Создаем столики в кафе
