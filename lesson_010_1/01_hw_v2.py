@@ -94,8 +94,9 @@ class Cafe(Thread):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
         while not self.queue.empty():
             try:
-                print(f'Обслуживается посетитель номер {self.customer}', flush=True)
-                cust = Customer(customer=self.customer.get(), table=self.queue.get())
+                table = self.customer.get()
+                print(f'Обслуживается посетитель номер {table}', flush=True)
+                cust = Customer(customer=self.customer.get(), table=table)
                 cust.start()
                 cust.join()
             except ValueError:
