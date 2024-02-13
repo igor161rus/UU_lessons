@@ -67,8 +67,7 @@ from queue import Empty, Queue
 
 
 class Table:
-    def __init__(self, number, *args, **kwargs):
-        super(Table, self).__init__(*args, **kwargs)
+    def __init__(self, number):
         self.number = number
         self.is_busy = False
 
