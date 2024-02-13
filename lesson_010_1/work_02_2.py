@@ -1,17 +1,17 @@
 import random
 from collections import defaultdict
-from multiprocessing import Process
+from multiprocessing import Process, Pipe
 
 FISH = (None, 'плотва', 'окунь', 'лещ')
 
 
 class Fisher(Process):
-    def __init__(self, name, worms, fish_tank, *args, **kwargs):
+    def __init__(self, name, worms, conn, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.name = name
         self.worms = worms
         self.catched = 0
-        self.fish_tank = fish_tank
+        self.conn = conn
 
     def run(self):
         for worm in range(self.worms):
@@ -20,8 +20,10 @@ class Fisher(Process):
             fish = random.choice(FISH)
             if fish is not None:
                 print(f'{self.name}: Ага, у меня {fish}', flush=True)
-                self.fish_tank[fish] += 1
                 self.catched += 1
+        print(f'{self.name}: Всего поймал {self.catched}', flush=True)
+        self.conn.send([self.name, self.catched])
+        self.conn.close()
 
 
 global_fish_tank = defaultdict(int)
@@ -29,14 +31,24 @@ global_fish_tank = defaultdict(int)
 if __name__ == '__main__':
 
     humans = ['Васек', 'Колян', 'Петрович', 'Хмурый', 'Клава']
-    fishers = [Fisher(name=name, worms=1000, fish_tank=global_fish_tank) for name in humans]
+    fishers, pipes = [], []
+    for name in humans:
+        parent_conn, child_conn = Pipe()
+        fisher = Fisher(name=name, worms=100, conn=child_conn)
+        fishers.append(fisher)
+        pipes.append(parent_conn)
 
     for fisher in fishers:
         fisher.start()
+    total_fish = 0
+    for conn in pipes:
+        # name, fish_count = conn.recv()
+        # или так:
+        data = conn.recv()
+        name, fish_count = data
+        print('.' * 30, f'на берегу увидели: {name} поймал {fish_count}')
+        total_fish += fish_count
     for fisher in fishers:
         fisher.join()
 
-    total_fish_from_fishers = sum(fisher.catched for fisher in fishers)
-    total_fish_in_tank = sum(global_fish_tank.values())
-
-    print(f'Итого рыбаки поймали {total_fish_from_fishers} шт., а с берега увидели {total_fish_in_tank} шт')
+    print(f'Итого рыбаки поймали {total_fish} шт.')
