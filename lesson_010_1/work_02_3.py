@@ -1,8 +1,8 @@
 import time
 from collections import defaultdict
 import random
-import queue
-from multiprocessing import Process, Pipe
+from queue import Empty
+from multiprocessing import Process, Pipe, Queue
 
 FISH = (None, 'плотва', 'окунь', 'лещ')
 
@@ -34,7 +34,7 @@ class Boat(Process):
         super().__init__(*args, **kwargs)
         self.fishers = []
         self.worms_per_fisher = worms_per_fisher
-        self.catcher = queue.Queue(maxsize=2)
+        self.catcher = Queue(maxsize=2)
         self.fish_tank = defaultdict(int)
         self.humans = humans
 
@@ -50,7 +50,7 @@ class Boat(Process):
                 fish = self.catcher.get(timeout=1)
                 print(f'Приемщик принял {fish} и положил в садок', flush=True)
                 self.fish_tank[fish] += 1
-            except queue.Empty:
+            except Empty:
                 print(f'Приемщику нет рыбы в течении 1 секунды', flush=True)
                 if not any(fisher.is_alive() for fisher in self.fishers):
                     break
@@ -60,7 +60,7 @@ class Boat(Process):
 
 
 if __name__ == '__main__':
-    boat = Boat(worms_per_fisher=10, humans = ['Васек', 'Колян', 'Петрович', 'Хмурый', 'Клава'])
+    boat = Boat(worms_per_fisher=10, humans=['Васек', 'Колян', 'Петрович', 'Хмурый', 'Клава', ])
     boat.start()
     boat.join()
 
