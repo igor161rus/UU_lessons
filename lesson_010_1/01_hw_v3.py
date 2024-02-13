@@ -69,9 +69,10 @@ class Table:
     def __init__(self, number, *args, **kwargs):
         super(Table, self).__init__(*args, **kwargs)
         self.number = number
+        self.is_busy = False
 
 
-class Cafe:
+class Cafe(Thread):
     """класс для симуляции процессов в кафе"""
 
     def __init__(self, tables, *args, **kwargs):
@@ -79,45 +80,36 @@ class Cafe:
         self.table = queue.Queue()
         self.tables = tables
         self.customer = queue.Queue()
-        self.i = 0
-
-    def run(self):
         for i, table in enumerate(self.tables):
             self.table.put(i + 1)
-        numb_customer = self.customer.get()
-        # print(f'Посетитель номер {numb_customer} прибыл', flush=True)
-        self.serve_customer(numb_customer)
 
     def customer_arrival(self):
         """моделирует приход посетителя(каждую секунду)."""
-        # for i, table in enumerate(self.tables):
-        #     self.table.put(i + 1)
-        self.i += 1
-        self.customer.put(self.i)
-        sleep(1)
-        self.run()
-        # numb_customer = self.customer.get()
-        print(f'Посетитель номер {self.i} прибыл', flush=True)
-        # self.serve_customer(self.i)
+        for i in range(1, 21):
+            # print(f'Посетитель номер {customer} прибыл', flush=True)
+            customer = Customer(customer=i, table=0)
+            self.customer.put(customer)
+        while not self.customer.empty():
+            try:
+                customer = self.customer.get()
+                print(f'Посетитель номер {customer.customer} прибыл', flush=True)
+                self.serve_customer(customer=customer)
+                sleep(1)
+
+            except queue.Empty:
+                print(f'Очередь пуста')
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
-        while not self.table.empty():
+        if not self.table.empty():
             try:
                 table = self.table.get()
-                self.table.task_done()
-                # customer = self.customer.get()
-                print(f'Обслуживается посетитель номер {customer}', flush=True)
-                # self.customer.task_done()
-                cust = Customer(customer=customer, table=table)
-                cust.start()
-                cust.join()
-                sleep(5)
-            except ValueError:
-                print(f'Посетитель номер {customer} ожидает свободный стол')
-            # except ValueError:
-            #     print(f'всех обслужили')
-        print(f'Посетителей нет')
+                # customer = Customer(customer=self.customer.get(), table=table)
+                customer.table = table
+                customer.start()
+                # customer.join()
+            except queue.Empty:
+                print(f'Посетитель номер {self.customer} ожидает свободный стол')
 
 
 class Customer(Thread):
@@ -133,6 +125,7 @@ class Customer(Thread):
         sleep(5)
         print(f'Посетитель номер {self.customer} освободил стол {self.table}', flush=True)
         cafe.table.put(self.table)
+        cafe.customer.join()
 
 
 # Создаем столики в кафе
@@ -145,9 +138,8 @@ tables = [table1, table2, table3]
 cafe = Cafe(tables)
 
 # Запускаем поток для прибытия посетителей
-for _ in range(5):
-    customer_arrival_thread = Thread(target=cafe.customer_arrival)
-    customer_arrival_thread.start()
+customer_arrival_thread = Thread(target=cafe.customer_arrival)
+customer_arrival_thread.start()
 
-    # Ожидаем завершения работы прибытия посетителей
-    customer_arrival_thread.join()
+# Ожидаем завершения работы прибытия посетителей
+customer_arrival_thread.join()
