@@ -85,31 +85,31 @@ class Cafe(Thread):
 
     def customer_arrival(self):
         """моделирует приход посетителя(каждую секунду)."""
-        for i in range(1, 21):
+        for i in range(1, 10):
             # print(f'Посетитель номер {customer} прибыл', flush=True)
             customer = Customer(customer=i, table=0)
             self.customer.put(customer)
         while not self.customer.empty():
-            try:
-                customer = self.customer.get()
-                print(f'Посетитель номер {customer.customer} прибыл', flush=True)
-                self.serve_customer(customer=customer)
-                sleep(1)
-
-            except queue.Empty:
-                print(f'Очередь пуста')
+            # try:
+            customer = self.customer.get()
+            print(f'Посетитель номер {customer.customer} прибыл', flush=True)
+            self.serve_customer(customer=customer)
+            sleep(1)
+            # except queue.Empty:
+            #     print(f'Очередь пуста')
 
     def serve_customer(self, customer):
         """моделирует обслуживание посетителя. Проверяет наличие свободных столов,"""
-        if not self.table.empty():
-            try:
-                table = self.table.get()
-                # customer = Customer(customer=self.customer.get(), table=table)
-                customer.table = table
-                customer.start()
-                # customer.join()
-            except queue.Empty:
-                print(f'Посетитель номер {self.customer} ожидает свободный стол')
+        # if not self.table.empty():
+        try:
+            table = self.table.get()
+            # customer = Customer(customer=self.customer.get(), table=table)
+            customer.table = table
+            customer.start()
+            self.table.task_done()
+            # customer.join()
+        except queue.Empty:
+            print(f'Посетитель номер {self.customer} ожидает свободный стол')
 
 
 class Customer(Thread):
@@ -125,6 +125,7 @@ class Customer(Thread):
         sleep(5)
         print(f'Посетитель номер {self.customer} освободил стол {self.table}', flush=True)
         cafe.table.put(self.table)
+        cafe.customer.task_done()
         cafe.customer.join()
 
 
