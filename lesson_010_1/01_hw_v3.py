@@ -58,12 +58,9 @@
 # Посетитель номер 18 покушал и ушёл.
 # Посетитель номер 19 покушал и ушёл.
 # Посетитель номер 20 покушал и ушёл.
-import random
-from datetime import time
 from threading import Thread
 from time import sleep
-# import queue
-from queue import Empty, Queue
+from queue import Queue
 
 
 class Table:
