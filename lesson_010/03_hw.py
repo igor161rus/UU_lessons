@@ -84,3 +84,18 @@ withdraw_thread.start()
 
 deposit_thread.join()
 withdraw_thread.join()
+
+# Результат:
+# D:\Python\Python39\python.exe D:\Python\Projects\UU\lessons\lesson_010\03_hw.py
+# Deposited 100, new balance is 1100
+# Deposited 100, new balance is 1200
+# Deposited 100, new balance is 1300
+# Deposited 100, new balance is 1400
+# Deposited 100, new balance is 1500
+# Withdrew 150, new balance is 1350
+# Withdrew 150, new balance is 1200
+# Withdrew 150, new balance is 1050
+# Withdrew 150, new balance is 900
+# Withdrew 150, new balance is 750
+#
+# Process finished with exit code 0
