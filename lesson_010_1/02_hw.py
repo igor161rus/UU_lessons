@@ -41,7 +41,7 @@
 #
 # Вывод на консоль:
 # {"product1": 70, "product2": 100, "product3": 200}
-
+import os
 from multiprocessing import Process
 
 
@@ -50,27 +50,35 @@ class WarehouseManager(Process):
         super(WarehouseManager, self).__init__(*args, **kwargs)
         self.data = dict()
 
-    def run(self, requests):
-        pass
+    def run(self):
+        for i in requests:
+            print(i)
+            print(f'{self.name} parent process:', os.getppid())
+            print(f'{self.name} process id:', os.getpid())
 
-    def process_request(self):
-        pass
+    def process_request(self, requests):
+        for request in requests:
+            print(request)
+            if request[0] not in self.data.keys():
+                proc = WarehouseManager()
+                self.data[request[0]] = requests[2]
 
 
-# Создаем менеджера склада
-manager = WarehouseManager()
+if __name__ == '__main__':
+    # Создаем менеджера склада
+    manager = WarehouseManager()
 
-# Множество запросов на изменение данных о складских запасах
-requests = [
-    ("product1", "receipt", 100),
-    ("product2", "receipt", 150),
-    ("product1", "shipment", 30),
-    ("product3", "receipt", 200),
-    ("product2", "shipment", 50)
-]
+    # Множество запросов на изменение данных о складских запасах
+    requests = [
+        ("product1", "receipt", 100),
+        ("product2", "receipt", 150),
+        ("product1", "shipment", 30),
+        ("product3", "receipt", 200),
+        ("product2", "shipment", 50)
+    ]
 
-# Запускаем обработку запросов
-manager.run(requests)
+    # Запускаем обработку запросов
+    manager.run(requests)
 
-# Выводим обновленные данные о складских запасах
-print(manager.data)
+    # Выводим обновленные данные о складских запасах
+    print(manager.data)
