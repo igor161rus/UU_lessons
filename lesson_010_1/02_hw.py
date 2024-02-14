@@ -51,17 +51,20 @@ class WarehouseManager(Process):
         self.data = dict()
 
     def run(self):
-        for i in requests:
-            print(i)
-            print(f'{self.name} parent process:', os.getppid())
-            print(f'{self.name} process id:', os.getpid())
+        # for i in requests:
+        # print(i)
+        # self.process_request(i)
+        proc = WarehouseManager()
+        proc.start()
+        print(f'{self.data[i[0]]} parent process:', os.getppid())
+        print(f'{self.data[i[0]]} process id:', os.getpid())
+        proc.join()
 
     def process_request(self, requests):
-        for request in requests:
-            print(request)
-            if request[0] not in self.data.keys():
-                proc = WarehouseManager()
-                self.data[request[0]] = requests[2]
+        for i in requests:
+            print(requests)
+            if requests[0] not in self.data.keys():
+                self.data[i[0]] = i[2]
 
 
 if __name__ == '__main__':
@@ -78,7 +81,8 @@ if __name__ == '__main__':
     ]
 
     # Запускаем обработку запросов
-    manager.run(requests)
+    # manager.run(requests)
+    manager.process_request(requests)
 
     # Выводим обновленные данные о складских запасах
     print(manager.data)
