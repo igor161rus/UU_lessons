@@ -41,3 +41,36 @@
 #
 # Вывод на консоль:
 # {"product1": 70, "product2": 100, "product3": 200}
+
+from multiprocessing import Process
+
+
+class WarehouseManager(Process):
+    def __init__(self, *args, **kwargs):
+        super(WarehouseManager, self).__init__(*args, **kwargs)
+        self.data = dict()
+
+    def run(self, requests):
+        pass
+
+    def process_request(self):
+        pass
+
+
+# Создаем менеджера склада
+manager = WarehouseManager()
+
+# Множество запросов на изменение данных о складских запасах
+requests = [
+    ("product1", "receipt", 100),
+    ("product2", "receipt", 150),
+    ("product1", "shipment", 30),
+    ("product3", "receipt", 200),
+    ("product2", "shipment", 50)
+]
+
+# Запускаем обработку запросов
+manager.run(requests)
+
+# Выводим обновленные данные о складских запасах
+print(manager.data)
