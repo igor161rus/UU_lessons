@@ -50,22 +50,16 @@ class WarehouseManager(Process):
         super(WarehouseManager, self).__init__(*args, **kwargs)
         self.data = dict()
 
-    def run(self, request):
+    def run(self, requests):
         print(f'parent process:', os.getppid())
         print(f'process id:', os.getpid())
-        if 'receipt' in request:
-            self.data[request]
-
-    def process_request(self, requests):
         for request in requests:
-            print(request)
-            # self.process_request(i)
-            proc = WarehouseManager()
-            if request[0] not in self.data.keys():
-                self.data[request[0]] = request[2]
-            proc.start()
+            self.process_request(request)
 
-            proc.join()
+    def process_request(self, request):
+        print(request)
+
+
 
 if __name__ == '__main__':
     # Создаем менеджера склада
@@ -82,7 +76,7 @@ if __name__ == '__main__':
 
     # Запускаем обработку запросов
     # manager.run(requests)
-    manager.process_request(requests)
+    manager.run(requests)
 
     # Выводим обновленные данные о складских запасах
     print(manager.data)
