@@ -6,8 +6,8 @@ from html.parser import HTMLParser
 
 sites = [
     # 'https://www.kinopoisk.ru/',
-    # 'https://www.youtube.com/',
-    'https://www.urban-university.ru/',
+    'https://www.youtube.com/',
+    # 'https://www.urban-university.ru/',
     # 'https://www.ivi.ru/',
     # 'https://ya.ru/',
     # 'https://www.google.ru/?hl=ru',
@@ -17,9 +17,9 @@ sites = [
 class MyHTMLParser(HTMLParser):
 
     def handle_starttag(self, tag, attrs):
-        print('Start tag:', tag)
+        print("Start tag:", tag)
         for attr in attrs:
-            print('     attr:', attr)
+            print("     attr:", attr)
 
 
 for url in sites:
@@ -27,6 +27,5 @@ for url in sites:
     html_data = res.read()
     html_data = html_data.decode('utf8')
     total_bytes = len(html_data)
-    parser = MyHTMLParser
+    parser = MyHTMLParser()
     parser.feed(html_data)
-
