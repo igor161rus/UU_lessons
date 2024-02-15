@@ -58,7 +58,12 @@ class WarehouseManager(Process):
 
     def process_request(self, request):
         print(request)
-
+        if request[0] not in self.data:
+            self.data[request[0]] = request[2]
+        elif 'receipt' in request:
+            self.data[request[0]] += request[2]
+        elif 'shipment' in request:
+            self.data[request[0]] -= request[2]
 
 
 if __name__ == '__main__':
