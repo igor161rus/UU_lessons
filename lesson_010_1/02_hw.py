@@ -42,28 +42,51 @@
 # Вывод на консоль:
 # {"product1": 70, "product2": 100, "product3": 200}
 import os
-from multiprocessing import Process
+from multiprocessing import Process, Pipe, Queue
+from queue import Empty
 
 
 class WarehouseManager(Process):
     def __init__(self, *args, **kwargs):
         super(WarehouseManager, self).__init__(*args, **kwargs)
         self.data = dict()
+        self.requests = Queue()
 
-    def run(self, requests):
+    def run(self):
+        while True:
+            try:
+                request = self.requests.get()
+                print(request)
+                if request[0] not in self.data:
+                    self.data[request[0]] = request[2]
+                elif 'receipt' in request:
+                    self.data[request[0]] += request[2]
+                elif 'shipment' in request:
+                    self.data[request[0]] -= request[2]
+            except Empty:
+                break
+
+    def process_request(self, requests):
+        proc_req, pipes = [], []
+        parent_conn = Pipe()
         print(f'parent process:', os.getppid())
         print(f'process id:', os.getpid())
         for request in requests:
-            self.process_request(request)
+            # self.process_request(request)
+            proc = WarehouseManager()
+            proc_req.append(proc)
+            pipes.append(parent_conn)
+            # proc.start()
+        for proc in proc_req:
+            proc.start()
 
-    def process_request(self, request):
-        print(request)
-        if request[0] not in self.data:
-            self.data[request[0]] = request[2]
-        elif 'receipt' in request:
-            self.data[request[0]] += request[2]
-        elif 'shipment' in request:
-            self.data[request[0]] -= request[2]
+        for conn in pipes:
+            self.data = conn.recv()
+            count, fish_count = self.data
+            print('.' * 30, f'на берегу увидели: {count} поймал {fish_count}')
+            # total_fish += fish_count
+        for proc in proc_req:
+            proc.join()
 
 
 if __name__ == '__main__':
@@ -81,7 +104,7 @@ if __name__ == '__main__':
 
     # Запускаем обработку запросов
     # manager.run(requests)
-    manager.run(requests)
+    manager.process_request(requests)
 
     # Выводим обновленные данные о складских запасах
     print(manager.data)
