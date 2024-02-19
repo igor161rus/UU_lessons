@@ -47,10 +47,11 @@ from queue import Empty
 
 
 class WarehouseManager(Process):
-    def __init__(self, queue, *args, **kwargs):
+    def __init__(self, queue, request, *args, **kwargs):
         super(WarehouseManager, self).__init__(*args, **kwargs)
         self.data = dict()
         self.queue = queue
+        self.request = request
 
     def run(self):
         while True:
@@ -58,9 +59,11 @@ class WarehouseManager(Process):
                 print(f'parent process:', os.getppid())
                 print(f'process id:', os.getpid())
                 request = self.queue.get()
+                req_res = Queue()
                 print(request)
                 if request[0] not in self.data:
                     self.data[request[0]] = request[2]
+                    self.request.put(self.data)
                 elif 'receipt' in request:
                     self.data[request[0]] += request[2]
                 elif 'shipment' in request:
@@ -72,10 +75,9 @@ class WarehouseManager(Process):
         proc = []
         for request in requests:
             self.queue.put(request)
-            proc.append(WarehouseManager(self.queue))
+            proc.append(WarehouseManager(self.queue, self.request))
         for i in proc:
             i.start()
-
         for i in proc:
             i.join()
 
@@ -83,8 +85,9 @@ class WarehouseManager(Process):
 if __name__ == '__main__':
 
     queue = Queue()
+    request = Queue()
     # Создаем менеджера склада
-    manager = WarehouseManager(queue)
+    manager = WarehouseManager(queue, request)
 
     # Множество запросов на изменение данных о складских запасах
     requests = [
@@ -101,3 +104,7 @@ if __name__ == '__main__':
 
     # Выводим обновленные данные о складских запасах
     print(manager.data)
+
+    while not request.empty():
+        request = request.get()
+        print(request)
