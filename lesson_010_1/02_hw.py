@@ -106,6 +106,4 @@ if __name__ == '__main__':
     # Выводим обновленные данные о складских запасах
     print(manager.data)
 
-    while not request.empty():
-        request = request.get()
-        print(request)
+    print(request)
