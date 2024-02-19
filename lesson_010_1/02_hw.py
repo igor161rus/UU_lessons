@@ -50,7 +50,7 @@ class WarehouseManager(Process):
     def __init__(self, queue, *args, **kwargs):
         super(WarehouseManager, self).__init__(*args, **kwargs)
         self.data = dict()
-        self.queue = Queue()
+        self.queue = queue
 
     def run(self):
         while True:
@@ -72,7 +72,7 @@ class WarehouseManager(Process):
         proc = []
         for request in requests:
             self.queue.put(request)
-            proc.append(WarehouseManager())
+            proc.append(WarehouseManager(self.queue))
         for i in proc:
             i.start()
 
@@ -81,8 +81,10 @@ class WarehouseManager(Process):
 
 
 if __name__ == '__main__':
+
+    queue = Queue()
     # Создаем менеджера склада
-    manager = WarehouseManager()
+    manager = WarehouseManager(queue)
 
     # Множество запросов на изменение данных о складских запасах
     requests = [
