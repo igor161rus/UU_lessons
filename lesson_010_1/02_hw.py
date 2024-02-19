@@ -54,22 +54,23 @@ class WarehouseManager(Process):
         self.request = request
 
     def run(self):
-        while True:
-            try:
-                print(f'parent process:', os.getppid())
-                print(f'process id:', os.getpid())
-                request = self.queue.get()
-                req_res = Queue()
-                print(request)
-                if request[0] not in self.data:
-                    self.data[request[0]] = request[2]
-                    self.request.put(self.data)
-                elif 'receipt' in request:
-                    self.data[request[0]] += request[2]
-                elif 'shipment' in request:
-                    self.data[request[0]] -= request[2]
-            except Empty:
-                break
+        # while True:
+        #     try:
+        print(f'parent process:', os.getppid())
+        print(f'process id:', os.getpid())
+        request = self.queue.get()
+        req_res = Queue()
+        print(request)
+        if request[0] not in self.data:
+            self.data[request[0]] = request[2]
+            self.request.put(self.data)
+        elif 'receipt' in request:
+            self.data[request[0]] += request[2]
+        elif 'shipment' in request:
+            self.data[request[0]] -= request[2]
+
+    # except Empty:
+    #     break
 
     def process_request(self, requests):
         proc = []
