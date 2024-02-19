@@ -42,20 +42,22 @@
 # Вывод на консоль:
 # {"product1": 70, "product2": 100, "product3": 200}
 import os
-from multiprocessing import Process, Pipe, Queue
+from multiprocessing import Process, Queue
 from queue import Empty
 
 
 class WarehouseManager(Process):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, queue, *args, **kwargs):
         super(WarehouseManager, self).__init__(*args, **kwargs)
         self.data = dict()
-        self.requests = Queue()
+        self.queue = Queue()
 
     def run(self):
         while True:
             try:
-                request = self.requests.get()
+                print(f'parent process:', os.getppid())
+                print(f'process id:', os.getpid())
+                request = self.queue.get()
                 print(request)
                 if request[0] not in self.data:
                     self.data[request[0]] = request[2]
@@ -67,16 +69,15 @@ class WarehouseManager(Process):
                 break
 
     def process_request(self, requests):
-        print(f'parent process:', os.getppid())
-        print(f'process id:', os.getpid())
+        proc = []
         for request in requests:
-            self.requests.put(request)
-            proc = WarehouseManager()
-        for proc in proc_req:
-            proc.start()
+            self.queue.put(request)
+            proc.append(WarehouseManager())
+        for i in proc:
+            i.start()
 
-        for proc in proc_req:
-            proc.join()
+        for i in proc:
+            i.join()
 
 
 if __name__ == '__main__':
