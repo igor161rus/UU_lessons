@@ -67,24 +67,14 @@ class WarehouseManager(Process):
                 break
 
     def process_request(self, requests):
-        proc_req, pipes = [], []
-        parent_conn = Pipe()
         print(f'parent process:', os.getppid())
         print(f'process id:', os.getpid())
         for request in requests:
-            # self.process_request(request)
+            self.requests.put(request)
             proc = WarehouseManager()
-            proc_req.append(proc)
-            pipes.append(parent_conn)
-            # proc.start()
         for proc in proc_req:
             proc.start()
 
-        for conn in pipes:
-            self.data = conn.recv()
-            count, fish_count = self.data
-            print('.' * 30, f'на берегу увидели: {count} поймал {fish_count}')
-            # total_fish += fish_count
         for proc in proc_req:
             proc.join()
 
