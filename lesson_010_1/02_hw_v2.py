@@ -42,7 +42,7 @@
 # Вывод на консоль:
 # {"product1": 70, "product2": 100, "product3": 200}
 
-from multiprocessing import Process
+from multiprocessing import Process, Queue
 
 
 class WarehouseManager(Process):
@@ -50,23 +50,31 @@ class WarehouseManager(Process):
         super(WarehouseManager, self).__init__(*args, **kwargs)
         self.data = dict()
         self.works = []
+        # self.data_queue = Queue()
+
+    def process_request(self, request):
+        print(request)
+        # if request[0] not in self.data:
+        # self.data[request[0]] = request[2]
+        # elif 'receipt' in request:
+        #     self.data[request[0]] += request[2]
+        # elif 'shipment' in request:
+        #     self.data[request[0]] -= request[2]
 
     def run(self, requests):
+        # self.data_queue.put(self.data)
         for request in requests:
-            req_work = Process(target=self.process_request(request))
+            # req_work = Process(target=self.process_request(request))
+            req_work = Process(target=self.process_request, args=(request,))
             self.works.append(req_work)
         for work in self.works:
             work.start()
+        # EOFError: Ran out of input
         for work in self.works:
             work.join()
-
-    def process_request(self, request):
-        if request[0] not in self.data:
-            self.data[request[0]] = request[2]
-        elif 'receipt' in request:
-            self.data[request[0]] += request[2]
-        elif 'shipment' in request:
-            self.data[request[0]] -= request[2]
+        # while not self.data_queue.empty():
+        #     data = self.data_queue.get()
+        #     print(data)
 
 
 if __name__ == '__main__':
