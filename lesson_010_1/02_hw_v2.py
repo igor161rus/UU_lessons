@@ -53,7 +53,7 @@ class WarehouseManager(Process):
         # self.data_queue = Queue()
 
     def process_request(self, request):
-        print(request)
+        print(1+1)
         # if request[0] not in self.data:
         # self.data[request[0]] = request[2]
         # elif 'receipt' in request:
