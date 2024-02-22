@@ -24,6 +24,17 @@
 # - Корректная работа и отображение результатов в соответствии с задачами.
 # - Качество и полнота выполнения задания.
 
+import requests
 
+from lesson_011.setings import token
 
+user = 'igor161rus'
+
+r = requests.get('https://github.com/igor161rus/UU_lessons', auth=(user, token))
+print(r.status_code)
+print(r.content)
+# print(json.loads(r.content))
+# data = r.json()[0]
+# print(data['name'])
+# print(data)
 
