@@ -29,3 +29,15 @@ print(uu_lessons)
 print()
 print('Количество уроков и домашних заданий в модуле Исключения')
 print(uu_lessons.loc['Исключения'])
+
+# Файл Activities.csv экспортирован из Garmin Connect
+trainings = pandas.read_csv('Activities.csv')
+print(trainings.head(10))
+
+# Все поля представлены как строки, причем в колонке "Максимальная высота" высота больше 1000 м указана как 1,000
+# Убираем запятую в колонке "Максимальная высота"
+trainings['Максимальная высота'] = trainings['Максимальная высота'].str.replace(',', '')
+
+# Теперь можно изменить тип данных в этой колонке на int и применить фильтрацию
+trainings["Максимальная высота"] = trainings["Максимальная высота"].astype(int)
+print(trainings[trainings["Максимальная высота"] > 600].head())
