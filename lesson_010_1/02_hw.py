@@ -61,13 +61,20 @@ class WarehouseManager(Process):
         request = self.queue.get()
         req_res = Queue()
         print(request)
+        i = request[0]
+        self.request.put(dict(i=request[2]))
         if request[0] not in self.data:
             self.data[request[0]] = request[2]
             self.request.put(self.data)
+            print('**********', self.data)
         elif 'receipt' in request:
             self.data[request[0]] += request[2]
+            self.request.put(self.data[request[0]])
+            print('receipt', self.data)
         elif 'shipment' in request:
             self.data[request[0]] -= request[2]
+            self.request.put(self.data[request[0]])
+            print('shipment', self.data)
 
     # except Empty:
     #     break
@@ -106,4 +113,6 @@ if __name__ == '__main__':
     # Выводим обновленные данные о складских запасах
     print(manager.data)
 
-    print(request)
+    while not request.empty():
+        i = request.get()
+        print(i)
