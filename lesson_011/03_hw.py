@@ -19,3 +19,26 @@
 # {'type': 'int', 'attributes': ['__abs__', '__add__', ...], 'methods': [], 'module': '__main__'}
 #
 # Рекомендуется создавать свой класс и объект для лучшего понимания
+
+class MyClass:
+    """Мой класс"""
+
+    def __init__(self):
+        self.attr = 10
+
+    def method(self, value):
+        """Что-то считает и печатает"""
+        self.attr = self.attr + value
+        print(self.attr)
+
+
+def introspection_info(obj):
+    print(f'Объект {obj.__doc__} является вызываемым', callable(obj))
+
+
+my_obj = MyClass()
+my_int = 20
+my_str = 'jhgjhg gjhg'
+
+introspection_info(my_obj)
+introspection_info(my_str)
