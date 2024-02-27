@@ -76,6 +76,7 @@ def introspection_info(obj, g=globals()):
     # else:
     # print(f'Объект {obj.__name__} является невызываемым')
     # print(f'Объект {obj.__doc__} является вызываемым', callable(obj))
+    print(inspect.getmembers('__main__'))
     print('*' * 20, '\n')
 
 
