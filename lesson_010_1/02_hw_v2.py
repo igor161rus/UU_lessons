@@ -41,20 +41,22 @@
 #
 # Вывод на консоль:
 # {"product1": 70, "product2": 100, "product3": 200}
-
+import os
 from multiprocessing import Process, Queue, Manager
 
 
 class WarehouseManager:
-    def __init__(self, requests, *args, **kwargs):
-        super(WarehouseManager, self).__init__(*args, **kwargs)
+    def __init__(self, requests):
+        # super(WarehouseManager, self).__init__(*args, **kwargs)
         self.data = Manager().dict()
         self.works = []
         self.requests = requests
         # self.data_queue = Queue()
 
-    def process_request(self):
-        print(1+1)
+    def process_request(self, request):
+        print(1 + 1)
+        print(f'{request} parent process:', os.getppid())
+        print(f'{request} process id:', os.getpid())
         # if request[0] not in self.data:
         # self.data[request[0]] = request[2]
         # elif 'receipt' in request:
@@ -66,21 +68,19 @@ class WarehouseManager:
         # self.data_queue.put(self.data)
         for request in self.requests:
             # req_work = Process(target=self.process_request(request))
-            req_work = Process(target=self.process_request)
+            req_work = Process(target=self.process_request, args=[request])
             self.works.append(req_work)
         for work in self.works:
             work.start()
-            work.join()
         # EOFError: Ran out of input
-        # for work in self.works:
-        #     work.join()
+        for work in self.works:
+            work.join()
         # while not self.data_queue.empty():
         #     data = self.data_queue.get()
         #     print(data)
 
 
-if __name__ == '__main__':
-    # Создаем менеджера склада
+def main():
     requests = [
         ("product1", "receipt", 100),
         ("product2", "receipt", 150),
@@ -89,12 +89,9 @@ if __name__ == '__main__':
         ("product2", "shipment", 50)
     ]
     manager = WarehouseManager(requests)
-
-    # Множество запросов на изменение данных о складских запасах
-
-
-    # Запускаем обработку запросов
     manager.run()
-
-    # Выводим обновленные данные о складских запасах
     print(manager.data)
+
+
+if __name__ == '__main__':
+    main()
