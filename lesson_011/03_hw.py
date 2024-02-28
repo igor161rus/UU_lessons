@@ -27,8 +27,9 @@ class MyClass:
     """Мой класс"""
 
     # hghjgjhghjg
-    def __init__(self):
+    def __init__(self, a):
         self.attr = 10
+        self.a = a
         # jhgjhgjhg
 
     def method(self, value):
@@ -47,6 +48,10 @@ def my_func_gen():
         yield value
 
 
+def get_all_methods_details(obj):
+    return [method for method in dir(obj) if method.startswith('__') is False]
+
+
 def introspection_info(obj, g=globals()):
     dict_obj = {
         "<class 'function'>": 'function',
@@ -57,35 +62,36 @@ def introspection_info(obj, g=globals()):
         "<class 'type'>": 'class'
     }
     dict_func = {
-        'function': 'getfullargspec(',
-        'generator': 'getgeneratorstate'
+        'function': 'obj.__doc__; '
+                    'inspect.getfullargspec(obj); '
+                    'inspect.getsourcelines(obj)',
+        'generator': 'inspect.getgeneratorstate(obj)',
+        'int': 'isinstance(obj, int)',
+        'str': 'isinstance(obj, str)',
+        'class': 'inspect.isclass(obj); '
+                 'obj.__doc__; '
+                 'obj.__dict__; '
+                 'get_all_methods_details(obj)'
     }
     name_object = [n for n in g if id(g[n]) == id(obj)][0]
-    print(f'Исследуем объект: {obj} имя {name_object}')
-    print(type(obj))
+    print(f'Исследуем объект: {name_object}')
+    # print(type(obj))
     for i in dict_obj:
         if i in str(type(obj)):
             print('Тип: ', dict_obj[i])
-            print(eval('inspect.' + dict_func[dict_obj[i]] + 'obj)'))
-    # if inspect.isclass(obj):
-    for n in g:
-        print(n)
-        if inspect.isclass(obj) and hasattr(obj, '__class__') and hasattr(obj, '__name__'):
-            name_object = [n for n in g if id(g[n]) == id(obj)][0]
-            print(f'Тип: класс {name_object}')
+            list_commands = dict_func[dict_obj[i]].split(';')
+            for j in list_commands:
+                print(f'Значение каманды: {j}: ', eval(j))
+                # print('eval: ', eval(dict_func[dict_obj[i]]))
 
     if callable(obj):
         print(f'Объект {obj.__name__} является вызываемым')
         sig = signature(obj)
         print(f'Принимает параметры: {sig}')
-    # else:
-    # print(f'Объект {obj.__name__} является невызываемым')
-    # print(f'Объект {obj.__doc__} является вызываемым', callable(obj))
-    print(inspect.getmembers('__main__'))
     print('*' * 20, '\n')
 
 
-my_obj = MyClass()
+my_obj = MyClass(5)
 my_int = 20
 my_str = 'jhgjhg gjhg'
 gen1 = my_func_gen()
@@ -94,6 +100,9 @@ introspection_info(MyClass)
 introspection_info(my_func)
 introspection_info(my_obj)
 introspection_info(my_int)
+introspection_info(my_str)
+
 
 introspection_info(gen1)
-
+gen1.__next__()
+introspection_info(gen1)
