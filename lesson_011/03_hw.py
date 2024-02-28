@@ -66,7 +66,7 @@ def introspection_info(obj, g=globals()):
     for i in dict_obj:
         if i in str(type(obj)):
             print('Тип: ', dict_obj[i])
-            # print(eval('inspect.' + dict_func[dict_obj[i]] + 'obj)'))
+            print(eval('inspect.' + dict_func[dict_obj[i]] + 'obj)'))
     # if inspect.isclass(obj):
     for n in g:
         print(n)
