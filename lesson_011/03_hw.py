@@ -52,7 +52,8 @@ def introspection_info(obj, g=globals()):
         "<class 'function'>": 'function',
         "<class 'int'>": 'int',
         "<class 'str'": 'str',
-        "<class 'generator'>": 'generator'
+        "<class 'generator'>": 'generator',
+        "<class '__main__.": 'class'
     }
     dict_func = {
         'function': 'getfullargspec(',
@@ -61,14 +62,17 @@ def introspection_info(obj, g=globals()):
     name_object = [n for n in g if id(g[n]) == id(obj)][0]
     print(f'Исследуем объект: {obj} имя {name_object}')
     print(type(obj))
-    for i in dict_obj:
-        if i == str(type(obj)):
+    for i in str(obj):
+        if i in str(type(obj)):
             print('Тип: ', dict_obj[i])
             # print(eval('inspect.' + dict_func[dict_obj[i]] + 'obj)'))
     # if inspect.isclass(obj):
     # for n in g:
     #     print(n)
-    print('Это класс', inspect.isclass(obj), hasattr(obj, '__class__'), hasattr(obj, '__name__'))
+    #     if inspect.isclass(obj) and hasattr(obj, '__class__') and hasattr(obj, '__name__'):
+    #         name_object = [n for n in g if id(g[n]) == id(obj)][0]
+    #         print(f'Тип: класс {name_object}')
+
     if callable(obj):
         print(f'Объект {obj.__name__} является вызываемым')
         sig = signature(obj)
@@ -85,9 +89,10 @@ my_int = 20
 my_str = 'jhgjhg gjhg'
 gen1 = my_func_gen()
 
+introspection_info(MyClass)
 introspection_info(my_func)
 introspection_info(my_obj)
 introspection_info(my_int)
 
 introspection_info(gen1)
-introspection_info(MyClass)
+
