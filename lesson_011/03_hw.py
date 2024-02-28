@@ -106,3 +106,56 @@ introspection_info(my_str)
 introspection_info(gen1)
 gen1.__next__()
 introspection_info(gen1)
+
+
+# Результат
+# E:\python\Python312\python.exe E:\python\projects\UU_lessons\lesson_011\03_hw.py
+# Исследуем объект: MyClass
+# Тип:  class
+# Значение каманды: inspect.isclass(obj):  True
+# Значение каманды:  obj.__doc__:  Мой класс
+# Значение каманды:  obj.__dict__:  {'__module__': '__main__', '__doc__': 'Мой класс', '__init__': <function MyClass.__init__ at 0x000001B68FD95080>, 'method': <function MyClass.method at 0x000001B68FEF2B60>, '__dict__': <attribute '__dict__' of 'MyClass' objects>, '__weakref__': <attribute '__weakref__' of 'MyClass' objects>}
+# Значение каманды:  get_all_methods_details(obj):  ['method']
+# Объект MyClass является вызываемым
+# Принимает параметры: (a)
+# ********************
+#
+# Исследуем объект: my_func
+# Тип:  function
+# Значение каманды: obj.__doc__:  Моя функция
+# Значение каманды:  inspect.getfullargspec(obj):  FullArgSpec(args=['value'], varargs=None, varkw=None, defaults=None, kwonlyargs=[], kwonlydefaults=None, annotations={})
+# Значение каманды:  inspect.getsourcelines(obj):  (['def my_func(value):\n', '    """Моя функция"""\n', '    print(value * 10)\n'], 41)
+# Объект my_func является вызываемым
+# Принимает параметры: (value)
+# ********************
+#
+# Исследуем объект: my_obj
+# Тип:  class
+# Значение каманды: inspect.isclass(obj):  False
+# Значение каманды:  obj.__doc__:  Мой класс
+# Значение каманды:  obj.__dict__:  {'attr': 10, 'a': 5}
+# Значение каманды:  get_all_methods_details(obj):  ['a', 'attr', 'method']
+# ********************
+#
+# Исследуем объект: my_int
+# Тип:  int
+# Значение каманды: isinstance(obj, int):  True
+# ********************
+#
+# Исследуем объект: my_str
+# Тип:  str
+# Значение каманды: isinstance(obj, str):  True
+# ********************
+#
+# Исследуем объект: gen1
+# Тип:  generator
+# Значение каманды: inspect.getgeneratorstate(obj):  GEN_CREATED
+# ********************
+#
+# Исследуем объект: gen1
+# Тип:  generator
+# Значение каманды: inspect.getgeneratorstate(obj):  GEN_SUSPENDED
+# ********************
+#
+#
+# Process finished with exit code 0
