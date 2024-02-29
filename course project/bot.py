@@ -9,8 +9,17 @@ class Bot:
 
         self.vk = vk_api.VkApi(token=token)
         self.long_poller = VkBotLongPoll(self.vk, self.group_id)
+
     def run(self):
-        pass
+        for event in self.long_poller.listen():
+            print('получено событие')
+            try:
+                self.on_event(event)
+            except Exception as exc:
+                print(exc)
+
+    def on_event(self, event):
+        print(event)
 
 if __name__ == '__main__':
     bot = Bot(club=club, token=token)
