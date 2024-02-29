@@ -19,7 +19,10 @@ class Bot:
                 print(exc)
 
     def on_event(self, event):
-        print(event)
+        if event.type == vk_api.bot_longpoll.VkBotEventType.MESSAGE_EVENT:
+            print(event.message.text)
+        else:
+            print('hgjhg ghghfgfdf hjjk', event.type)
 
 if __name__ == '__main__':
     bot = Bot(club=club, token=token)
