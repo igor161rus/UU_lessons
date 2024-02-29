@@ -20,7 +20,7 @@
 # Вывод на консоль:
 # {"product1": 70, "product2": 100, "product3": 200}
 import os
-from multiprocessing import Process, Queue, Manager
+from multiprocessing import Process, Manager
 
 
 class WarehouseManager(Process):
@@ -30,11 +30,9 @@ class WarehouseManager(Process):
         self.data = data
 
     def run(self):
-        print(f'{self.request} parent process:', os.getppid())
+        print('parent process:', os.getppid())
         print(f'{self.request} process id:', os.getpid())
-        self.process_request()
 
-    def process_request(self):
         if self.request[0] not in self.data:
             self.data[self.request[0]] = self.request[2]
         elif 'receipt' in self.request:
@@ -61,21 +59,21 @@ if __name__ == '__main__':
         work.start()
     for work in works:
         work.join()
-    print('*' * 20, '\n', manager.data)
+    print('*' * 20, '\n', data)
 
 
 # Результат
 # C:\Users\user\AppData\Local\Programs\Python\Python310\python.exe C:\pytnon\projects\UU_lessons\lesson_010_1\02_hw_v3.py
-# ('product1', 'receipt', 100) parent process: 5416
-# ('product1', 'receipt', 100) process id: 3184
-# ('product2', 'receipt', 150) parent process: 5416
-# ('product2', 'receipt', 150) process id: 6596
-# ('product1', 'shipment', 30) parent process: 5416
-# ('product1', 'shipment', 30) process id: 16968
-# ('product3', 'receipt', 200) parent process: 5416
-# ('product3', 'receipt', 200) process id: 19992
-# ('product2', 'shipment', 50) parent process: 5416
-# ('product2', 'shipment', 50) process id: 16636
+# parent process: 5800
+# ('product1', 'receipt', 100) process id: 17708
+# parent process: 5800
+# ('product2', 'receipt', 150) process id: 1392
+# parent process: 5800
+# ('product1', 'shipment', 30) process id: 19424
+# parent process: 5800
+# ('product3', 'receipt', 200) process id: 20136
+# parent process: 5800
+# ('product2', 'shipment', 50) process id: 15700
 # ********************
 #  {'product1': 70, 'product2': 100, 'product3': 200}
 #
