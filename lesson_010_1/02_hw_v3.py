@@ -50,7 +50,6 @@ if __name__ == '__main__':
         ("product2", "shipment", 50)
     ]
     data = Manager().dict()
-    manager = WarehouseManager(requests, data)
     works = []
     for request in requests:
         req_work = WarehouseManager(request, data)
