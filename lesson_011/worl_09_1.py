@@ -1,17 +1,50 @@
-from PIL import Image, ImageFont, ImageDraw
+import os.path
+
+from PIL import Image, ImageFont, ImageDraw, ImageColor
 
 
-im = Image.open("postcard.JPG")
-print(im.format, im.size, im.mode)
+# im = Image.open("postcard.JPG")
+# print(im.format, im.size, im.mode)
+#
+# w, h = im.size
+# resized_im = im.resize((w//2, h//2))
+#
+# print(resized_im.format, resized_im.size, resized_im.mode)
+#
+# draw = ImageDraw.Draw(resized_im)
+# font = ImageFont.truetype('miamanueva.ttf', 16)
+#
+# draw.text((50, 110), 'Привет!', font=font, fill=ImageColor.colormap['red'])
+#
+# resized_im.show()
+# resized_im.save('postcard_edit.jpg')
 
-w, h = im.size
-resized_im = im.resize((w//2, h//2))
+class PostCardMaker:
+    def __init__(self, name, template=None, font_path=None):
+        self.name = name
+        self.template = "postcard.jpg" if template is None else template
+        if font_path is None:
+            self.font_path = os.path.join('fonts', 'miamanueva.ttf')
+        else:
+            self.font_path = font_path
 
-print(resized_im.format, resized_im.size, resized_im.mode)
+    def make(self):
+        im = Image.open("postcard.jpg")
 
-draw = ImageDraw.Draw(resized_im)
-font = ImageFont.truetype('miamanueva.ttf', 16)
+        w, h = im.size
+        resized_im = im.resize((w // 2, h // 2))
 
-draw.text((50, 110), 'Привет!', font=font, fill=(0, 0, 0, 0))
+        draw = ImageDraw.Draw(resized_im)
 
-resized_im.save('postcard_edit.jpg')
+        font = ImageFont.truetype(self.font_path, 16)
+
+        message = f'Привет, {self.name}!'
+        draw.text((15, 110), message, font=font, fill=ImageColor.colormap['red'])
+
+        resized_im.show()
+        # resized_im.save('postcard_edit.jpg')
+
+
+if __name__ == '__main__':
+    maker = PostCardMaker(name='Настя')
+    maker.make()
