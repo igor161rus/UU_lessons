@@ -1,6 +1,17 @@
 import unittest
 
 
+def my_sort(slist):
+    was_swap = True
+    while was_swap:
+        was_swap = False
+        for i in range(len(slist) - 1):
+            if slist[i] > slist[i + 1]:
+                slist[i], slist[i + 1] = slist[i + 1], slist[i]
+                was_swap = True
+    return slist
+
+
 class MySortTest(unittest.TestCase):
 
     def test_normal(self):
@@ -22,23 +33,6 @@ class MySortTest(unittest.TestCase):
     def test_with_negative(self):
         result = my_sort([9, 3, -7, 2])
         self.assertEquals(result, [-7, 2, 3, 9])
-
-
-def my_sort(slist):
-    """
-    Функция сортировки списков
-
-    >>> my_sort([3,2,1])
-    [1, 2, 3]
-    """
-    was_swap = True
-    while was_swap:
-        was_swap = False
-        for i in range(len(slist) - 1):
-            if slist[i] > slist[i + 1]:
-                slist[i], slist[i + 1] = slist[i + 1], slist[i]
-                was_swap = True
-    return slist
 
 
 if __name__ == '__main__':
