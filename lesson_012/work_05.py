@@ -1,28 +1,40 @@
-from random import randint
+from random import randint, choice
 
 
 class House:
     def __init__(self, need_loging):
         self.need_loging = need_loging
+
     def day_bar(self, day):
         pass
 
     def log(self):
         pass
 
-class Child:
+
+class Man:
+    pass
+
+
+class Child(Man):
+    color = 'grey'
+    MAN_EATING_POINTS = 10
+
     def __init__(self, name, house, need_loging):
         self.name = name
         self.house = house
-        self.need_loging =need_loging
+        self.need_loging = need_loging
+
     def act(self):
         pass
+
 
 class Cat:
     def __init__(self, name, house, need_loging):
         self.name = name
         self.house = house
-        self.need_loging =need_loging
+        self.need_loging = need_loging
+
 
 class Wife(Man):
     color = 'magenta'
@@ -58,16 +70,16 @@ class Wife(Man):
         if series_mood == 1:
             self.happiness += 5
             self.totals['happiness'][1] += 5
-            self.log('{} смотрела сериал, осталась довольна'. format(self.name))
+            self.log('{} смотрела сериал, осталась довольна'.format(self.name))
         else:
             self.happiness -= 5
             self.totals['happiness'][1] -= 5
-            self.log('{} смотрела сериал, расстроилась'. format(self.name))
+            self.log('{} смотрела сериал, расстроилась'.format(self.name))
 
     def __init__(self, name, house, need_loging):
-         self.name = name
-         self.house = house
-         self.need_loging = need_loging
+        self.name = name
+        self.house = house
+        self.need_loging = need_loging
 
     def buy_fur_coat(self):
         self.fullness -= 10
@@ -80,7 +92,11 @@ class Wife(Man):
             self.log('{} купила шубу'.format(self.name))
         else:
             self.log('{} нет денег на шубу!'.format(self.name), color='red')
-    def act(self):    #
+
+    def stroking_cat(self):
+        pass
+
+    def act(self):  #
         dice = randint(1, 6)
         if super().act():
             return
@@ -98,6 +114,12 @@ class Wife(Man):
             self.clean_house()
         elif dice == 3:
             self.shopping()
+        elif dice == 4:
+            self.buy_fur_coat()
+        elif dice == 5:
+            self.stroking_cat()
+        else:
+            self.watch_series()
 
         # if self.is_hungry:
         #     self.eat()
@@ -108,16 +130,17 @@ class Wife(Man):
         # else:
         #     self.soil()
 
+
 def emulate_life(num_cats, need_loging=False):
     home = House(need_loging=True)
     vasya = Husband(name='', house=home, need_loging=need_loging)
-    vasya.SALARY =250
+    vasya.SALARY = 250
     masha = Wife(name='', house=home, need_loging=need_loging)
     kolya = Child(name='', house=home, need_loging=need_loging)
     cat_names = ['', '', '',
                  '', '', '', '',
                  '', '', '', ]
-    cats = [Cat(name=choice(cat_names), house=home, need_loging)
+    cats = [Cat(name=choice(cat_names), house=home, need_loging=need_loging)
             for _ in range(num_cats)]
 
     somebody_is_dead = False
@@ -148,6 +171,7 @@ def emulate_life(num_cats, need_loging=False):
             kolya.log_totals()
             for cat in cats:
                 cat.log_totals()
+
 
 if __name__ == '__main__':
     emulate_life(num_cats=2, need_loging=True)
