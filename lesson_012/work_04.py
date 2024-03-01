@@ -15,12 +15,14 @@ def my_sort(slist):
     pivot = slist[0]
     less_then = []
     more_then = []
-    equal = []
+    # equal = []
     for elem in slist:
         if elem > pivot:
             more_then.append(elem)
         elif elem < pivot:
             less_then.append(elem)
-        else:
-            equal.append(elem)
-    return my_sort(less_then) + equal + my_sort(more_then)
+        # else:
+        #     equal.append(elem)
+    # return my_sort(less_then) + equal + my_sort(more_then)
+    return my_sort(less_then) + [pivot, ] + my_sort(more_then)
+
