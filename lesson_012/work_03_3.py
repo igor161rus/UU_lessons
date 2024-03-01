@@ -41,29 +41,5 @@ def my_sort(slist):
     return slist
 
 
-# print(my_sort([3, 4, 2, 8, 1, 6, 4]))
-# print(my_sort([3, 4, 5]))
-# print(my_sort([3, 2, 1]))
-# print(my_sort([]))
-# print(my_sort([9, 3, -7, 2]))
-#
-#
-# if my_sort([3, 4, 2, 8, 1, 6, 4]) != [1, 2, 3, 4, 4, 6, 8]:
-#     print('Error')
-# if my_sort([3, 4, 5]) != [3, 4, 5]:
-#     print('Error!')
-# if my_sort([3, 2, 1]) != [1, 2, 3]:
-#     print('Error')
-# if my_sort([]):
-#     print('Error!')
-# if my_sort([9, 3, -7, 2]) != [-7, 2, 3, 9]:
-#     print('Error!')
-
-# assert my_sort([3, 4, 2, 8, 1, 6, 4]) == [1, 2, 3, 4, 4, 6, 8], 'что-то не работает'
-
 if __name__ == '__main__':
-    # import doctest
-    #
-    # doctest.testmod()
-
     unittest.main()
