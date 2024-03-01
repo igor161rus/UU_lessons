@@ -1,3 +1,29 @@
+import unittest
+
+
+class MySortTest(unittest.TestCase):
+
+    def test_normal(self):
+        result = my_sort([3, 4, 2, 8, 1, 6, 4])
+        self.assertEquals(result, [1, 2, 3, 4, 4, 6, 8])
+
+    def test_sorted(self):
+        result = my_sort([3, 4, 5])
+        self.assertEquals(result, [3, 4, 5], 'text')
+
+    def test_reversed(self):
+        result = my_sort([3, 2, 1])
+        self.assertEquals(result, [1, 2, 3])
+
+    def test_empty(self):
+        result = my_sort([])
+        self.assertEquals(result, [])
+
+    def test_with_negative(self):
+        result = my_sort([9, 3, -7, 2])
+        self.assertEquals(result, [-7, 2, 3, 9])
+
+
 def my_sort(slist):
     """
     Функция сортировки списков
@@ -36,6 +62,8 @@ def my_sort(slist):
 # assert my_sort([3, 4, 2, 8, 1, 6, 4]) == [1, 2, 3, 4, 4, 6, 8], 'что-то не работает'
 
 if __name__ == '__main__':
-    import doctest
+    # import doctest
+    #
+    # doctest.testmod()
 
-    doctest.testmod()
+    unittest.main()
