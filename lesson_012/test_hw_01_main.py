@@ -40,3 +40,24 @@ class StudentTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+# Результат
+# E:\python\Python312\python.exe "E:/Program Files/JetBrains/PyCharm Community Edition 2023.2.1/plugins/python-ce/helpers/pycharm/_jb_unittest_runner.py" --path E:\python\projects\UU_lessons\lesson_012\test_hw_01_main.py
+# Testing started at 18:56 ...
+# Launching unittests with arguments python -m unittest E:\python\projects\UU_lessons\lesson_012\test_hw_01_main.py in E:\python\projects\UU_lessons\lesson_012
+#
+#
+# Failure
+# Traceback (most recent call last):
+#   File "E:\python\projects\UU_lessons\lesson_012\test_hw_01_main.py", line 38, in test_run_equal
+#     self.assertEqual(self.student.distance, 10, message.format(self.student.name))
+# AssertionError: 100 != 10 : Дистанции не равны [дистанция человека(Вася)] != 1000
+#
+#
+#
+# Ran 4 tests in 0.005s
+#
+# FAILED (failures=1)
+#
+# Process finished with exit code 1
+
