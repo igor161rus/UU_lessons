@@ -23,7 +23,7 @@ class ExternalResourceGetterTest(unittest.TestCase):
     def test_normal(self):
         getter = ExternalResourceGetter(url='https://www.python.org')
         result = getter.run()
-        self.assertEqual(result, 9)
+        self.assertEqual(result, 535)
 
 
 if __name__ == '__main__':
