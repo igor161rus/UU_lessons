@@ -1,223 +1,25 @@
-DEBUG:root:number 2
-DEBUG:root:найдено новое простое 2
 INFO:root:Простое из генераторов 2
-DEBUG:root:number 3
-DEBUG:root:найдено новое простое 3
 INFO:root:Простое из генераторов 3
-DEBUG:root:number 4
-DEBUG:root:делится на 2
-DEBUG:root:number 5
-DEBUG:root:найдено новое простое 5
 INFO:root:Простое из генераторов 5
-DEBUG:root:number 6
-DEBUG:root:делится на 2
-DEBUG:root:number 7
-DEBUG:root:найдено новое простое 7
 INFO:root:Простое из генераторов 7
-DEBUG:root:number 8
-DEBUG:root:делится на 2
-DEBUG:root:number 9
-DEBUG:root:делится на 3
-DEBUG:root:number 10
-DEBUG:root:делится на 2
-DEBUG:root:number 11
-DEBUG:root:найдено новое простое 11
 INFO:root:Простое из генераторов 11
-DEBUG:root:number 12
-DEBUG:root:делится на 2
-DEBUG:root:number 13
-DEBUG:root:найдено новое простое 13
 INFO:root:Простое из генераторов 13
-DEBUG:root:number 14
-DEBUG:root:делится на 2
-DEBUG:root:number 15
-DEBUG:root:делится на 3
-DEBUG:root:number 16
-DEBUG:root:делится на 2
-DEBUG:root:number 17
-DEBUG:root:найдено новое простое 17
 INFO:root:Простое из генераторов 17
-DEBUG:root:number 18
-DEBUG:root:делится на 2
-DEBUG:root:number 19
-DEBUG:root:найдено новое простое 19
 INFO:root:Простое из генераторов 19
-DEBUG:root:number 20
-DEBUG:root:делится на 2
-DEBUG:root:number 21
-DEBUG:root:делится на 3
-DEBUG:root:number 22
-DEBUG:root:делится на 2
-DEBUG:root:number 23
-DEBUG:root:найдено новое простое 23
 INFO:root:Простое из генераторов 23
-DEBUG:root:number 24
-DEBUG:root:делится на 2
-DEBUG:root:number 25
-DEBUG:root:делится на 5
-DEBUG:root:number 26
-DEBUG:root:делится на 2
-DEBUG:root:number 27
-DEBUG:root:делится на 3
-DEBUG:root:number 28
-DEBUG:root:делится на 2
-DEBUG:root:number 29
-DEBUG:root:найдено новое простое 29
 INFO:root:Простое из генераторов 29
-DEBUG:root:number 30
-DEBUG:root:делится на 2
-DEBUG:root:number 31
-DEBUG:root:найдено новое простое 31
 INFO:root:Простое из генераторов 31
-DEBUG:root:number 32
-DEBUG:root:делится на 2
-DEBUG:root:number 33
-DEBUG:root:делится на 3
-DEBUG:root:number 34
-DEBUG:root:делится на 2
-DEBUG:root:number 35
-DEBUG:root:делится на 5
-DEBUG:root:number 36
-DEBUG:root:делится на 2
-DEBUG:root:number 37
-DEBUG:root:найдено новое простое 37
 INFO:root:Простое из генераторов 37
-DEBUG:root:number 38
-DEBUG:root:делится на 2
-DEBUG:root:number 39
-DEBUG:root:делится на 3
-DEBUG:root:number 40
-DEBUG:root:делится на 2
-DEBUG:root:number 41
-DEBUG:root:найдено новое простое 41
 INFO:root:Простое из генераторов 41
-DEBUG:root:number 42
-DEBUG:root:делится на 2
-DEBUG:root:number 43
-DEBUG:root:найдено новое простое 43
 INFO:root:Простое из генераторов 43
-DEBUG:root:number 44
-DEBUG:root:делится на 2
-DEBUG:root:number 45
-DEBUG:root:делится на 3
-DEBUG:root:number 46
-DEBUG:root:делится на 2
-DEBUG:root:number 47
-DEBUG:root:найдено новое простое 47
 INFO:root:Простое из генераторов 47
-DEBUG:root:number 48
-DEBUG:root:делится на 2
-DEBUG:root:number 49
-DEBUG:root:делится на 7
-DEBUG:root:number 50
-DEBUG:root:делится на 2
-DEBUG:root:number 51
-DEBUG:root:делится на 3
-DEBUG:root:number 52
-DEBUG:root:делится на 2
-DEBUG:root:number 53
-DEBUG:root:найдено новое простое 53
 INFO:root:Простое из генераторов 53
-DEBUG:root:number 54
-DEBUG:root:делится на 2
-DEBUG:root:number 55
-DEBUG:root:делится на 5
-DEBUG:root:number 56
-DEBUG:root:делится на 2
-DEBUG:root:number 57
-DEBUG:root:делится на 3
-DEBUG:root:number 58
-DEBUG:root:делится на 2
-DEBUG:root:number 59
-DEBUG:root:найдено новое простое 59
 INFO:root:Простое из генераторов 59
-DEBUG:root:number 60
-DEBUG:root:делится на 2
-DEBUG:root:number 61
-DEBUG:root:найдено новое простое 61
 INFO:root:Простое из генераторов 61
-DEBUG:root:number 62
-DEBUG:root:делится на 2
-DEBUG:root:number 63
-DEBUG:root:делится на 3
-DEBUG:root:number 64
-DEBUG:root:делится на 2
-DEBUG:root:number 65
-DEBUG:root:делится на 5
-DEBUG:root:number 66
-DEBUG:root:делится на 2
-DEBUG:root:number 67
-DEBUG:root:найдено новое простое 67
 INFO:root:Простое из генераторов 67
-DEBUG:root:number 68
-DEBUG:root:делится на 2
-DEBUG:root:number 69
-DEBUG:root:делится на 3
-DEBUG:root:number 70
-DEBUG:root:делится на 2
-DEBUG:root:number 71
-DEBUG:root:найдено новое простое 71
 INFO:root:Простое из генераторов 71
-DEBUG:root:number 72
-DEBUG:root:делится на 2
-DEBUG:root:number 73
-DEBUG:root:найдено новое простое 73
 INFO:root:Простое из генераторов 73
-DEBUG:root:number 74
-DEBUG:root:делится на 2
-DEBUG:root:number 75
-DEBUG:root:делится на 3
-DEBUG:root:number 76
-DEBUG:root:делится на 2
-DEBUG:root:number 77
-DEBUG:root:делится на 7
-DEBUG:root:number 78
-DEBUG:root:делится на 2
-DEBUG:root:number 79
-DEBUG:root:найдено новое простое 79
 INFO:root:Простое из генераторов 79
-DEBUG:root:number 80
-DEBUG:root:делится на 2
-DEBUG:root:number 81
-DEBUG:root:делится на 3
-DEBUG:root:number 82
-DEBUG:root:делится на 2
-DEBUG:root:number 83
-DEBUG:root:найдено новое простое 83
 INFO:root:Простое из генераторов 83
-DEBUG:root:number 84
-DEBUG:root:делится на 2
-DEBUG:root:number 85
-DEBUG:root:делится на 5
-DEBUG:root:number 86
-DEBUG:root:делится на 2
-DEBUG:root:number 87
-DEBUG:root:делится на 3
-DEBUG:root:number 88
-DEBUG:root:делится на 2
-DEBUG:root:number 89
-DEBUG:root:найдено новое простое 89
 INFO:root:Простое из генераторов 89
-DEBUG:root:number 90
-DEBUG:root:делится на 2
-DEBUG:root:number 91
-DEBUG:root:делится на 7
-DEBUG:root:number 92
-DEBUG:root:делится на 2
-DEBUG:root:number 93
-DEBUG:root:делится на 3
-DEBUG:root:number 94
-DEBUG:root:делится на 2
-DEBUG:root:number 95
-DEBUG:root:делится на 5
-DEBUG:root:number 96
-DEBUG:root:делится на 2
-DEBUG:root:number 97
-DEBUG:root:найдено новое простое 97
 INFO:root:Простое из генераторов 97
-DEBUG:root:number 98
-DEBUG:root:делится на 2
-DEBUG:root:number 99
-DEBUG:root:делится на 3
-DEBUG:root:number 100
-DEBUG:root:делится на 2

@@ -18,11 +18,11 @@ def prime_numbers_generator(n):
 # logging.basicConfig(level=logging.DEBUG)
 # logging.basicConfig(level=logging.INFO)
 
-
-logging.basicConfig(
-    level=logging.DEBUG,
-    handlers=[logging.FileHandler('primes.log', 'w', 'utf-8')]
-)
-
-for prime in prime_numbers_generator(100):
-    logging.info(f'Простое из генераторов {prime}')
+#
+# logging.basicConfig(
+#     level=logging.DEBUG,
+#     handlers=[logging.FileHandler('primes.log', 'w', 'utf-8')]
+# )
+#
+# for prime in prime_numbers_generator(100):
+#     logging.info(f'Простое из генераторов {prime}')
