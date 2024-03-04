@@ -2,13 +2,13 @@ log_config = {
     'version': 1,
     'formatters': {
         'success_formatter': {
-            'format': '%(asctime)s - %(message)s'
+            'format': '%(levelname)s - %(message)s'
         },
         'bad_formatter': {
-            'format': '%(asctime)s - %(message)s'
+            'format': '%(levelname)s - %(message)s'
         },
         'blocked_formatter': {
-            'format': '%(asctime)s - %(message)s'
+            'format': '%(levelname)s - %(message)s'
         },
     },
     'handlers': {
@@ -38,11 +38,11 @@ log_config = {
         },
         'bad': {
             'handlers': ['bad_handler'],
-            'level': 'INFO'
+            'level': 'WARNING'
         },
         'blocked': {
             'handlers': ['blocked_handler'],
-            'level': 'INFO'
+            'level': 'ERROR'
         },
     },
 }
