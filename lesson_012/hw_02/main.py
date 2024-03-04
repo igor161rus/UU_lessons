@@ -1,3 +1,4 @@
+import requests
 import requests as rq
 import logging
 import logging.config
@@ -17,9 +18,15 @@ for site in sites:
         if response.status_code == 200:
             log = logging.getLogger('success')
             log.info(f'{site}, response - {response.status_code}')
-        elif response.status_code == 403 or response.status_code == 503:
+    except requests.exceptions.RequestsWarning:
+        # elif response.status_code == 403 or response.status_code == 503:
             log = logging.getLogger('bad')
             log.warning(f'{site}, response - {response.status_code}')
-    except Exception:
+    except requests.exceptions.ReadTimeout:
         log = logging.getLogger('blocked')
         log.error(f'{site}, response - NO CONNECTION')
+    # except requests.exceptions.ConnectTimeout:
+    #     print('Oops. Connection timeout occured!')
+    # except Exception:
+    #     log = logging.getLogger('blocked')
+    #     log.error(f'{site}, response - NO CONNECTION')
