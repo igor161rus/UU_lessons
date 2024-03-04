@@ -12,7 +12,8 @@ log_config = {
         'file_handler': {
             'class': 'logging.FileHandler',
             'formatter': 'my_formatter',
-            'filename': 'perky.log'
+            'filename': 'perky.log',
+            'encoding': 'utf-8',
         },
     },
     'loggers': {
