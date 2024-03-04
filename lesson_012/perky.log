@@ -1,0 +1,8 @@
+2024-03-04 13:37:45,346 - perky - INFO - Посмотрим как у него получится...
+2024-03-04 13:37:45,346 - perky - ERROR - Дерзкий не справился с 42
+Traceback (most recent call last):
+  File "D:\Python\Projects\UU\lessons\lesson_012\work_08.py", line 37, in <module>
+    perky(number)
+  File "D:\Python\Projects\UU\lessons\lesson_012\work_08.py", line 31, in perky
+    return param / 0
+ZeroDivisionError: division by zero
