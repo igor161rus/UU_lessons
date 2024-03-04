@@ -16,6 +16,10 @@ class ExternalResourceGetter:
         return response.text
 
     def proceed_data(self):
+        # max_length = 0
+        # for line in self.data.split('\n'):
+        #     if len(line) > max_length:
+        #         max_length = len(line)
         max_length = max([len(line) for line in self.data.split('\n')])
         return max_length
 
