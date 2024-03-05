@@ -1,6 +1,5 @@
 import requests
 import requests as rq
-import logging
 import logging.config
 from log_settings import log_config
 
