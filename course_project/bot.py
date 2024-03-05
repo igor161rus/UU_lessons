@@ -2,15 +2,34 @@
 
 import vk_api
 import logging
+import logging.config
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType, VkBotEvent
 from settings import club, token
+from log_settings import log_config
 
+logging.config.dictConfig(log_config)
+
+
+# Configure logger
 logger = logging.getLogger('bot')
-stream_handler = logging.StreamHandler()
-stream_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-logger.addHandler(stream_handler)
-stream_handler.setLevel(logging.INFO)
-logger.setLevel(logging.DEBUG)
+
+
+# def conf_logger():
+#     """
+#        Configure logger with stream and file handlers, setting formatter and log levels.
+#     """
+#
+#     stream_handler = logging.StreamHandler()
+#     file_handler = logging.FileHandler('bot.log')
+#     stream_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+#     file_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+#     logger.addHandler(stream_handler)
+#     logger.addHandler(file_handler)
+#     stream_handler.setLevel(logging.INFO)
+#     logger.setLevel(logging.DEBUG)
+
+
+# conf_logger()
 
 
 class Bot:
@@ -57,16 +76,21 @@ class Bot:
             """
         # Check if the event is a new message
         if event.type == VkBotEventType.MESSAGE_NEW:
-            logger.info('New message %s', event)
-            logger.info('We received an event %s', event.type)
+            log = logging.getLogger('info')
+            log.info('New message %s', event)
+            log.info('We received an event %s', event.type)
+            # logger.info('New message %s', event)
+            # logger.info('We received an event %s', event.type)
             peer_id = event.message.peer_id
             text_message = event.message.text
             self.api.messages.send(message=text_message,
                                    random_id=0,
                                    peer_id=peer_id)
         else:
-            logger.debug('We don\'t know how to handle event with type %s', event.type)
-            raise ValueError('We don\'t know how to handle event with type', event.type)
+            log = logging.getLogger('debug')
+            log.debug("We don't know how to handle event with type %s", event.type)
+            # logger.debug("'We don't know how to handle event with type %s", event.type)
+            raise ValueError("We don't know how to handle event with type", event.type)
         if event.type == VkBotEventType.WALL_POST_NEW:
             print(event.type)
             print(event)
@@ -81,4 +105,7 @@ class Bot:
 
 if __name__ == '__main__':
     bot = Bot(club=club, token=token)
+    log = logging.getLogger('info')
+    log.info('Bot run %s')
     bot.run()
+
