@@ -1,4 +1,4 @@
-import random
+## python version 3.12
 
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
@@ -6,7 +6,14 @@ from settings import club, token
 
 
 class Bot:
+    """
+    echo bot для ВК
+    """
     def __init__(self, club, token):
+        """
+        :param group_id: id группы ВК
+        :param token: секретный токен
+        """
         self.group_id = club
         self.token = token
 
