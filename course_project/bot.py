@@ -4,11 +4,15 @@ import vk_api
 import logging
 import logging.config
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType, VkBotEvent
-from settings import club, token
+# from settings import club, token
 from log_settings import log_config
 
-logging.config.dictConfig(log_config)
+try:
+    import settings
+except ImportError:
+    exit('You should use settings.py file to configure settings')
 
+logging.config.dictConfig(log_config)
 
 # Configure logger
 logger = logging.getLogger('bot')
@@ -27,9 +31,6 @@ logger = logging.getLogger('bot')
 #     logger.addHandler(file_handler)
 #     stream_handler.setLevel(logging.INFO)
 #     logger.setLevel(logging.DEBUG)
-
-
-# conf_logger()
 
 
 class Bot:
@@ -63,14 +64,14 @@ class Bot:
             try:
                 self.on_event(event)
             except Exception as exc:
-                logger.exception('Exception %s', exc)
+                logger.exception('Ошибка в обработчике событий Exception %s', exc)
 
     def on_event(self, event: VkBotEvent):
         """
             Обработка событий от бота
 
             Args:
-            event : Event
+            :param event : VkBotMessageEvent object
                 The event to be handled
             return: None
             """
@@ -90,22 +91,22 @@ class Bot:
             log = logging.getLogger('debug')
             log.debug("We don't know how to handle event with type %s", event.type)
             # logger.debug("'We don't know how to handle event with type %s", event.type)
-            raise ValueError("We don't know how to handle event with type", event.type)
-        if event.type == VkBotEventType.WALL_POST_NEW:
-            print(event.type)
-            print(event)
-            print(event.message)
+            # raise ValueError("We don't know how to handle event with type", event.type)
+        # if event.type == VkBotEventType.WALL_POST_NEW:
+        #     print(event.type)
+        #     print(event)
+        #     print(event.message)
 
-    def get_api(self):
-        """
-        Get the API instance
-        """
-        return self.api
+    # def get_api(self):
+    #     """
+    #     Get the API instance
+    #     """
+    #     return self.api
 
 
 if __name__ == '__main__':
-    bot = Bot(club=club, token=token)
+    # conf_logger()
+    bot = Bot(club=settings.club, token=settings.token)
     log = logging.getLogger('info')
     log.info('Bot run %s')
     bot.run()
-
