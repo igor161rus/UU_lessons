@@ -7,7 +7,8 @@ from bot import Bot
 class Test1(TestCase):
     def test_1(self):
         count = 5
-        events = [{}] * count
+        obj = {'a': 1}
+        events = [obj] * count
         long_poller_mock = Mock(return_value=events)
         long_poller_listen_mock = Mock()
         long_poller_listen_mock.listen = long_poller_mock
@@ -18,5 +19,5 @@ class Test1(TestCase):
                 bot.run()
 
                 bot.on_event.assert_called()
-                bot.on_event.assert_any_call({})
-                bot.on_event.call_count == count
+                bot.on_event.assert_any_call(obj)
+                assert bot.on_event.call_count == count
