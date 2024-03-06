@@ -1,6 +1,5 @@
 import requests
 import requests as rq
-import logging
 import logging.config
 from log_settings import log_config
 
@@ -18,15 +17,26 @@ for site in sites:
         if response.status_code == 200:
             log = logging.getLogger('success')
             log.info(f'{site}, response - {response.status_code}')
-    except requests.exceptions.RequestsWarning:
-        # elif response.status_code == 403 or response.status_code == 503:
+        elif response.status_code == 403 or response.status_code == 503:
             log = logging.getLogger('bad')
             log.warning(f'{site}, response - {response.status_code}')
     except requests.exceptions.ReadTimeout:
         log = logging.getLogger('blocked')
         log.error(f'{site}, response - NO CONNECTION')
-    # except requests.exceptions.ConnectTimeout:
-    #     print('Oops. Connection timeout occured!')
-    # except Exception:
-    #     log = logging.getLogger('blocked')
-    #     log.error(f'{site}, response - NO CONNECTION')
+
+# Результат:
+# success_responses.log:
+# INFO - https://www.youtube.com/, response - 200
+# INFO - https://wikipedia.org, response - 200
+# INFO - https://yahoo.com, response - 200
+# INFO - https://yandex.ru, response - 200
+# INFO - https://whatsapp.com, response - 200
+# INFO - https://tiktok.com, response - 200
+#
+# bad_responses.log:
+# WARNING - https://amazon.com, response - 503
+# WARNING - https://www.ozon.ru, response - 403
+#
+# blocked_responses.log:
+# ERROR - https://instagram.com, response - NO CONNECTION
+# ERROR - https://twitter.com, response - NO CONNECTION

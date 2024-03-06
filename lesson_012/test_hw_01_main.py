@@ -54,7 +54,7 @@ if __name__ == '__main__':
     unittest.main()
 
 # Результат
-# "D:\Python\Projects\UU\lessons\course project\Scripts\python.exe" "D:/Program Files/JetBrains/PyCharm Community Edition 2023.2.1/plugins/python-ce/helpers/pycharm/_jb_unittest_runner.py" --path D:\Python\Projects\UU\lessons\lesson_012\test_hw_01_main.py
+# "D:\Python\Projects\UU\lessons\course_project\Scripts\python.exe" "D:/Program Files/JetBrains/PyCharm Community Edition 2023.2.1/plugins/python-ce/helpers/pycharm/_jb_unittest_runner.py" --path D:\Python\Projects\UU\lessons\lesson_012\test_hw_01_main.py
 # Testing started at 9:32 ...
 # Launching unittests with arguments python -m unittest D:\Python\Projects\UU\lessons\lesson_012\test_hw_01_main.py in D:\Python\Projects\UU\lessons\lesson_012
 #
