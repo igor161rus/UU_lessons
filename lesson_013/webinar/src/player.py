@@ -4,7 +4,7 @@ import logging
 logger1 = logging.getLogger('MovingLoader')
 logging.basicConfig(
     level=logging.INFO,
-    handlers=[logging.FileHandler('moving_loader.log', mode='w', encoding='utf-8')],
+    # handlers=[logging.FileHandler('moving_loader.log', mode='w', encoding='utf-8')],
 )
 logger1.setLevel(logging.INFO)
 
