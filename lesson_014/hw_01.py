@@ -45,7 +45,6 @@ class SuperDate(datetime):
         """Функция возвращает время суток"""
 
         time_of_day = ['Night', 'Morning', 'Day', 'Evening']
-        # print(self.hour, (int(self.hour)) // 6, time_of_day[(int(self.hour)) // 6])
         # if self.hour < 6:
         #     time_of_day = time_of_day[0]
         # elif self.hour < 12:
@@ -61,3 +60,10 @@ a = SuperDate(2024, 3, 11, 13)
 # print(a.hour)
 print(a.get_season())
 print(a.get_time_of_day())
+
+# Результат:
+# E:\python\Python312\python.exe E:\python\projects\UU_lessons\lesson_014\hw_01.py
+# Spring
+# Day
+#
+# Process finished with exit code 0
