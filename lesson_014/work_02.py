@@ -40,3 +40,32 @@ print(datetime.datetime.now().timestamp())
 
 print(f'{terminator_day.strftime("%d.%m.%Y")}')
 print(f'{terminator_day.strftime("%H:%M:%S")}')
+print(f'{terminator_day.strftime("%d.%m.%Y время %H:%M:%S")}')
+
+kd = datetime.datetime.strptime('06.09.2016', '%d.%m.%Y')
+print(f'kd {kd}')
+print(kd.month)
+print(kd.year)
+
+d = datetime.datetime.combine(dt, lunch_time)
+print(f'd {d}')
+
+end_skynet = datetime.datetime(year=2029, month=7, day=11)
+duration = end_skynet - skynet
+print(f'Длительность скайнета {duration.days} дней, {duration.seconds} секунд')
+print(type(duration))
+print(skynet + duration)
+print(duration * 2)
+wt = datetime.timedelta(weeks=40, days=11358, hours=13, minutes=36, seconds=600)
+print(end_skynet - wt)
+print('*' * 20, '\n')
+
+incoming_date = '30-11-2018'
+incoming_date_datetime = datetime.datetime.strptime(incoming_date, '%d-%m-%Y')
+
+registration_end_time = datetime.datetime(year=2019, month=1, day=1)
+if incoming_date_datetime > registration_end_time:
+    print('Вход запрещен')
+else:
+    print('Вход разрешен')
+
