@@ -1,6 +1,6 @@
 import os, fnmatch
 import json
-import pandas
+import pandas as pd
 
 
 class PriceMachine():
@@ -30,13 +30,25 @@ class PriceMachine():
                 фасовка
         """
         pattern = '*price*'
+        list_names = ["название", "продукт", "товар", "наименование"]
+        df = pd.DataFrame({
+            'Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.',
+        })
+
         list_files = os.listdir(file_path)
         files = [entry for entry in list_files if fnmatch.fnmatch(entry, pattern)]
         for file in files:
-            with open(file_path + '/' + file, 'r', encoding='1251') as f:
-                data = json.load(f)
-                self.data.append(data)
-                print(self.data)
+            price = pd.read_csv(file_path + '/' + file)
+            print(list(price.columns))
+            for index, column in enumerate(price.columns):
+                if column in list_names:
+                    # self.name_length = index
+                    print(column, index)
+                    df['Наименование'] = price[column]
+                    print(df)
+            # [column for column in df]
+
+            # print(price.head(10), '\n')
 
     def _search_product_price_weight(self, headers):
         """
