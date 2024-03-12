@@ -31,6 +31,8 @@ class PriceMachine():
         """
         pattern = '*price*'
         list_names = ["название", "продукт", "товар", "наименование"]
+        list_prices = ["розница", "цена"]
+        list_weight = ["вес", "масса", "фасовка"]
         df = pd.DataFrame({
             'Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.',
         })
@@ -42,13 +44,17 @@ class PriceMachine():
             print(list(price.columns))
             for index, column in enumerate(price.columns):
                 if column in list_names:
+                    price = price.rename(columns={column: 'Наименование'})
                     # self.name_length = index
-                    print(column, index)
-                    df['Наименование'] = price[column]
-                    print(df)
-            # [column for column in df]
+                    # print(column, index)
+                elif column in list_prices:
+                    price = price.rename(columns={column: 'Цена'})
+                elif column in list_weight:
+                    price = price.rename(columns={column: 'Вес'})
+            df = pd.concat(df, price.DataFrame(['Наименование', 'Цена', 'Вес', 'Цена за, кг.']))
+            df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
 
-            # print(price.head(10), '\n')
+            print(price.head(10), '\n')
 
     def _search_product_price_weight(self, headers):
         """
