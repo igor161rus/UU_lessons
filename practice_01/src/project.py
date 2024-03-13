@@ -76,6 +76,24 @@ class PriceMachine():
                     <th>Цена за кг.</th>
                 </tr>
         '''
+        self.df = self.df.reset_index()
+        for index, row in self.df.iterrows():
+            result += f'''
+                <tr>
+                    <td>{index}</td>
+                    <td>{row['Наименование']}</td>
+                    <td>{row['Цена']}</td>
+                    <td>{row['Вес']}</td>
+                    <td>{row['Файл']}</td>
+                    <td>{row['Цена за, кг.']}</td>
+                </tr>
+            '''
+        result += '''
+            </table>
+        </body>
+        </html>
+        '''
+        return result
 
     def find_text(self, text):
         return self.df.loc[self.df['Наименование'].str.contains(text)]
@@ -96,4 +114,6 @@ while True:
         print(pm.find_text(input_text))
 
 print('the end')
-# print(pm.export_to_html())
+with open('file.html', 'wt') as file:
+    print(pm.export_to_html(), file=file)
+# print()
