@@ -3,12 +3,12 @@ import json
 import pandas as pd
 
 
-class PriceMachine():
+class PriceMachine:
 
     def __init__(self):
-        self.data = []
-        self.result = ''
-        self.name_length = 0
+        # self.data = []
+        # self.result = ''
+        # self.name_length = 0
         self.df = pd.DataFrame(columns=['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.'])
 
     def load_prices(self, file_path=''):
@@ -116,4 +116,4 @@ while True:
 print('the end')
 with open('file.html', 'wt') as file:
     print(pm.export_to_html(), file=file)
-# print()
+
