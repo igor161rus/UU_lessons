@@ -5,8 +5,14 @@ import pandas as pd
 
 
 class PriceMachine:
-
+    """
+    Класс анализатор прайс-листов
+    """
     def __init__(self):
+        """
+            Инициализируется класс с пустым DataFrame, содержащим столбцы
+            'Наименование', 'Цена', 'Вес', 'Файл', and 'Цена за, кг.'
+        """
         self.df = pd.DataFrame(columns=['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.'])
 
     def load_prices(self, file_path=''):
@@ -29,14 +35,19 @@ class PriceMachine:
                 фасовка
         """
         pattern = '*price*'
+        # Описываются списки с возможными названиями столбцов
         list_names = ['название', 'продукт', 'товар', 'наименование']
         list_prices = ['розница', 'цена']
         list_weight = ['вес', 'масса', 'фасовка']
 
+        # Список всех файлов в каталоге
         list_files = os.listdir(file_path)
+        # Фильтруем список файлов по шаблону содержащему price
         files = [entry for entry in list_files if fnmatch.fnmatch(entry, pattern)]
         for file in files:
+            # Читаем csv-файл
             price = pd.read_csv(file_path + '/' + file)
+            # Переименовываем столбцы по спискам
             for column in price.columns:
                 if column in list_names:
                     price = price.rename(columns={column: 'Наименование'})
@@ -44,14 +55,18 @@ class PriceMachine:
                     price = price.rename(columns={column: 'Цена'})
                 elif column in list_weight:
                     price = price.rename(columns={column: 'Вес'})
+            # Добавляем дополнительные столбцы в исходный DataFrame
             price['Файл'] = file
             price['Цена за, кг.'] = (price['Цена'] / price['Вес']).round(1)
+            # Объединить текущий DataFrame с основным DataFrame.
             # self.df = pd.concat([self.df, price.loc[:, ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]],
             #                     axis=0)
             self.df = pd.concat([self.df if not self.df.empty else None,
                                  price.loc[:, ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]],
                                 axis=0)
+            # Сортируем DataFrame по столбцу 'Цена за, кг.'
             self.df = self.df.sort_values(by=['Цена за, кг.'])
+        # Нумеруем строки с 1
         self.df.index += 1
         # self.df.to_csv('output.csv')
 
