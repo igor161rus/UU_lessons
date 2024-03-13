@@ -9,6 +9,7 @@ class PriceMachine():
         self.data = []
         self.result = ''
         self.name_length = 0
+        self.df = pd.DataFrame(columns=['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.'])
 
     def load_prices(self, file_path=''):
         """
@@ -33,14 +34,12 @@ class PriceMachine():
         list_names = ['название', 'продукт', 'товар', 'наименование']
         list_prices = ['розница', 'цена']
         list_weight = ['вес', 'масса', 'фасовка']
-        df = pd.DataFrame(columns=['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.'])
 
         list_files = os.listdir(file_path)
         files = [entry for entry in list_files if fnmatch.fnmatch(entry, pattern)]
         for file in files:
-            print(file)
             price = pd.read_csv(file_path + '/' + file)
-            for index, column in enumerate(price.columns):
+            for column in price.columns:
                 if column in list_names:
                     price = price.rename(columns={column: 'Наименование'})
                 elif column in list_prices:
@@ -49,14 +48,10 @@ class PriceMachine():
                     price = price.rename(columns={column: 'Вес'})
             price['Файл'] = file
             price['Цена за, кг.'] = (price['Цена'] / price['Вес']).round(1)
-            df = pd.concat([df, price.loc[:, ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]], axis=0)
-            # df['Файл'] = file
-
-
-
-        #     print(price.head(10), '\n')
-            print(df.head(10), '\n')
-        df.to_csv('output.csv')
+            self.df = pd.concat([self.df, price.loc[:, ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]],
+                                axis=0)
+            self.df = self.df.sort_values(by=['Цена за, кг.'])
+        self.df.to_csv('output.csv')
 
     def _search_product_price_weight(self, headers):
         """
@@ -83,14 +78,22 @@ class PriceMachine():
         '''
 
     def find_text(self, text):
-        pass
+        return self.df.loc[self.df['Наименование'].str.contains(text)]
 
 
 pm = PriceMachine()
-print(pm.load_prices('D:/Python/Projects/UU/lessons/practice_01/data'))
-
-'''
+pm.load_prices('../data')
+"""
     Логика работы программы
-'''
+
+"""
+
+while True:
+    input_text = input('Enter find text, or exit: ')
+    if input_text == 'exit':
+        break
+    else:
+        print(pm.find_text(input_text))
+
 print('the end')
 # print(pm.export_to_html())
