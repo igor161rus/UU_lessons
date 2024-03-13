@@ -95,8 +95,10 @@ class PriceMachine:
 
 pm = PriceMachine()
 pm.load_prices('../data')
+
 with open('file.html', 'wt') as file:
     print(pm.export_to_html(), file=file)
+
 while True:
     input_text = input('Enter find text, or exit: ')
     if input_text == 'exit':
