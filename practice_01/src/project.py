@@ -119,6 +119,10 @@ class PriceMachine:
         return result
 
     def find_text(self, text):
+        """ Функция поиска по содержимому столбца 'Наименование' по заданному тексту.
+        Аргументы:
+        text(str): Текст для поиска.
+        """
         return self.df.loc[self.df['Наименование'].str.contains(text)]
 
 
