@@ -71,25 +71,35 @@ class PriceMachine:
         # self.df.to_csv('output.csv')
 
     def export_to_html(self, fname='output.html'):
+        """ Функция зкспортируйта DataFrame в таблицу HTML.
+        Аргументы:
+        fname(str): Имя выходного HTML - файла.
+
+        :return
+        str: HTML - содержимое, представляющее DataFrame в виде таблицы.
+        """
+
+        # Инициализируем содержимое HTML
         result = '''
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Позиции продуктов</title>
+        <title>Позиции продуктов</title>
         </head>
         <body>
-            <table>
-                <tr>
-                    <th>Номер</th>
-                    <th>Название</th>
-                    <th>Цена</th>
-                    <th>Фасовка</th>
-                    <th>Файл</th>
-                    <th>Цена за кг.</th>
-                </tr>
+        <table>
+            <tr>
+                <th>Номер</th>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Фасовка</th>
+                <th>Файл</th>
+                <th>Цена за кг.</th>
+            </tr>
         '''
         self.df = self.df.reset_index()
         self.df.index += 1
+        # Заполняем строки таблицы значениями DataFrame
         for index, row in self.df.iterrows():
             result += f'''
                 <tr>
@@ -102,7 +112,7 @@ class PriceMachine:
                 </tr>
             '''
         result += '''
-            </table>
+        </table>
         </body>
         </html>
         '''
