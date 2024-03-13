@@ -49,7 +49,7 @@ class PriceMachine:
                                 axis=0)
             self.df = self.df.sort_values(by=['Цена за, кг.'])
         self.df.index += 1
-        self.df.to_csv('output.csv')
+        # self.df.to_csv('output.csv')
 
     def export_to_html(self, fname='output.html'):
         result = '''
@@ -95,7 +95,8 @@ class PriceMachine:
 
 pm = PriceMachine()
 pm.load_prices('../data')
-
+with open('file.html', 'wt') as file:
+    print(pm.export_to_html(), file=file)
 while True:
     input_text = input('Enter find text, or exit: ')
     if input_text == 'exit':
@@ -104,5 +105,4 @@ while True:
         print(pm.find_text(input_text))
 
 print('the end')
-with open('file.html', 'wt') as file:
-    print(pm.export_to_html(), file=file)
+
