@@ -30,31 +30,33 @@ class PriceMachine():
                 фасовка
         """
         pattern = '*price*'
-        list_names = ["название", "продукт", "товар", "наименование"]
-        list_prices = ["розница", "цена"]
-        list_weight = ["вес", "масса", "фасовка"]
-        df = pd.DataFrame({
-            'Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.',
-        })
+        list_names = ['название', 'продукт', 'товар', 'наименование']
+        list_prices = ['розница', 'цена']
+        list_weight = ['вес', 'масса', 'фасовка']
+        df = pd.DataFrame(columns=['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.'])
 
         list_files = os.listdir(file_path)
         files = [entry for entry in list_files if fnmatch.fnmatch(entry, pattern)]
         for file in files:
+            print(file)
             price = pd.read_csv(file_path + '/' + file)
-            print(list(price.columns))
             for index, column in enumerate(price.columns):
                 if column in list_names:
                     price = price.rename(columns={column: 'Наименование'})
-                    # self.name_length = index
-                    # print(column, index)
                 elif column in list_prices:
                     price = price.rename(columns={column: 'Цена'})
                 elif column in list_weight:
                     price = price.rename(columns={column: 'Вес'})
-            df = pd.concat(df, price.DataFrame(['Наименование', 'Цена', 'Вес', 'Цена за, кг.']))
-            df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+            price['Файл'] = file
+            price['Цена за, кг.'] = (price['Цена'] / price['Вес']).round(1)
+            df = pd.concat([df, price.loc[:, ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]], axis=0)
+            # df['Файл'] = file
 
-            print(price.head(10), '\n')
+
+
+        #     print(price.head(10), '\n')
+            print(df.head(10), '\n')
+        df.to_csv('output.csv')
 
     def _search_product_price_weight(self, headers):
         """
