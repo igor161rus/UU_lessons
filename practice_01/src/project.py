@@ -1,5 +1,4 @@
 import os, fnmatch
-import json
 import pandas as pd
 
 
@@ -53,10 +52,10 @@ class PriceMachine:
             self.df = self.df.sort_values(by=['Цена за, кг.'])
         self.df.to_csv('output.csv')
 
-    def _search_product_price_weight(self, headers):
-        """
-            Возвращает номера столбцов
-        """
+    # def _search_product_price_weight(self, headers):
+    #     """
+    #         Возвращает номера столбцов
+    #     """
 
     def export_to_html(self, fname='output.html'):
         result = '''
@@ -101,10 +100,6 @@ class PriceMachine:
 
 pm = PriceMachine()
 pm.load_prices('../data')
-"""
-    Логика работы программы
-
-"""
 
 while True:
     input_text = input('Enter find text, or exit: ')
