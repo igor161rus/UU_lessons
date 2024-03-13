@@ -45,7 +45,10 @@ class PriceMachine:
                     price = price.rename(columns={column: 'Вес'})
             price['Файл'] = file
             price['Цена за, кг.'] = (price['Цена'] / price['Вес']).round(1)
-            self.df = pd.concat([self.df, price.loc[:, ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]],
+            # self.df = pd.concat([self.df, price.loc[:, ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]],
+            #                     axis=0)
+            self.df = pd.concat([self.df if not self.df.empty else None,
+                                 price.loc[:, ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]],
                                 axis=0)
             self.df = self.df.sort_values(by=['Цена за, кг.'])
         self.df.index += 1
