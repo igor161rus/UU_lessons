@@ -48,6 +48,7 @@ class PriceMachine:
             self.df = pd.concat([self.df, price.loc[:, ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]],
                                 axis=0)
             self.df = self.df.sort_values(by=['Цена за, кг.'])
+        self.df.index += 1
         self.df.to_csv('output.csv')
 
     def export_to_html(self, fname='output.html'):
@@ -69,6 +70,7 @@ class PriceMachine:
                 </tr>
         '''
         self.df = self.df.reset_index()
+        self.df.index += 1
         for index, row in self.df.iterrows():
             result += f'''
                 <tr>
