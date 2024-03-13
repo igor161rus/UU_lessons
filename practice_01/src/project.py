@@ -5,9 +5,6 @@ import pandas as pd
 class PriceMachine:
 
     def __init__(self):
-        # self.data = []
-        # self.result = ''
-        # self.name_length = 0
         self.df = pd.DataFrame(columns=['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.'])
 
     def load_prices(self, file_path=''):
@@ -51,11 +48,6 @@ class PriceMachine:
                                 axis=0)
             self.df = self.df.sort_values(by=['Цена за, кг.'])
         self.df.to_csv('output.csv')
-
-    # def _search_product_price_weight(self, headers):
-    #     """
-    #         Возвращает номера столбцов
-    #     """
 
     def export_to_html(self, fname='output.html'):
         result = '''
@@ -111,4 +103,3 @@ while True:
 print('the end')
 with open('file.html', 'wt') as file:
     print(pm.export_to_html(), file=file)
-
