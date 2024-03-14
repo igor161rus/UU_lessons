@@ -134,8 +134,17 @@ class PriceMachine:
         """
         #  В этом случае возвращаем DataFrame с индексами в файле
         # return self.df.loc[self.df['Наименование'].str.contains(text)]
-        return self.df.loc[self.df['Наименование'].str.contains(text),
-            ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]
+
+        # В этом случае возвращаем DataFrame с индексами DataFrame
+        # return self.df.loc[self.df['Наименование'].str.contains(text),
+        # ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]
+
+        # Фильтруем DataFrame на основе заданного текста и выбираем определенные столбцы
+        search = self.df.loc[self.df['Наименование'].str.contains(text), ['Наименование', 'Цена', 'Вес', 'Файл',
+                                                                          'Цена за, кг.']]
+        search.reset_index(inplace=True, drop=True) # Сброс индекса и удаление предыдущего индекса
+        search.index += 1 # Увеличиваем индекс на 1
+        return search
 
 
 pm = PriceMachine()
