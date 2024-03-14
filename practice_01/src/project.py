@@ -48,6 +48,7 @@ class PriceMachine:
         list_files = os.listdir(file_path)
         # Фильтруем список файлов по шаблону содержащему price
         files = [entry for entry in list_files if fnmatch.fnmatch(entry, pattern)]
+
         for file in files:
             # Читаем csv-файл
             price = pd.read_csv(file_path + '/' + file)
@@ -59,10 +60,13 @@ class PriceMachine:
                     price = price.rename(columns={column: 'Цена'})
                 elif column in list_weight:
                     price = price.rename(columns={column: 'Вес'})
+
             # Добавляем дополнительные столбцы в исходный DataFrame
             price['Файл'] = file
             price['Цена за, кг.'] = (price['Цена'] / price['Вес']).round(1)
-            # Объединить текущий DataFrame с основным DataFrame.
+
+            # Объединяем текущий DataFrame с основным DataFrame self.df.
+            # В этом случае получим FutureWarning
             # self.df = pd.concat([self.df, price.loc[:, ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]],
             #                     axis=0)
             self.df = pd.concat([self.df if not self.df.empty else None,
