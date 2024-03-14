@@ -15,6 +15,7 @@ class PriceMachine:
             'Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.'
         """
         self.df = pd.DataFrame(columns=['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.'])
+        self.err = False
 
     def load_prices(self, file_path=''):
         """
@@ -46,6 +47,7 @@ class PriceMachine:
         list_weight = ['вес', 'масса', 'фасовка']
 
         # Список всех файлов в каталоге
+        # try:
         list_files = os.listdir(file_path)
         # Фильтруем список файлов по шаблону содержащему price
         files = [entry for entry in list_files if fnmatch.fnmatch(entry, pattern)]
@@ -78,6 +80,10 @@ class PriceMachine:
         # Нумеруем строки с 1
         self.df.index += 1
         # self.df.to_csv('output.csv')
+        # except FileNotFoundError:
+        #     print('Каталог не найден.')
+        #     self.err = True
+        #     raise FileNotFoundError('Каталог не найден.')
 
     def export_to_html(self, fname='output.html'):
         """ Функция зкспортируйта DataFrame в таблицу HTML.
@@ -142,25 +148,28 @@ class PriceMachine:
         # Фильтруем DataFrame на основе заданного текста и выбираем определенные столбцы
         search = self.df.loc[self.df['Наименование'].str.contains(text), ['Наименование', 'Цена', 'Вес', 'Файл',
                                                                           'Цена за, кг.']]
-        search.reset_index(inplace=True, drop=True) # Сброс индекса и удаление предыдущего индекса
-        search.index += 1 # Увеличиваем индекс на 1
+        search.reset_index(inplace=True, drop=True)  # Сброс индекса и удаление предыдущего индекса
+        search.index += 1  # Увеличиваем индекс на 1
         pd.set_option('display.max_columns', None)
         pd.set_option('display.max_rows', None)
         return search
 
 
 pm = PriceMachine()
-pm.load_prices('../data')
+try:
+    pm.load_prices(file_path='/data')
 
-with open('file.html', 'wt') as file:
-    print(pm.export_to_html(), file=file)
+    with open('file.html', 'wt') as file:
+        print(pm.export_to_html(), file=file)
 
-while True:
-    input_text = input('Enter find text, or exit: ')
-    if input_text == 'exit':
-        break
-    else:
-        print(pm.find_text(input_text))
+    while True:
+        input_text = input('Enter find text, or exit: ')
+        if input_text == 'exit':
+            break
+        else:
+            print(pm.find_text(input_text))
+except FileNotFoundError:
+    print('Каталог не найден.')
 
 print('the end')
 
