@@ -11,7 +11,7 @@ class PriceMachine:
     def __init__(self):
         """
             Инициализируется класс с пустым DataFrame, содержащим столбцы
-            'Наименование', 'Цена', 'Вес', 'Файл', and 'Цена за, кг.'
+            'Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.'
         """
         self.df = pd.DataFrame(columns=['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.'])
 
@@ -33,6 +33,10 @@ class PriceMachine:
                 вес
                 масса
                 фасовка
+
+            Args:
+                - file_path: Путь к каталогу с csv-файлами.
+
         """
         pattern = '*price*'
         # Описываются списки с возможными названиями столбцов
@@ -72,11 +76,11 @@ class PriceMachine:
 
     def export_to_html(self, fname='output.html'):
         """ Функция зкспортируйта DataFrame в таблицу HTML.
-        Аргументы:
-        fname(str): Имя выходного HTML - файла.
+        Args:
+            - fname(str): Имя выходного HTML - файла.
 
         :return
-        str: HTML - содержимое, представляющее DataFrame в виде таблицы.
+            - str: HTML - содержимое, представляющее DataFrame в виде таблицы.
         """
 
         # Инициализируем содержимое HTML
@@ -120,8 +124,8 @@ class PriceMachine:
 
     def find_text(self, text):
         """ Функция поиска по содержимому столбца 'Наименование' по заданному тексту.
-        Аргументы:
-        text(str): Текст для поиска.
+        Args:
+            - text(str): Текст для поиска.
         """
         return self.df.loc[self.df['Наименование'].str.contains(text)]
 
