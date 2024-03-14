@@ -157,7 +157,7 @@ class PriceMachine:
 
 pm = PriceMachine()
 try:
-    pm.load_prices(file_path='/data')
+    pm.load_prices(file_path='../data')
 
     with open('file.html', 'wt') as file:
         print(pm.export_to_html(), file=file)
