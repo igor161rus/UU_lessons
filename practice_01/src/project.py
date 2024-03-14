@@ -8,6 +8,7 @@ class PriceMachine:
     """
     Класс анализатор прайс-листов
     """
+
     def __init__(self):
         """
             Инициализируется класс с пустым DataFrame, содержащим столбцы
@@ -131,7 +132,10 @@ class PriceMachine:
         Args:
             - text(str): Текст для поиска.
         """
-        return self.df.loc[self.df['Наименование'].str.contains(text)]
+        #  В этом случае возвращаем DataFrame с индексами в файле
+        # return self.df.loc[self.df['Наименование'].str.contains(text)]
+        return self.df.loc[self.df['Наименование'].str.contains(text),
+            ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]
 
 
 pm = PriceMachine()
