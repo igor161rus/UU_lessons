@@ -144,6 +144,8 @@ class PriceMachine:
                                                                           'Цена за, кг.']]
         search.reset_index(inplace=True, drop=True) # Сброс индекса и удаление предыдущего индекса
         search.index += 1 # Увеличиваем индекс на 1
+        pd.set_option('display.max_columns', None)
+        pd.set_option('display.max_rows', None)
         return search
 
 
