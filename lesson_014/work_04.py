@@ -1,3 +1,5 @@
+# regex101.com
+
 deep_ocean = 'Ocean, oocan, ocean, off, aaaa, Nemo, nemo, mimo, NEMO, nEmo'
 nemo = r'[Nn]em\w{,2}'
 import re
