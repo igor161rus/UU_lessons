@@ -26,3 +26,10 @@ pattern = r'\s*([А-Яа-яЁё]+)(\d+)\s*'
 string = r'---   Опять45   ---'
 matched = re.search(pattern, string)
 print(f'{matched[0]} {matched.start(0)} - {matched.group(1)}, {matched.end(0)} - {matched.group(2)}')
+
+letter = '''Уважаемые! Если вы к 09:00 не вернете
+чемодан, то в 09:00:01 я за себя не отвечаю.
+PS. С отношением 25:50 все нормально!'''
+time_rule = r'([0-1][0-9]|2[0-3])(:[0-5][0-9]){1,2}'
+time_swap = re.sub(time_rule, '(TDB)', letter)
+print(time_swap)
