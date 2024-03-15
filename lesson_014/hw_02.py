@@ -38,7 +38,7 @@ import re
 
 def extract_image_links(html_text):
     list_ext = ['.jpg', '.jpeg', '.png', '.gif']
-    urls = re.findall("http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+])(?:[^'>])+", html_text)
+    urls = re.findall(r"http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+])(?:[^'>])+", html_text)
     # print(urls)
 
     image_links = []
