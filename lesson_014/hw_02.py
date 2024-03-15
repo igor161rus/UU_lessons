@@ -30,15 +30,19 @@
 #
 # Файл с исходным кодом прикрепите к домашнему заданию.
 
+# regex101.com
+# https://docs.python.org/3/library/re.html
+
 import re
 
 
 def extract_image_links(html_text):
     # urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', html_text)
-    urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', html_text)
+    urls = re.findall("http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+])(?:[^'>])+", html_text)
     print(urls)
     # if match:
     #     print(match.group(1))
+
 
 
 sample_html = "<img src='https://example.com/image1.jpg'> <img src='http://example.com/image2.png'> <img src='https://example.com/image3.gif'>"
