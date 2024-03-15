@@ -37,21 +37,43 @@ import re
 
 
 def extract_image_links(html_text):
-    # urls = re.findall('http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', html_text)
+    list_ext = ['.jpg', '.jpeg', '.png', '.gif']
     urls = re.findall("http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+])(?:[^'>])+", html_text)
-    print(urls)
-    # if match:
-    #     print(match.group(1))
+    # print(urls)
+
+    image_links = []
+    for url in urls:
+        for ext in list_ext:
+            if url.endswith(ext):
+                image_links.append(url)
+    # print(image_links)
+    return image_links
 
 
-
-sample_html = "<img src='https://example.com/image1.jpg'> <img src='http://example.com/image2.png'> <img src='https://example.com/image3.gif'>"
+sample_html = ("<img src='https://example.com/image1.jpg'> <img src='http://example.com/image2.png'> "
+               "<img src='https://example.com/image3.gif'> <src='https://example.com/image3.py'>"
+               "<img src='http://example.com/image4.jpeg'> <img src='https://example.com/image4.zip'>")
+# sample_html = ("<img src='https://example.com/image4.zip'>")
 
 extract_image_links(sample_html)
 
-# image_links = extract_image_links(sample_html)
-# if image_links:
-#     for image_link in image_links:
-#         print(image_link)
-# else:
-#     print("Нет ссылок с картинками в HTML тексте.")
+image_links = extract_image_links(sample_html)
+if image_links:
+    for image_link in image_links:
+        print(image_link)
+else:
+    print("Нет ссылок с картинками в HTML тексте.")
+
+# Результат
+# D:\Python\Python312\python.exe D:\Python\Projects\UU\lessons\lesson_014\hw_02.py
+# https://example.com/image1.jpg
+# http://example.com/image2.png
+# https://example.com/image3.gif
+# http://example.com/image4.jpeg
+#
+# Process finished with exit code 0
+
+# D:\Python\Python312\python.exe D:\Python\Projects\UU\lessons\lesson_014\hw_02.py
+# Нет ссылок с картинками в HTML тексте.
+#
+# Process finished with exit code 0
