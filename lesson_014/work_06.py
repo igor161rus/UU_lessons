@@ -2,7 +2,7 @@ import csv
 
 inv = []
 
-with open('work_06.csv', 'r', newline='') as csv_file:
+with open('work_06.csv', 'r', newline='', encoding='utf-8') as csv_file:
     csv_data = csv.reader(csv_file)
     for row in csv_data:
         inv.append(row)
