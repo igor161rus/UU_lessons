@@ -31,8 +31,10 @@ def write_holiday_cities(first_letter):
     print(list_name)
     patern = r'(?:(?:[^,]*\[[^][]*])+[^,]*|[^,]+)'
     patern_1 = r"(?:[^';]*\[[^][]*])+[^';]*|[^';]+"
+    set_cities_visited.clear()
     for i, j in enumerate(list_name):
         cities = re.findall(patern, travel_notes[i][1])
+        print(cities)
         for city in re.findall(patern_1, cities[0]):
             set_cities_visited.add(city)
             # set_cities_for_vist.remove(city)
@@ -44,14 +46,15 @@ def write_holiday_cities(first_letter):
     print(sorted(set_cities_for_vist))
 
     with open('../data/holiday1.csv', 'w', newline='', encoding='utf-8') as out_csv:
-        csv_writer = csv.writer(out_csv, quoting=csv.QUOTE_NONE)
+        csv_writer = csv.writer(out_csv)
         csv_writer.writerow([f'Информация о городах людей имена которых начинаются на {first_letter}'])
         # csv_writer.writerows([['Посетили'], ['Хотят посетить'], ['Никогда не были в'], ['Следующим городом будет']])
 
-        csv_writer.writerow([f'Посетили: {sorted(set_cities_visited)}'])
-    #     for row in travel_notes:
-    #         if row[0].startswith(first_letter):
-    #             csv_writer.writerow(row)
+        csv_writer.writerow([f'Посетили:']+sorted(set_cities_visited))
+        csv_writer.writerow([f'Хотят посетить:']+sorted(set_cities_for_vist))
+        csv_writer.writerow([f'Никогда не были в:']+sorted(set_cities_for_vist))
+        # csv_writer.writerow([f'Следующим городом будет:']+sorted(set_cities_for_vist[0]))
 
 
-write_holiday_cities(first_letter='L')
+
+write_holiday_cities(first_letter='R')
