@@ -13,16 +13,27 @@ def write_holiday_cities(first_letter):
     print(travel_notes, '\n')
 
     name = []
+    set_cities_for_vist = set()
     for i in range(len(travel_notes)):
         name.append(travel_notes[i][0])
     list_name = [search_name for search_name in name if re.findall(rf'[{first_letter}]\w+', search_name)]
-    # cities_want_vist = [name for name in travel_notes if re.findall(r'(.*?),', name[0]) in list_name[0]]
 
-    # "(?:[^,]*\[[^][]*])+[^,]*|[^,]+"
-    # print(cities_want_vist)
+    set_cities_visited = set()
+
     print(list_name)
-    cities_test = re.findall(r'(?:(?:[^,]*\[[^][]*])+[^,]*|[^,]+)', str(travel_notes[0][2]))
-    print('******', cities_test)
+    patern = r'(?:(?:[^,]*\[[^][]*])+[^,]*|[^,]+)'
+    patern_1 = r"(?:[^';]*\[[^][]*])+[^';]*|[^';]+"
+    for i, j in enumerate(list_name):
+        cities = re.findall(patern, travel_notes[i][1])
+        for city in re.findall(patern_1, cities[0]):
+            set_cities_visited.add(city)
+        cities = re.findall(patern, str(travel_notes[i][2]))
+        for city in re.findall(patern_1, cities[0]):
+            set_cities_for_vist.add(city)
+
+    print(sorted(set_cities_visited))
+    print(sorted(set_cities_for_vist))
+
 
     with open('../data/holiday.csv', 'w', newline='', encoding='utf-8') as out_csv:
         csv_writer = csv.writer(out_csv)
