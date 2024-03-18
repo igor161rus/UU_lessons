@@ -45,7 +45,7 @@ def write_holiday_cities(first_letter):
 
     with open('../data/holiday1.csv', 'w', newline='', encoding='utf-8') as out_csv:
         csv_writer = csv.writer(out_csv, quoting=csv.QUOTE_NONE)
-        csv_writer.writerow([f'Информация о городах людей; имена которых начинаются на {first_letter}'])
+        csv_writer.writerow([f'Информация о городах людей имена которых начинаются на {first_letter}'])
         # csv_writer.writerows([['Посетили'], ['Хотят посетить'], ['Никогда не были в'], ['Следующим городом будет']])
 
         csv_writer.writerow([f'Посетили: {sorted(set_cities_visited)}'])
