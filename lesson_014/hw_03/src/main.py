@@ -22,8 +22,12 @@ def write_holiday_cities(first_letter):
         name.append(travel_notes[i][0])
     list_name = [search_name for search_name in name if re.findall(rf'[{first_letter}]\w+', search_name)]
     # cities_want_vist = [name for name in travel_notes if re.findall(r'(.*?),', name[0]) in list_name[0]]
+
+    # "(?:[^,]*\[[^][]*])+[^,]*|[^,]+"
     # print(cities_want_vist)
     print(list_name)
+    cities_test = re.findall(r'(?:(?:[^,]*\[[^][]*])+[^,]*|[^,]+)', str(travel_notes[0][2]))
+    print('******', cities_test)
 
     with open('../data/holiday.csv', 'w', newline='', encoding='utf-8') as out_csv:
         csv_writer = csv.writer(out_csv)
