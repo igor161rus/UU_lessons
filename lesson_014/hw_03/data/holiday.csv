@@ -1,5 +1,6 @@
-Lisa,Moscow;Saint Petersburg;Luxembourg,Cairo;Levan;Minsk
-Lera,Kiev;Minsk;Moscow,Almaty
-Lyuba,Beijing;Dushanbe;Tbilisi;Aktau,Cairo;Minsk
-Larisa,New York;Irkutsk;Vladikavkaz,Nizhny Tagil;Kursk;Orel
-Lyubov,Beijing;Kiev,Tokyo
+# ЭТО ПРИМЕР, ЗДЕСЬ ДОЛЖНЫ БЫТЬ ВАШИ ДАННЫЕ ПО ИТОГУ РАБОТЫ ФУНКЦИИ
+
+Have visited: Aktau, Beijing, Dushanbe, Irkutsk, Kiev, Luxembourg, Minsk, Moscow, New York, Saint Petersburg, Tbilisi, Vladikavkaz
+Want to visit: Almaty, Cairo, Kursk, Levan, Minsk, Nizhny Tagil, Orel, Tokyo
+No one has been to: Almaty, Cairo, Kursk, Levan, Nizhny Tagil, Orel, Tokyo
+In the end, we will go to: Almaty
