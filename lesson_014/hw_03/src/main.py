@@ -6,16 +6,11 @@ travel_notes = []
 
 def write_holiday_cities(first_letter):
     with open('../data/travel-notes.csv', 'r', newline='', encoding='utf-8') as csv_file:
-        # dialect = csv.Sniffer().sniff(csv_file.readline()), [',', ';']
-        # csv_file.seek(0)
-        # reader = csv.reader(csv_file, dialect=dialect)
-        # print(dialect)
-        # print(reader)
         csv_data = csv.reader(csv_file)
         for row in csv_data:
             travel_notes.append(row)
             print(row)
-    print(travel_notes)
+    print(travel_notes, '\n')
 
     name = []
     for i in range(len(travel_notes)):
