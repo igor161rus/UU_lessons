@@ -1,0 +1,15 @@
+Developers:
+  martin:
+    name: Martin
+    job: Developer
+    skills:
+      - C
+      - C++
+      - Python
+  tabitha:
+    name: Tabitha
+    job: Developer
+    skills:
+      - pascal
+      - perl
+      - Python
