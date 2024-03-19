@@ -26,16 +26,11 @@ def write_holiday_cities(first_letter):
 
         set_cities_for_visit_potok = set_cities_for_visit - set_cities_visited
         set_cities_all = set_cities_for_visit | set_cities_visited
-        # print('set_cities_for_vist_potok: ', set_cities_for_visit_potok)
-        # print('dict_visit', dict_visit)
-        # print('dict_visited', dict_visited)
-
 
     for i in range(len(travel_notes)):
         name.append(travel_notes[i][0])
     list_name = [search_name for search_name in name if re.findall(rf'[{first_letter}]\w+', search_name)]
 
-    # print(list_name)
     patern = r'(?:(?:[^,]*\[[^][]*])+[^,]*|[^,]+)'
     patern_1 = r"(?:[^';]*\[[^][]*])+[^';]*|[^';]+"
     set_cities_visited.clear()
@@ -46,13 +41,9 @@ def write_holiday_cities(first_letter):
         for city in dict_visit[i]:
             set_cities_for_visit.add(city)
 
-    # print('set_cities_visited: ', set_cities_visited)
-    # print('set_cities_for_visit: ', set_cities_for_visit)
-
 
     # for i, j in enumerate(list_name):
     #     cities = re.findall(patern, travel_notes[i][1])
-    #     print(cities)
     #     for city in re.findall(patern_1, cities[0]):
     #         set_cities_visited.add(city)
     #         # set_cities_for_vist.remove(city)
@@ -60,9 +51,6 @@ def write_holiday_cities(first_letter):
     #     # for city in re.findall(patern_1, cities[0]):
     #     #     set_cities_for_vist.add(city)
     #
-    # print(sorted(set_cities_visited))
-    # print(sorted(set_cities_for_vist))
-    print(sorted(set_cities_all - set_cities_visited)[0])
 
     with open('../data/holiday1.csv', 'w', newline='', encoding='utf-8') as out_csv:
         csv_writer = csv.writer(out_csv)
