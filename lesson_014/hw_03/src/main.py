@@ -50,8 +50,9 @@ def write_holiday_cities(first_letter):
     #         set_cities_for_vist.add(city)
 
     with open('../data/holiday.csv', 'w', newline='', encoding='utf-8') as out_csv:
-        csv_writer = csv.writer(out_csv)
-        csv_writer.writerow([f'Информация о городах людей имена которых начинаются на {first_letter}'])
+        csv_writer = csv.writer(out_csv, delimiter=',')
+        csv_writer.writerow([f'# Информация о городах людей имена которых начинаются на {first_letter}'])
+        csv_writer.writerow(['# '] + [", ".join(list_name)])
         # csv_writer.writerows([['Посетили'], ['Хотят посетить'], ['Никогда не были в'], ['Следующим городом будет']])
 
         csv_writer.writerow([f'Посетили:'] + sorted(set_cities_visited))
@@ -61,4 +62,4 @@ def write_holiday_cities(first_letter):
         csv_writer.writerow([f'Рекомендуем посетить:'] + [str(sorted(set_cities_all - set_cities_visited)[0])])
 
 
-write_holiday_cities(first_letter='R')
+write_holiday_cities(first_letter='L')

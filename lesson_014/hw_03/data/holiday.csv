@@ -1,6 +1,7 @@
-Информация о городах людей имена которых начинаются на R
-Посетили:,Lyubertsy,Nizhny Tagil,Odintsovo
-Хотят посетить:,Bagdad,Kabul,Kiev
-Никогда не были в:,Aktau,Almaty,Bagdad,Beijing,Cairo,Dubai,Dushanbe,Irkutsk,Kabul,Kazan,Kiev,Krasnodar,Kursk,Levan,Luxembourg,Minsk,Moscow,Naberezhnye Chelny,New York,Nizhny Novgorod,Orel,Paris,Perm,Pinsk,Rostov,Saint Petersburg,Saratov,Stavropol,Tbilisi,Tokyo,Vladikavkaz
-Следующим городом будет:,Bagdad
-Рекомендуем посетить:,Aktau
+# Информация о городах людей имена которых начинаются на L
+# ,"Lisa, Lera, Lyuba, Larisa, Lyubov"
+Посетили:,"['Aktau', 'Beijing', 'Dushanbe', 'Irkutsk', 'Kiev', 'Luxembourg', 'Minsk', 'Moscow', 'New York', 'Saint Petersburg', 'Tbilisi', 'Vladikavkaz']"
+Хотят посетить:,Almaty,Cairo,Kursk,Levan,Minsk,Nizhny Tagil,Orel,Tokyo
+Никогда не были в:,Almaty,Bagdad,Cairo,Dubai,Kabul,Kazan,Krasnodar,Kursk,Levan,Lyubertsy,Naberezhnye Chelny,Nizhny Novgorod,Nizhny Tagil,Odintsovo,Orel,Paris,Perm,Pinsk,Rostov,Saratov,Stavropol,Tokyo
+Следующим городом будет:,Almaty
+Рекомендуем посетить:,Almaty
