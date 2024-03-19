@@ -24,8 +24,9 @@ def write_holiday_cities(first_letter):
                 set_cities_visited.add(city)
             dict_visited[row[0]] = cities
 
-        set_cities_for_visit = set_cities_for_visit - set_cities_visited
-        print('set_cities_for_vist: ', set_cities_for_visit)
+        set_cities_for_visit_potok = set_cities_for_visit - set_cities_visited
+        set_cities_all = set_cities_for_visit | set_cities_visited
+        # print('set_cities_for_vist_potok: ', set_cities_for_visit_potok)
         # print('dict_visit', dict_visit)
         # print('dict_visited', dict_visited)
 
@@ -34,18 +35,19 @@ def write_holiday_cities(first_letter):
         name.append(travel_notes[i][0])
     list_name = [search_name for search_name in name if re.findall(rf'[{first_letter}]\w+', search_name)]
 
-    print(list_name)
+    # print(list_name)
     patern = r'(?:(?:[^,]*\[[^][]*])+[^,]*|[^,]+)'
     patern_1 = r"(?:[^';]*\[[^][]*])+[^';]*|[^';]+"
     set_cities_visited.clear()
+    set_cities_for_visit.clear()
     for i in list_name:
         for city in dict_visited[i]:
             set_cities_visited.add(city)
         for city in dict_visit[i]:
             set_cities_for_visit.add(city)
 
-    print('set_cities_visited: ', set_cities_visited)
-    print('set_cities_for_visit: ', set_cities_for_visit)
+    # print('set_cities_visited: ', set_cities_visited)
+    # print('set_cities_for_visit: ', set_cities_for_visit)
 
 
     # for i, j in enumerate(list_name):
@@ -60,17 +62,18 @@ def write_holiday_cities(first_letter):
     #
     # print(sorted(set_cities_visited))
     # print(sorted(set_cities_for_vist))
+    print(sorted(set_cities_all - set_cities_visited)[0])
 
     with open('../data/holiday1.csv', 'w', newline='', encoding='utf-8') as out_csv:
         csv_writer = csv.writer(out_csv)
         csv_writer.writerow([f'Информация о городах людей имена которых начинаются на {first_letter}'])
         # csv_writer.writerows([['Посетили'], ['Хотят посетить'], ['Никогда не были в'], ['Следующим городом будет']])
 
-        csv_writer.writerow([f'Посетили:']+sorted(set_cities_visited))
-        csv_writer.writerow([f'Хотят посетить:']+sorted(set_cities_for_visit))
-        csv_writer.writerow([f'Никогда не были в:']+sorted(set_cities_for_visit))
-        # csv_writer.writerow([f'Следующим городом будет:']+sorted(set_cities_for_vist[0]))
+        csv_writer.writerow([f'Посетили:'] + sorted(set_cities_visited))
+        csv_writer.writerow([f'Хотят посетить:'] + sorted(set_cities_for_visit))
+        csv_writer.writerow([f'Никогда не были в:'] + sorted(set_cities_all - set_cities_visited))
+        csv_writer.writerow([f'Следующим городом будет:'] + [str(sorted(set_cities_all - set_cities_visited)[0])])
 
 
 
-write_holiday_cities(first_letter='A')
+write_holiday_cities(first_letter='R')
