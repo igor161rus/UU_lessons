@@ -49,7 +49,7 @@ def write_holiday_cities(first_letter):
     #     for city in re.findall(patern_1, cities[0]):
     #         set_cities_for_vist.add(city)
 
-    with open('../data/holiday1.csv', 'w', newline='', encoding='utf-8') as out_csv:
+    with open('../data/holiday.csv', 'w', newline='', encoding='utf-8') as out_csv:
         csv_writer = csv.writer(out_csv)
         csv_writer.writerow([f'Информация о городах людей имена которых начинаются на {first_letter}'])
         # csv_writer.writerows([['Посетили'], ['Хотят посетить'], ['Никогда не были в'], ['Следующим городом будет']])
@@ -57,7 +57,8 @@ def write_holiday_cities(first_letter):
         csv_writer.writerow([f'Посетили:'] + sorted(set_cities_visited))
         csv_writer.writerow([f'Хотят посетить:'] + sorted(set_cities_for_visit))
         csv_writer.writerow([f'Никогда не были в:'] + sorted(set_cities_all - set_cities_visited))
-        csv_writer.writerow([f'Следующим городом будет:'] + [str(sorted(set_cities_all - set_cities_visited)[0])])
+        csv_writer.writerow([f'Следующим городом будет:'] + [str(sorted(set_cities_for_visit)[0])])
+        csv_writer.writerow([f'Рекомендуем посетить:'] + [str(sorted(set_cities_all - set_cities_visited)[0])])
 
 
 write_holiday_cities(first_letter='R')
