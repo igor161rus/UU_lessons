@@ -1,0 +1,12 @@
+{
+    "FirstName": "Egor",
+    "LastName": "Ivanov",
+    "Address": {
+        "City": "Moscow",
+        "Street": "Lenina"
+    },
+    "ContactDetails": {
+        "Email": "a@a.ru",
+        "Phone": "123"
+    }
+}
