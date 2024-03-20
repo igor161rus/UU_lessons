@@ -103,11 +103,3 @@ with open('data/PBMonth.csv', 'w', encoding='utf-8') as f:
     writer = csv.DictWriter(f, fieldnames=['month', 'cities', 'expanses_sum'])
     writer.writeheader()
     writer.writerows(result_aggregated_formated)
-
-
-
-
-
-
-
-
