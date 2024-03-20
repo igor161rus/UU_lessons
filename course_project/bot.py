@@ -35,10 +35,10 @@ logger = logging.getLogger('bot')
 #     logger.setLevel(logging.DEBUG)
 
 class UserState:
-    def __init__(self, scenario_name, step_name, context):
+    def __init__(self, scenario_name, step_name, context=None):
         self.scenario_name = scenario_name
         self.step_name = step_name
-        self.context = context
+        self.context = context or {}
 class Bot:
     """
     echo bot для ВК
@@ -91,14 +91,9 @@ class Bot:
             # logger.info('We received an event %s', event.type)
             return
         user_id = event.object.peer_id
+        text = event.object.text
         if user_id in self.user_states:
-            state = self.user_states[user_id]
-            step = settings.SCENARIOS[state.scenario_name]['steps'][state.step_name]
-            handler = getattr(handlers, step['handler'])
-            if handler(text=event.object.text, context=state.context):
-                next_step = settings.SCENARIOS[state.scenario_name]['steps'][state.step_name]['next_step']
-                if next_step is not None:
-                    self.user_states[user_id] = UserState(state.scenario_name, next_step, state.context)
+            text_to_send = self.continue_scenario(user_id, text)
 
             # peer_id = event.message.peer_id
             # text_message = event.message.text
@@ -106,12 +101,22 @@ class Bot:
             #                        random_id=0,
             #                        peer_id=peer_id)
 
-            # self.api.messages.send(message=text_message,
-            #                        random_id=0,
-            #                        peer_id=peer_id)
+            self.api.messages.send(message=text_to_send,
+                                   random_id=0,
+                                   peer_id=user_id)
         else:
             log = logging.getLogger('debug')
             log.debug("We don't know how to handle event with type %s", event.type)
+            for intent in settings.INTENTS:
+                if any(token in text for token in intent['tokens']):
+                    if intent['answer']:
+                        text_to_send = intent['answer']
+                    else:
+                        self.start_scenario(user_id, intent['scenario'])
+                    break
+            else:
+                text_to_send = settings.DEFAULT_ANSWER
+
             # logger.debug("'We don't know how to handle event with type %s", event.type)
             # raise ValueError("We don't know how to handle event with type", event.type)
         # if event.type == VkBotEventType.WALL_POST_NEW:
@@ -124,6 +129,35 @@ class Bot:
     #     Get the API instance
     #     """
     #     return self.api
+    def start_scenario(self, user_id, scenario_name):
+        """
+        Start the scenario
+        """
+        scenario = settings.SCENARIOS[scenario_name]
+        first_step = scenario['first_steps']
+        step = scenario['steps'][first_step]
+        text_to_send = step['text']
+        self.user_states[user_id] = UserState(scenario_name=scenario_name, step_name=first_step)
+        return text_to_send
+
+    def continue_scenario(self, user_id, text):
+        """
+        Continue the scenario
+        """
+        state = self.user_states[user_id]
+        steps = settings.SCENARIOS[state.scenario_name]['steps']
+        step = steps[state.step_name]
+        handler = getattr(handlers, step['handler'])
+        if handler(text=text, context=state.context):
+            next_step = steps[step['next_step']]
+            text_to_send = next_step['text'].format(**state.context)
+            if next_step['next_step']:
+                state.step_name = next_step['next_step']
+            else:
+                self.user_states.pop(user_id)
+        else:
+            text_to_send = step['failure_text'].format(**state.context)
+        return text_to_send
 
 
 if __name__ == '__main__':
