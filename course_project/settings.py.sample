@@ -1,2 +1,49 @@
 club = '224000000'
 token = ''
+
+INTENTS = [
+    {
+        'name': 'Дата проведения',
+        'tokens': ('когда', 'сколько', 'дата', 'дату'),
+        'scenario': None,
+        'answer': 'Конференция проводится 10 мая, регистрация открыта до 10 утра'
+    },
+    {
+        'name': 'Место проведения',
+        'tokens': ('где', 'место', 'локация', 'адрес', 'метро'),
+        'scenario': None,
+        'answer': 'Конференция провйдет в павильоне 18Г в Экспоцентре'
+    },
+    {
+        'name': 'Регистрация',
+        'tokens': ('зарегистрироваться', 'регистр', 'добав'),
+        'scenario': 'registration',
+        'answer': None
+    }
+]
+
+SCENARIOS = {
+    'registration': {
+        'first_step': 'step1',
+        'steps':{
+            'step1': {
+                'text': '',
+                'failure_text': '',
+                'handler': 'handle_name',
+                'next_step': 'step2'
+            },
+            'step2': {
+                'text': '',
+                'failure_text': '',
+                'handler': 'handle_name',
+                'next_step': 'step2'
+            },
+            'step3': {
+                'text': '',
+                'failure_text': '',
+                'handler': 'handle_name',
+                'next_step': 'step2'
+            }
+        }
+    }
+}
