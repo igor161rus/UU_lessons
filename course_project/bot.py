@@ -4,6 +4,8 @@ import vk_api
 import logging
 import logging.config
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType, VkBotEvent
+
+from course_project import handlers
 # from settings import club, token
 from log_settings import log_config
 
@@ -32,7 +34,11 @@ logger = logging.getLogger('bot')
 #     stream_handler.setLevel(logging.INFO)
 #     logger.setLevel(logging.DEBUG)
 
-
+class UserState:
+    def __init__(self, scenario_name, step_name, context):
+        self.scenario_name = scenario_name
+        self.step_name = step_name
+        self.context = context
 class Bot:
     """
     echo bot для ВК
@@ -77,17 +83,32 @@ class Bot:
             return: None
             """
         # Check if the event is a new message
-        if event.type == VkBotEventType.MESSAGE_NEW:
+        if event.type != VkBotEventType.MESSAGE_NEW:
             log = logging.getLogger('info')
             log.info('New message %s', event)
             log.info('We received an event %s', event.type)
             # logger.info('New message %s', event)
             # logger.info('We received an event %s', event.type)
-            peer_id = event.message.peer_id
-            text_message = event.message.text
-            self.api.messages.send(message=text_message,
-                                   random_id=0,
-                                   peer_id=peer_id)
+            return
+        user_id = event.object.peer_id
+        if user_id in self.user_states:
+            state = self.user_states[user_id]
+            step = settings.SCENARIOS[state.scenario_name]['steps'][state.step_name]
+            handler = getattr(handlers, step['handler'])
+            if handler(text=event.object.text, context=state.context):
+                next_step = settings.SCENARIOS[state.scenario_name]['steps'][state.step_name]['next_step']
+                if next_step is not None:
+                    self.user_states[user_id] = UserState(state.scenario_name, next_step, state.context)
+
+            # peer_id = event.message.peer_id
+            # text_message = event.message.text
+            # self.api.messages.send(message=text_message,
+            #                        random_id=0,
+            #                        peer_id=peer_id)
+
+            # self.api.messages.send(message=text_message,
+            #                        random_id=0,
+            #                        peer_id=peer_id)
         else:
             log = logging.getLogger('debug')
             log.debug("We don't know how to handle event with type %s", event.type)
