@@ -57,6 +57,7 @@ class PriceMachine:
         files = [entry for entry in list_files if fnmatch.fnmatch(entry, pattern)]
         if len(files) == 0:
             print('Не найдено файлов для загрузки')
+            self.err = True
             raise FileNotFoundError('Не найдено файлов для загрузки')
         for file in files:
             # Читаем csv-файл
@@ -73,6 +74,10 @@ class PriceMachine:
             # Добавляем дополнительные столбцы в исходный DataFrame
             price['Файл'] = file
             price['Цена за, кг.'] = (price['Цена'] / price['Вес']).round(1)
+            if price.empty:
+                print('Данных не загружено.')
+                self.err = True
+                raise FileNotFoundError('Данных не загружено.')
 
             # Объединяем текущий DataFrame с основным DataFrame self.df.
             # В этом случае получим FutureWarning
@@ -84,8 +89,8 @@ class PriceMachine:
             # Сортируем DataFrame по столбцу 'Цена за, кг.'
             self.df = self.df.sort_values(by=['Цена за, кг.'])
         # Нумеруем строки с 1
-        self.df.index += 1
         self.df['Наименование'] = self.df['Наименование'].str.lower()
+        self.df.index += 1
         # self.df.to_csv('output.csv')
         # except FileNotFoundError:
         #     print('Каталог не найден.')
@@ -154,10 +159,10 @@ class PriceMachine:
         # ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]
 
         # Фильтруем DataFrame на основе заданного текста и выбираем определенные столбцы
-        search = self.df.loc[self.df['Наименование'].str.contains(text.lower()), ['Наименование', 'Цена', 'Вес', 'Файл',
+        search = self.df.loc[self.df['Наименование'].str.contains(text), ['Наименование', 'Цена', 'Вес', 'Файл',
                                                                           'Цена за, кг.']]
         search.reset_index(inplace=True, drop=True)  # Сброс индекса и удаление предыдущего индекса
-        search.index += 1  # Увеличиваем индекс на 1
+        # search.index += 1  # Увеличиваем индекс на 1
 
         pd.set_option('display.max_columns', None)
         pd.set_option('display.max_rows', None)
@@ -166,8 +171,10 @@ class PriceMachine:
         search.index += 1
 
         # Выводим DataFrame
-        print(search)
-        return search
+        if not search.empty:
+            return search
+        else:
+            return 'Ничего не найдено.'
 
 
 pm = PriceMachine()
@@ -183,7 +190,7 @@ try:
         if input_text == 'exit':
             break
         else:
-            pprint(pm.find_text(input_text))
+            print(pm.find_text(input_text.lower()))
 except FileNotFoundError:
     print('Каталог не найден.')
 
