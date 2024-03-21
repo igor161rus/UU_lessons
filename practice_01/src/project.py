@@ -1,6 +1,10 @@
+# -*- coding: UTF-8 -*-
 # python 3.12
+
 import fnmatch
 import os
+from pprint import pprint
+
 import pandas as pd
 
 
@@ -51,10 +55,12 @@ class PriceMachine:
         list_files = os.listdir(file_path)
         # Фильтруем список файлов по шаблону содержащему price
         files = [entry for entry in list_files if fnmatch.fnmatch(entry, pattern)]
-
+        if len(files) == 0:
+            print('Не найдено файлов для загрузки')
+            raise FileNotFoundError('Не найдено файлов для загрузки')
         for file in files:
             # Читаем csv-файл
-            price = pd.read_csv(file_path + '/' + file)
+            price = pd.read_csv(file_path + '/' + file, encoding='utf-8')
             # Переименовываем столбцы по спискам
             for column in price.columns:
                 if column in list_names:
@@ -79,6 +85,7 @@ class PriceMachine:
             self.df = self.df.sort_values(by=['Цена за, кг.'])
         # Нумеруем строки с 1
         self.df.index += 1
+        self.df['Наименование'] = self.df['Наименование'].str.lower()
         # self.df.to_csv('output.csv')
         # except FileNotFoundError:
         #     print('Каталог не найден.')
@@ -99,6 +106,7 @@ class PriceMachine:
         <!DOCTYPE html>
         <html>
         <head>
+        <meta charset="utf-8">
         <title>Позиции продуктов</title>
         </head>
         <body>
@@ -146,20 +154,28 @@ class PriceMachine:
         # ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]
 
         # Фильтруем DataFrame на основе заданного текста и выбираем определенные столбцы
-        search = self.df.loc[self.df['Наименование'].str.contains(text), ['Наименование', 'Цена', 'Вес', 'Файл',
+        search = self.df.loc[self.df['Наименование'].str.contains(text.lower()), ['Наименование', 'Цена', 'Вес', 'Файл',
                                                                           'Цена за, кг.']]
         search.reset_index(inplace=True, drop=True)  # Сброс индекса и удаление предыдущего индекса
         search.index += 1  # Увеличиваем индекс на 1
+
         pd.set_option('display.max_columns', None)
         pd.set_option('display.max_rows', None)
+
+        # Нумеруем строки с 1
+        search.index += 1
+
+        # Выводим DataFrame
+        print(search)
         return search
 
 
 pm = PriceMachine()
 try:
     pm.load_prices(file_path='../data')
+    # pm.load_prices(file_path='.')
 
-    with open('file.html', 'wt') as file:
+    with open('file.html', 'wt', encoding='utf-8') as file:
         print(pm.export_to_html(), file=file)
 
     while True:
@@ -167,7 +183,7 @@ try:
         if input_text == 'exit':
             break
         else:
-            print(pm.find_text(input_text))
+            pprint(pm.find_text(input_text))
 except FileNotFoundError:
     print('Каталог не найден.')
 
