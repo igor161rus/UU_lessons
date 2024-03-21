@@ -187,7 +187,7 @@ try:
 
     while True:
         input_text = input('Enter find text, or exit: ')
-        if input_text == 'exit':
+        if input_text == 'exit' or input_text == 'выход':
             break
         else:
             print(pm.find_text(input_text.lower()))
