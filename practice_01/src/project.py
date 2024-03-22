@@ -61,7 +61,12 @@ class PriceMachine:
 
         log_i = logging.getLogger('info')
         log_e = logging.getLogger('warning')
-        log_i.info(f'В каталоге {file_path} \n найденные файлы {list_files}')
+        log_i.info(f'os: {os.name}')
+        log_i.info(os.getcwd())
+        log_i.info(os.listdir(os.getcwd()))
+        log_i.info(f'pandas version: {pd.__version__}')
+        log_i.info(f'Сканируем каталог {file_path}')
+        log_i.info(f'В каталоге {file_path} содержится {len(list_files)} файлов')
 
         # Фильтруем список файлов по шаблону содержащему price
         files = [entry for entry in list_files if fnmatch.fnmatch(entry, pattern)]
