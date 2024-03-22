@@ -3,9 +3,13 @@
 
 import fnmatch
 import os
-from pprint import pprint
+import logging.config
+from log_settings import log_config
 
 import pandas as pd
+
+logging.config.dictConfig(log_config)
+logger = logging.getLogger('PriceMachineLogger')
 
 
 class PriceMachine:
@@ -18,6 +22,7 @@ class PriceMachine:
             Инициализируется класс с пустым DataFrame, содержащим столбцы
             'Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.'
         """
+
         self.df = pd.DataFrame(columns=['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.'])
         self.err = False
 
@@ -53,15 +58,28 @@ class PriceMachine:
         # Список всех файлов в каталоге
         # try:
         list_files = os.listdir(file_path)
+
+        log_i = logging.getLogger('info')
+        log_e = logging.getLogger('warning')
+        log_i.info(f'В каталоге {file_path} \n найденные файлы {list_files}')
+
         # Фильтруем список файлов по шаблону содержащему price
         files = [entry for entry in list_files if fnmatch.fnmatch(entry, pattern)]
+
+        log_i.info(f'Файлы для загрузки {files}')
+
         if len(files) == 0:
             print('Не найдено файлов для загрузки')
+            log_e.warning(f'Не найдено файлов для загрузки')
             self.err = True
             raise FileNotFoundError('Не найдено файлов для загрузки')
         for file in files:
             # Читаем csv-файл
             price = pd.read_csv(file_path + '/' + file, encoding='utf-8')
+
+            log_i.info(f'В файле {file} прочитано {len(price)} строк')
+            log_i.info(f'В файле {file} найдены поля {price.columns}')
+
             # Переименовываем столбцы по спискам
             for column in price.columns:
                 if column in list_names:
@@ -73,9 +91,11 @@ class PriceMachine:
 
             # Добавляем дополнительные столбцы в исходный DataFrame
             price['Файл'] = file
-            price['Цена за, кг.'] = (price['Цена'] / price['Вес']).round(1)
+            price[u'Цена за, кг.'] = (price['Цена'] / price['Вес']).round(1)
+            log_i.info(f'Поля в файле {file} после переименования {price.columns}')
             if price.empty:
-                print('Данных не загружено.')
+                # print('Данных не загружено.')
+                log_e.warning(f'Из файла {file} данных не загружено')
                 self.err = True
                 raise FileNotFoundError('Данных не загружено.')
 
@@ -86,8 +106,10 @@ class PriceMachine:
             self.df = pd.concat([self.df if not self.df.empty else None,
                                  price.loc[:, ['Наименование', 'Цена', 'Вес', 'Файл', 'Цена за, кг.']]],
                                 axis=0)
+            log_i.info(f'Из файла {file} загружено  {len(price)} строк')
             # Сортируем DataFrame по столбцу 'Цена за, кг.'
             self.df = self.df.sort_values(by=['Цена за, кг.'])
+        log_i.info(f'В DataFrame df загружено {len(self.df)} строк')
         # Нумеруем строки с 1
         self.df['Наименование'] = self.df['Наименование'].str.lower()
         self.df.index += 1
@@ -187,7 +209,7 @@ try:
 
     while True:
         input_text = input('Enter find text, or exit: ')
-        if input_text == 'exit' or input_text == 'выход':
+        if input_text == 'exit':
             break
         else:
             print(pm.find_text(input_text.lower()))
