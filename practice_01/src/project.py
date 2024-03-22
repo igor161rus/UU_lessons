@@ -92,7 +92,7 @@ class PriceMachine:
             # Добавляем дополнительные столбцы в исходный DataFrame
             price['Файл'] = file
             price[u'Цена за, кг.'] = (price['Цена'] / price['Вес']).round(1)
-            log_i.info(f'Поля в файле {file} после переименования {price.columns}')
+            log_i.info(f'Поля из файла {file} после переименования {price.columns}')
             if price.empty:
                 # print('Данных не загружено.')
                 log_e.warning(f'Из файла {file} данных не загружено')
