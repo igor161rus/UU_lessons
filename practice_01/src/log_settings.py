@@ -1,5 +1,6 @@
 log_config = {
     'version': 1,
+    'encoding': 'utf-8',
     'formatters': {
         'info_formatter': {
             'format': '%(levelname)s - %(asctime)s - %(message)s'
