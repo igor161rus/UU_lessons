@@ -140,7 +140,7 @@ class Bot:
         Start the scenario
         """
         scenario = settings.SCENARIOS[scenario_name]
-        first_step = scenario['first_steps']
+        first_step = scenario['first_step']
         step = scenario['steps'][first_step]
         text_to_send = step['text']
         self.user_states[user_id] = UserState(scenario_name=scenario_name, step_name=first_step)
