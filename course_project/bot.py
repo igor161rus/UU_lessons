@@ -39,6 +39,8 @@ class UserState:
         self.scenario_name = scenario_name
         self.step_name = step_name
         self.context = context or {}
+
+
 class Bot:
     """
     echo bot для ВК
@@ -60,7 +62,7 @@ class Bot:
         self.long_poller = VkBotLongPoll(self.vk, self.group_id)
 
         self.api = self.vk.get_api()
-        self.user_states = dict() # user_id -> UserState
+        self.user_states = dict()  # user_id -> UserState
 
     def run(self):
         """
@@ -90,9 +92,11 @@ class Bot:
             # logger.info('New message %s', event)
             # logger.info('We received an event %s', event.type)
             return
+
         user_id = event.object.peer_id
         text = event.object.text
         if user_id in self.user_states:
+            # Continue the scenario
             text_to_send = self.continue_scenario(user_id, text)
 
             # peer_id = event.message.peer_id
@@ -147,6 +151,7 @@ class Bot:
         state = self.user_states[user_id]
         steps = settings.SCENARIOS[state.scenario_name]['steps']
         step = steps[state.step_name]
+
         handler = getattr(handlers, step['handler'])
         if handler(text=text, context=state.context):
             next_step = steps[step['next_step']]
