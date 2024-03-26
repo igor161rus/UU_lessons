@@ -93,8 +93,8 @@ class Bot:
             # logger.info('We received an event %s', event.type)
             return
 
-        user_id = event.object.peer_id
-        text = event.object.text
+        user_id = event.message.peer_id
+        text = event.message.text
         if user_id in self.user_states:
             # Continue the scenario
             text_to_send = self.continue_scenario(user_id, text)
@@ -105,10 +105,8 @@ class Bot:
             #                        random_id=0,
             #                        peer_id=peer_id)
 
-            self.api.messages.send(message=text_to_send,
-                                   random_id=0,
-                                   peer_id=user_id)
         else:
+            # search intent
             log = logging.getLogger('debug')
             log.debug("We don't know how to handle event with type %s", event.type)
             for intent in settings.INTENTS:
@@ -121,8 +119,12 @@ class Bot:
             else:
                 text_to_send = settings.DEFAULT_ANSWER
 
-            # logger.debug("'We don't know how to handle event with type %s", event.type)
-            # raise ValueError("We don't know how to handle event with type", event.type)
+        self.api.messages.send(message=text_to_send,
+                               random_id=0,
+                               peer_id=user_id)
+
+        # logger.debug("'We don't know how to handle event with type %s", event.type)
+        # raise ValueError("We don't know how to handle event with type", event.type)
         # if event.type == VkBotEventType.WALL_POST_NEW:
         #     print(event.type)
         #     print(event)
