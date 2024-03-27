@@ -4,8 +4,9 @@ import vk_api
 import logging
 import logging.config
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType, VkBotEvent
+import handlers
 
-from course_project import handlers
+# from course_project import handlers
 # from settings import club, token
 from log_settings import log_config
 
@@ -85,6 +86,7 @@ class Bot:
             return: None
             """
         # Check if the event is a new message
+        # global text_to_send
         if event.type != VkBotEventType.MESSAGE_NEW:
             log = logging.getLogger('info')
             log.info('New message %s', event)
@@ -99,12 +101,6 @@ class Bot:
             # Continue the scenario
             text_to_send = self.continue_scenario(user_id, text)
 
-            # peer_id = event.message.peer_id
-            # text_message = event.message.text
-            # self.api.messages.send(message=text_message,
-            #                        random_id=0,
-            #                        peer_id=peer_id)
-
         else:
             # search intent
             log = logging.getLogger('debug')
@@ -114,7 +110,7 @@ class Bot:
                     if intent['answer']:
                         text_to_send = intent['answer']
                     else:
-                        self.start_scenario(user_id, intent['scenario'])
+                        text_to_send = self.start_scenario(user_id, intent['scenario'])
                     break
             else:
                 text_to_send = settings.DEFAULT_ANSWER
@@ -156,13 +152,17 @@ class Bot:
 
         handler = getattr(handlers, step['handler'])
         if handler(text=text, context=state.context):
+            # Go to the next step
             next_step = steps[step['next_step']]
             text_to_send = next_step['text'].format(**state.context)
             if next_step['next_step']:
+                # switch to next step
                 state.step_name = next_step['next_step']
             else:
+                # Finish the scenario
                 self.user_states.pop(user_id)
         else:
+            # return current step
             text_to_send = step['failure_text'].format(**state.context)
         return text_to_send
 
