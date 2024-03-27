@@ -103,10 +103,11 @@ class Bot:
 
         else:
             # search intent
-            log = logging.getLogger('debug')
-            log.debug("We don't know how to handle event with type %s", event.type)
+            log_d = logging.getLogger('debug')
+            log_d.debug("We don't know how to handle event with type %s", event.type)
             for intent in settings.INTENTS:
-                if any(token in text for token in intent['tokens']):
+                log_d.debug(f'User gets {intent}')
+                if any(token in text.lower() for token in intent['tokens']):
                     if intent['answer']:
                         text_to_send = intent['answer']
                     else:
@@ -161,6 +162,8 @@ class Bot:
             else:
                 # Finish the scenario
                 self.user_states.pop(user_id)
+                log_i = logging.getLogger('info')
+                log_i.info('Зврегистрирован: {name} {email}'.format(**state.context))
         else:
             # return current step
             text_to_send = step['failure_text'].format(**state.context)
