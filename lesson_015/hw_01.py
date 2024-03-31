@@ -4,8 +4,10 @@ import numpy as np
 logo = np.zeros((480, 480, 3), dtype=np.uint8)
 python_logo = cv2.imread("python.png")
 python_logo = cv2.resize(python_logo, (logo.shape[1] // 3, logo.shape[0] // 4))
+x, y = logo.shape[1] // 2 - python_logo.shape[1] // 2, logo.shape[0] // 2 - python_logo.shape[0] // 2
+h, w = python_logo.shape[:2]
+logo[y:y+h, x:x+w] = python_logo
 
-logo[0:python_logo.shape[0], 0:python_logo.shape[1]] = python_logo
 dict_points = {
     'point_1': (logo.shape[1] // 6, logo.shape[0] // 4),
     'point_2': (logo.shape[1] // 3, logo.shape[0] // 4),
