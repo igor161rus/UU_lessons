@@ -32,3 +32,5 @@ img = cv2.GaussianBlur(img, (9, 9), 0)
 # cv2.imshow('image', new_img)
 cv2.imshow('image', img)
 cv2.waitKey(1000)
+
+# 1
