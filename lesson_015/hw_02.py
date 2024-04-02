@@ -24,14 +24,13 @@ blue = [255, 0, 0]
 
 for x in range(0, width):
     for y in range(0, 170):
-        channels_xy = new_img[y, x]
+        channels_yx = new_img[y, x]
         # print(channels_xy)
-        if all(channels_xy == green):
+        if all(channels_yx == green):
             new_img[y, x] = red
 
-    for y in range(305, 720):
+    for y in range(305, height):
         channels_xy = new_img[y, x]
-        # print(channels_xy)
         if all(channels_xy == green):
             new_img[y, x] = blue
 
