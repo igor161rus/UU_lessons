@@ -35,6 +35,7 @@ for x in range(0, width):
         if all(channels_xy == green):
             new_img[y, x] = blue
 
+cv2.imwrite('images/hw_02.jpg', new_img)
 
 cv2.imshow('image', new_img)
 cv2.waitKey(0)
