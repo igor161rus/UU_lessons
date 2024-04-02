@@ -13,16 +13,20 @@ img = cv2.bitwise_and(img, img, mask=mask)
 
 img = cv2.GaussianBlur(img, (7, 7), 0)
 img = cv2.Canny(img, 250, 250)
+con, hir = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+cv2.drawContours(new_img, con, -1, (0, 255, 0), 1)
 
-
-cropped_image = img[0:170, 0:img.shape[1]]
-con, hir = cv2.findContours(cropped_image, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
-cv2.drawContours(new_img, con, -1, (0, 0, 255), 1)
-# print(con)
 #
-cropped_image_2 = img[170:340, 0:img.shape[1]]
-con, hir = cv2.findContours(cropped_image_2, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
-cv2.drawContours(img_tmp, con, -1, (255, 0, 0), 1)
+# cropped_image = img[0:170, 0:img.shape[1]]
+# con, hir = cv2.findContours(cropped_image, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+# cv2.drawContours(new_img, con, -1, (0, 0, 255), 1)
+# # print(con)
+# #
+# cropped_image_2 = img[170:340, 0:img.shape[1]]
+# con, hir = cv2.findContours(cropped_image_2, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+# cv2.drawContours(img_tmp, con, -1, (255, 0, 0), 1)
+
+
 # print(con)
 # cropped_image = cropped_image[:, :, 255]
 
@@ -55,5 +59,5 @@ cv2.drawContours(img_tmp, con, -1, (255, 0, 0), 1)
         # elif all(channels_xy == black):
         #     img[y,x] = white
 
-cv2.imshow('image', img)
+cv2.imshow('image', new_img)
 cv2.waitKey(0)
