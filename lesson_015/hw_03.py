@@ -18,7 +18,7 @@ while True:
 
     for (x, y, w, h) in faces:
         eyes = eyes_cascade.detectMultiScale(gray, scaleFactor=2, minNeighbors=6)
-        if len(eyes) > 2:
+        if len(eyes) >= 2:
             ex1, ey1, ew1, eh1 = eyes[0]
             ex2, ey2, ew2, eh2 = eyes[1]
             if faces[0][0] < ex1:
