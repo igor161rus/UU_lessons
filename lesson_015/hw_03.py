@@ -1,8 +1,8 @@
 import cv2
 import numpy as np
 
-left_eye_point_x = 0
-right_eye_point_x = 0
+left_eye_x = 0
+right_eye_x = 0
 
 cap = cv2.VideoCapture('video/videoplayback.mp4')
 
@@ -41,20 +41,29 @@ while True:
         cv2.rectangle(img, (x, y), (x + w, y + h), (255, 0, 0), 2)  #
         roi_gray = gray[y:y + h, x:x + w]
         # roi_color = img[y:y + h, x:x + w]
-        eyes = eyes_cascade.detectMultiScale(roi_gray, scaleFactor=2, minNeighbors=2)  # looks for eyes
-        for (x1, y1, w1, h1) in eyes:
-            print('eye_1', x1, y1, w1, h1)
-            eye = cv2.rectangle(img, (x1, y1), (x1 + w1, y1 + h1), (0, 0, 255), thickness=1)
+        eyes = eyes_cascade.detectMultiScale(gray, scaleFactor=2, minNeighbors=2)  # looks for eyes
         for (ex, ey, ew, eh) in eyes:  # draws boxes around eyes
+            eye = cv2.rectangle(img, (ex, ey), (ex + ew, ey + eh), (0, 0, 255), thickness=1)
+            print('eye rect')
+            print(eyes, eyes[0], eyes[1])
+            print(len(eyes))
+            print('face', x, y, w, h)
             print('eye', ex, ey, ew, eh)
-            if (ex + ey) / 2 < (x + y) / 2:
-                left_eye_point_x = ex
-                print('left', left_eye_point_x)
-            elif (ex + ey) / 2 > (x + y) / 2:
-                right_eye_point_x = ex
-                print('right', right_eye_point_x)
-        cv2.line(img, (int(left_eye_point_x), int(right_eye_point_x)),
-                 (int(left_eye_point_x), int(right_eye_point_x)), (0, 255, 0), 10)
+
+#            if (ex + ey) / 2 < (x + y) / 2:
+            print(f'for lef: {eyes[0][0]} < {(x+w) / 2} ')
+            print(f'for right: {eyes[1][0]} < {(x+w) / 2} ')
+
+            if eyes[0][0] < (x + w) / 2:
+                left_eye_x = eyes[0][0]
+                print('left', left_eye_x)
+            # elif (ex + ey) / 2 > (x + y) / 2:
+            if eyes[1][0] > (x + w) / 2:
+                right_eye_x = eyes[1][0]
+                print('right', right_eye_x)
+            print('********************')
+            cv2.line(img, (int(left_eye_x), int(right_eye_x)),
+                     (int(left_eye_x), int(right_eye_x)), (0, 255, 0), 10)
     cv2.imshow('result', img)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
