@@ -1,6 +1,6 @@
 import cv2
+import numpy as np
 from pylibdmtx import pylibdmtx
-
 
 # Ползунки без маски
 # def nothing(args): pass
@@ -118,17 +118,34 @@ from pylibdmtx import pylibdmtx
 # **********************************************************************
 
 # Loading pictures
-img = cv2.imread('images/20240403_202430.jpg')
-img = cv2.resize(img, (img.shape[1] // 5, img.shape[0] // 5))
-# gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-mask = cv2.inRange(img, (208, 0, 0), (255, 255, 255))
+img = cv2.imread('images/20240403_202500.jpg')
+img = cv2.resize(img, (img.shape[1] // 7, img.shape[0] // 7))
+new_img = np.zeros(img.shape, np.uint8)
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+mask = cv2.inRange(img, (196, 0, 0), (255, 255, 255))
 img = cv2.bitwise_and(img, img, mask=mask)
 
+# ret, thresh = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY)
+ret, thresh = cv2.threshold(gray, 215, 230, cv2.THRESH_BINARY)
+# con, hir = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+
 cv2.imshow('image', img)
+cv2.imshow('gray', gray)
+cv2.imshow('thresh', thresh)
+
 cv2.waitKey(0)
+
 all_barcode_info = pylibdmtx.decode(img, timeout=500, max_count=25)
 print(len(all_barcode_info))
 print(all_barcode_info)
 for i in all_barcode_info:
     print(i.data.decode("utf-8"))
+
+all_barcode_info = pylibdmtx.decode(thresh)
+print(len(all_barcode_info))
+print(all_barcode_info)
+for i in all_barcode_info:
+    print(i.data.decode("utf-8"))
+
