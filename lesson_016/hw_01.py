@@ -1,16 +1,27 @@
 from bs4 import BeautifulSoup
 import requests
+import pandas as pd
 
-response = requests.get('https://coinmarketcap.com/ru/')
+url = 'https://coinmarketcap.com/ru/'
+response = requests.get(url).text
 
-if response.status_code == 200:
-    html_doc = BeautifulSoup(response.text, features='html.parser')
-    list_of_values = html_doc.find_all('span', {'class': "sc-aef7b723-0 LCOyB"})
-    list_of_names = html_doc.find_all('a', {'href': '/ru/currencies/bitcoin/'})
-    for names, values in zip(list_of_names, list_of_values):
-        print(names.text, values.text)
-else:
-    print('Error')
+soup = BeautifulSoup(response, features='lxml')
+for i in soup.findAll('tr')[1:]:
+    name = i.findAll('td')[2].text
+    # price = i.findAll('td')[4].text
+    cap = i.findAll('td')[7].text
+
+    # name = name.strip()
+    # price = price.strip()
+    # cap = cap.strip()
+
+    print(name,  cap)
+
+# pd.set_option('display.max_columns', None)
+# aa = pd.read_html(url)
+# # aa.to_csv('cmc.csv')
+# print(aa)
+
+
 def write_cmc_top():
-
     pass
