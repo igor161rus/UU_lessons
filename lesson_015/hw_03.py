@@ -22,7 +22,7 @@ while True:
             ex1, ey1, ew1, eh1 = eyes[0]
             ex2, ey2, ew2, eh2 = eyes[1]
             if faces[0][0] < ex1:
-                eye = cv2.rectangle(img, (x, ey1), (x + w, ey1 + eh2), (0, 0, 0), thickness=1)
+                eye = cv2.rectangle(img, (x, ey1), (x + w, ey1 + eh2), (169, 169, 169), thickness=1)
                 cut_eye = eye[ey1:ey1 + eh2, x:x + w]
                 cut_eye = cv2.GaussianBlur(cut_eye, (49, 49), 0)
                 # eye[ey1:ey1 + eh2, x:x + w] = cv2.medianBlur(eye[ey1:ey1 + eh2, x:x + w], 35)
