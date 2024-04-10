@@ -1,16 +1,12 @@
 import re
 import time
+import csv
+import datetime
 
 from bs4 import BeautifulSoup
 import requests
 import lxml
 from selenium import webdriver
-
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.common.by import By
-# from selenium.webdriver.support import expected_conditions as EC
-
-# import pandas as pd
 
 url = 'https://coinmarketcap.com/ru/'
 
@@ -20,15 +16,6 @@ def get_driver():
     driver.get(url)
 
     SCROLL_PAUSE_TIME = 3
-    # WebDriverWait(driver, 20).until(
-    #     EC.element_to_be_clickable((By.CSS_SELECTOR, "div.cmc-cookie-policy-banner__close"))).click()
-    # WebDriverWait(driver, 20).until(EC.element_to_be_clickable((By.XPATH, "//button/b[text()='No, thanks']"))).click()
-    # Get scroll height
-    # last_height = driver.execute_script("return document.body.scrollHeight")
-    #
-    # while True:
-    #     # Scroll down to bottom
-    #     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
     i = 0
     while i < 15:
@@ -36,14 +23,6 @@ def get_driver():
         time.sleep(SCROLL_PAUSE_TIME)
         i += 1
 
-    # Wait to load page
-    # time.sleep(SCROLL_PAUSE_TIME)
-    #
-    # # Calculate new scroll height and compare with last scroll height
-    # new_height = driver.execute_script("return document.body.scrollHeight")
-    # if new_height == last_height:
-    #     break
-    # last_height = new_height
     return driver.page_source
 
 
@@ -57,24 +36,26 @@ cap_global_text = soup.find_all('span', {'class': 'SummaryHeader_normal-des__hhW
 
 match = re.findall(r'(\d*\.\d{2})', cap_global_text[0].text)
 cap_global = match[0]
+data_list = []
 print(cap_global_text[0].text, ' - ', match[0])
 for i in soup.findAll('tr')[1:]:
-    name = i.findAll('td')[2].text
+    name = i.findAll('td')[2].text.replace(' ', '_')
     # price = i.findAll('td')[4].text
     cap = i.findAll('td')[7].text
     match = re.findall(r'[^₽][^₽]*', cap)
-    cap_percent = round((int(match[1].replace(',', '')) / (float(cap_global) * 10**12)) * 100, 2)
+    cap_percent = round((int(match[1].replace(',', '')) / (float(cap_global) * 10 ** 12)) * 100, 2)
     # name = name.strip()
     # price = price.strip()
     # cap = cap.strip()
-
+    data_list.append([name, match[1], cap_percent])
     print(name, match[1], cap_percent, '%')
 
+headers = ['Name', 'MC', 'MP']
+with open(datetime.datetime.now().strftime('%H.%M %d.%m.%Y') + '.csv', 'w', newline='') as out_csv:
+    csvwriter = csv.writer(out_csv)
+    csvwriter.writerow(headers)
+    csvwriter.writerows(data_list)
 
-# pd.set_option('display.max_columns', None)
-# aa = pd.read_html(url)
-# # aa.to_csv('cmc.csv')
-# print(aa)
 
 
 def write_cmc_top():
