@@ -59,13 +59,17 @@ def write_cmc_top():
     # column_names = df.columns.tolist()
     # print(column_names)
     df = pd.read_csv('11.19 10.04.2024.csv', encoding='utf-8')
+    x = 245
+    res_df = df[['Наименование', 'Рыночная капитализация']]
+    res_df = res_df.rename(columns={'Наименование': 'Name'})
+    res_df['MC'] = df['Рыночная капитализация']
+    res_df['Рыночная капитализация'] = res_df['Рыночная капитализация'].str.replace(r'^.\d{1,3}\.\d{2}.{2}', '', regex=True)
+    res_df['Рыночная капитализация'] = res_df['Рыночная капитализация'].str.replace(r'\D+', '', regex=True).astype('int64')
+    res_df['MC'] = res_df['MC'].str.replace(r'^.\d{1,3}\.\d{2}.{2}', '', regex=True)
+    res_df['NC'] = round((res_df['Рыночная капитализация'] / x**6) * 100, 2).astype(str) + '%'
 
-    # df = df['Рыночная капитализация'].replace(to_replace=r'(\d{1,3}(\,\d{3}){1,})', value='')
-    df["Рыночная капитализация"].str.split(r"(\d{1,3}(\,\d{3}){1,})", expand=True)
-
-    # res_df = df[['Наименование', 'Рыночная капитализация']]
-    # res_df = res_df.rename(columns={'Наименование': 'Name', 'Рыночная капитализация': 'MC'})
-    df.to_csv(datetime.datetime.now().strftime('%H.%M %d.%m.%Y') + '.csv')
+    print(res_df)
+    # res_df.to_csv(datetime.datetime.now().strftime('%H.%M %d.%m.%Y') + '.csv')
 
 
 write_cmc_top()
