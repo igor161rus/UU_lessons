@@ -3,6 +3,7 @@ import time
 import csv
 import datetime
 
+import pandas as pd
 from bs4 import BeautifulSoup
 import lxml
 from selenium import webdriver
@@ -53,6 +54,8 @@ def write_cmc_top():
         csvwriter.writerow(headers)
         csvwriter.writerows(data_list)
 
-
+    table = soup.find_all('table')
+    df = pd.read_html(str(table))[0]
+    df.to_csv('output.csv')
 
 write_cmc_top()
