@@ -119,7 +119,7 @@ from pylibdmtx import pylibdmtx
 
 # Loading pictures
 
-img = cv2.imread('images/20240403_202500.jpg')
+img = cv2.imread('images/20240403_202509.jpg')
 img = cv2.resize(img, (img.shape[1] // 7, img.shape[0] // 7))
 new_img = np.zeros(img.shape, np.uint8)
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -149,3 +149,8 @@ print(all_barcode_info)
 for i in all_barcode_info:
     print(i.data.decode("utf-8"))
 
+all_barcode_info = pylibdmtx.decode(gray, timeout=500, max_count=25)
+print(len(all_barcode_info))
+print(all_barcode_info)
+for i in all_barcode_info:
+    print(i.data.decode("utf-8"))
