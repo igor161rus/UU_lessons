@@ -34,28 +34,28 @@ def write_cmc_top():
     cap_global_text = soup.find_all('span', {'class': 'SummaryHeader_normal-des__hhWcs'})
 
     match = re.findall(r'(\d*\.\d{2})', cap_global_text[0].text)
-    cap_global = match[0]
-    len_cap = 0
-    data_list = []
+    # cap_global = match[0]
+    # len_cap = 0
+    # data_list = []
     print(cap_global_text[0].text, ' - ', match[0])
-    for i in soup.findAll('tr')[1:]:
-        name = i.findAll('td')[2].text.replace(' ', '_')
-        cap = i.findAll('td')[7].text
-        match = re.findall(r'[^₽][^₽]*', cap)
-        len_cap = len(match[1].replace(',', ''))
-        cap_percent = round((int(match[1].replace(',', '')) / (float(cap_global) * 10 ** 12)) * 100, 2)
-        print(cap_percent)
-        data_list.append([name, match[1], str(cap_percent) + '%'])
-        print(name, match[1], cap_percent, '%')
-
-    headers = ['Name', 'MC', 'MP']
-    with open(datetime.datetime.now().strftime('%H.%M %d.%m.%Y') + '.csv', 'w', newline='') as out_csv:
-        csvwriter = csv.writer(out_csv)
-        csvwriter.writerow(headers)
-        csvwriter.writerows(data_list)
+    # for i in soup.findAll('tr')[1:]:
+    #     name = i.findAll('td')[2].text.replace(' ', '_')
+    #     cap = i.findAll('td')[7].text
+    #     match = re.findall(r'[^₽][^₽]*', cap)
+    #     len_cap = len(match[1].replace(',', ''))
+    #     cap_percent = round((int(match[1].replace(',', '')) / (float(cap_global) * 10 ** 12)) * 100, 2)
+    #     print(cap_percent)
+    #     data_list.append([name, match[1], str(cap_percent) + '%'])
+    #     print(name, match[1], cap_percent, '%')
+    #
+    # headers = ['Name', 'MC', 'MP']
+    # with open(datetime.datetime.now().strftime('%H.%M %d.%m.%Y') + '.csv', 'w', newline='') as out_csv:
+    #     csvwriter = csv.writer(out_csv)
+    #     csvwriter.writerow(headers)
+    #     csvwriter.writerows(data_list)
 
     table = soup.find_all('table')
     df = pd.read_html(str(table))[0]
-    df.to_csv('output.csv')
+    df.to_csv(datetime.datetime.now().strftime('%H.%M %d.%m.%Y') + '.csv')
 
 write_cmc_top()
