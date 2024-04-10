@@ -68,8 +68,8 @@ def write_cmc_top():
     res_df['Рыночная капитализация'] = res_df['Рыночная капитализация'].str.replace(r'\D+', '', regex=True).astype('int64')
     res_df['MC'] = res_df['MC'].str.replace(r'^.\d{1,3}\.\d{1,2}.{2}', '', regex=True)
     res_df['MP'] = round((res_df['Рыночная капитализация'] / cap_global**6) * 100, 2).astype(str) + '%'
-    del res_df['Рыночная капитализация']
-    # print(res_df)
+    # del res_df['Рыночная капитализация']
+    print(res_df)
     res_df.to_csv(datetime.datetime.now().strftime('%H.%M %d.%m.%Y') + '.csv')
 
 
