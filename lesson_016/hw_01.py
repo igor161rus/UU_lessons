@@ -63,12 +63,12 @@ for i in soup.findAll('tr')[1:]:
     # price = i.findAll('td')[4].text
     cap = i.findAll('td')[7].text
     match = re.findall(r'[^₽][^₽]*', cap)
-    cap_percent = int(cap_global) * 10000000000 / int(match[1].replace(',', ''))
+    cap_percent = round((int(match[1].replace(',', '')) / (float(cap_global) * 10**12)) * 100, 2)
     # name = name.strip()
     # price = price.strip()
     # cap = cap.strip()
 
-    print(name, match[1], cap_percent)
+    print(name, match[1], cap_percent, '%')
 
 
 # pd.set_option('display.max_columns', None)
