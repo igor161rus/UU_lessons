@@ -15,12 +15,12 @@ def get_driver():
     driver = webdriver.Chrome()
     driver.get(url)
 
-    SCROLL_PAUSE_TIME = 3
+    scroll_pause_time = 3
 
     i = 0
     while i < 15:
         driver.execute_script("window.scrollBy(0, window.innerHeight)")
-        time.sleep(SCROLL_PAUSE_TIME)
+        time.sleep(scroll_pause_time)
         i += 1
 
     return driver.page_source
@@ -66,7 +66,7 @@ def write_cmc_top():
     res_df['MC'] = df['Рыночная капитализация']
     res_df['Рыночная капитализация'] = res_df['Рыночная капитализация'].str.replace(r'^.\d{1,3}\.\d{2}.{2}', '', regex=True)
     res_df['Рыночная капитализация'] = res_df['Рыночная капитализация'].str.replace(r'\D+', '', regex=True).astype('int64')
-    res_df['MC'] = res_df['MC'].str.replace(r'^.\d{1,3}\.\d{2}.{2}', '', regex=True)
+    res_df['MC'] = res_df['MC'].str.replace(r'^.\d{1,3}\.\d{1,2}.{2}', '', regex=True)
     res_df['MP'] = round((res_df['Рыночная капитализация'] / cap_global**6) * 100, 2).astype(str) + '%'
     del res_df['Рыночная капитализация']
     # print(res_df)
