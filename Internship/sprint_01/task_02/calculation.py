@@ -13,8 +13,20 @@ def calculate_and_display_average_price(data):
 
 
 def notify_if_strong_fluctuations(data, threshold):
+    """
+       Уведомляет пользователя о сильных колебаниях в цене акции.
+       Args:
+       - data: DataFrame, содержит данные о цене акции.
+       - threshold: float, процентный порог колебаний. Задает максимальное значение процентного изменения цены.
+       Returns:
+       - None
+       """
+    # Вычисляем максимальную и минимальную цены.
     max_price = data['Close'].max()
     min_price = data['Close'].min()
-    if (min_price / max_price) * 100 > threshold:
-        print(f'Произошли сильные колебания по цене {(min_price / max_price * 100):.2f}%. '
+    # Вычисляем процентное изменение цены.
+    percent_change = ((max_price - min_price) / min_price) * 100
+    # Проверяем, если процентное изменение цены больше заданного порога.
+    if percent_change > threshold:
+        print(f'Произошли сильные колебания по цене {percent_change:.2f}%. '
               f'Максимальная цена: {max_price:.2f} USD. Минимальная цена: {min_price:.2f} USD.')
