@@ -1,6 +1,5 @@
 import re
 import time
-import csv
 import datetime
 
 import pandas as pd
