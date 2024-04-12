@@ -1,5 +1,5 @@
 import random
-import  sqlite3
+import sqlite3
 
 
 class University:
@@ -26,7 +26,6 @@ class University:
             print(self.cur.execute(f"SELECT s.name, s.age, g.subject, g.grade "
                                    f"FROM students s, grades g "
                                    f"WHERE s.id = g.student_id AND g.subject = '{subject}'").fetchall())
-
 
 
 uu = University('Urban')
