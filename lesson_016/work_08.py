@@ -26,4 +26,11 @@ cur.execute('select * from Orders where OrderID = "10"')
 res = cur.fetchall()
 print(res)
 
+cur.execute('UPDATE Orders SET EmployeeID = "5" WHERE OrderID = "11"')
+conn.commit()
+
+cur.execute('select * from Orders where OrderID = "10"')
+res = cur.fetchall()
+print(res)
+
 conn.close()
