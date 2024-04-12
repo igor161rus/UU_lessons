@@ -36,7 +36,7 @@ if i == 1:
     for i in list_student:
         id_student = uu.add_student(i, random.randint(20, 30))
         # Так выше оценки round(random.uniform(random.randint(1, 4), 5), 1)),
-        # чем просто round(random.uniform(3, 5), 1))  ))
+        # чем просто round(random.uniform(3, 5), 1))  )))
         uu.add_grade(id_student, 'Python', round(random.uniform(random.randint(1, 4), 5), 1))
         uu.add_grade(id_student, 'PHP', round(random.uniform(random.randint(1, 4), 5), 1))
 # uu.get_students('Python')
