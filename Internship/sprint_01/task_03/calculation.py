@@ -44,3 +44,4 @@ def export_data_to_csv(data, filename):
         data.to_csv(filename, index=False)
     except Exception as e:
         print(f'Не удалось экспортировать данные в CSV. Ошибка: {e}')
+
