@@ -49,7 +49,7 @@ def calculate_and_display_relative_strength(data):
     """
        Вычесление индекса (RSI) и добавление его в DataFrame.
        Parameters:
-       data (DataFrame): Входные данные содержащие колонку 'Close' цена закрытия.
+            data (DataFrame): Входные данные содержащие колонку 'Close' цена закрытия.
        Returns:
             None
        """
