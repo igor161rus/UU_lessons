@@ -31,6 +31,7 @@ def notify_if_strong_fluctuations(data, threshold):
         print(f'Произошли сильные колебания по цене {percent_change:.2f}%. '
               f'Максимальная цена: {max_price:.2f} USD. Минимальная цена: {min_price:.2f} USD.')
 
+
 def export_data_to_csv(data, filename):
     """
        Экспортирует полученные данные в CSV файл без включения индекса.
@@ -44,4 +45,3 @@ def export_data_to_csv(data, filename):
         data.to_csv(filename, index=False)
     except Exception as e:
         print(f'Не удалось экспортировать данные в CSV. Ошибка: {e}')
-
