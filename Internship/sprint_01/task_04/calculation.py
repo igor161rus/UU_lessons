@@ -45,3 +45,28 @@ def export_data_to_csv(data, filename):
     except Exception as e:
         print(f'Не удалось экспортировать данные в CSV. Ошибка: {e}')
 
+def calculate_and_display_relative_strength(data):
+    """
+       Вычесление индекса (RSI) и добавление его в DataFrame.
+       Parameters:
+       data (DataFrame): Входные данные содержащие колонку 'Close' цена закрытия.
+       Returns:
+            None
+       """
+
+    # Вычисляем изменение цены.
+    close_delta = data['Close'].diff()
+    # Разделяем цены на положительные и отрицательные.
+    up = close_delta.clip(lower=0)
+    down = -1 * close_delta.clip(upper=0)
+    # Вычисляем скользящие средние.
+    ma_up = up.rolling(window=14).mean()
+    ma_down = down.rolling(window=14).mean()
+
+    # Вычисляем индекс RSI с простой скользящей средней.
+    rsi = ma_up / ma_down
+    rsi = 100 - (100 / (1 + rsi))
+    # Доавляем RSI в DataFrame.
+    data['RSI'] = rsi
+    # print(up, down, ma_up, ma_down)
+    # print(rsi)
