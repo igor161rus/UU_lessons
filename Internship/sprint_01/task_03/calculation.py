@@ -40,4 +40,7 @@ def export_data_to_csv(data, filename):
        Returns:
            None
     """
-    data.to_csv(filename, index=False)
+    try:
+        data.to_csv(filename, index=False)
+    except Exception as e:
+        print(f'Не удалось экспортировать данные в CSV. Ошибка: {e}')
