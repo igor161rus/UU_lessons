@@ -11,6 +11,7 @@ def add_moving_average(data, window_size=5):
     data['Moving_Average'] = data['Close'].rolling(window=window_size).mean()
     return data
 
+
 def calculate_rsi(data):
     """
        Вычесление индекса (RSI) и добавление его в DataFrame.
