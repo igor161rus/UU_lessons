@@ -21,7 +21,7 @@ def main():
     stock_data = dd.add_moving_average(stock_data)
 
     # Calculate the relative strength (RSI)
-    clc.calculate_and_display_relative_strength(stock_data)
+    dd.calculate_rsi(stock_data)
 
     # Plot the data
     dplt.create_and_save_plot(stock_data, ticker, period)
@@ -35,6 +35,7 @@ def main():
     # Export data to CSV
     filename = input("Введите имя файла для экспорта (например, 'data.csv'): ")
     clc.export_data_to_csv(stock_data, filename)
+
 
 if __name__ == "__main__":
     main()
