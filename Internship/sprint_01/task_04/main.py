@@ -36,5 +36,6 @@ def main():
     filename = input("Введите имя файла для экспорта (например, 'data.csv'): ")
     clc.export_data_to_csv(stock_data, filename)
 
+
 if __name__ == "__main__":
     main()
