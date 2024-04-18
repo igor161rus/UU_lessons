@@ -59,7 +59,7 @@ def calculate_and_display_relative_strength(data):
     # Разделяем цены на положительные и отрицательные.
     up = close_delta.clip(lower=0)
     down = -1 * close_delta.clip(upper=0)
-    # Вычисляем скользящие средние.
+    # Вычисляем скользящие средние (значение 14 рекомендуется).
     ma_up = up.rolling(window=14).mean()
     ma_down = down.rolling(window=14).mean()
 
