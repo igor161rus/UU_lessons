@@ -1,0 +1,60 @@
+from datetime import datetime
+
+import yfinance as yf
+
+
+def fetch_stock_data(ticker, period='1mo', date_start='', date_end=''):
+    """
+    :param ticker:
+    :param period:
+    :param date_start:
+        Download start date string(YYYY-MM-DD) or _datetime, inclusive.
+        Default is 99 years ago
+        E.g. for start="2020-01-01", the first data point will be on "2020-01-01"
+    :param date_end:
+        Download end date string(YYYY-MM-DD) or _datetime, exclusive.
+        Default is now
+        E.g. for end="2023-01-01", the last data point will be on "2022-12-31"
+    :return:
+
+    """
+    period_list = ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']
+    if period not in period_list:
+        raise ValueError('Период должен быть одним из следующих значений: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max')
+    stock = yf.Ticker(ticker)
+    if date_start == '':
+        date_start = stock.info['trailingAnnualDividendYieldDate']
+    if date_end == '':
+        date_end = datetime.now().strftime("%Y-%m-%d")
+    data = stock.history(period=period, start=date_start, end=date_end)
+    return data
+
+
+def add_moving_average(data, window_size=5):
+    data['Moving_Average'] = data['Close'].rolling(window=window_size).mean()
+    return data
+
+
+def calculate_rsi(data):
+    """
+       Вычесление индекса (RSI) и добавление его в DataFrame.
+       Parameters:
+            data (DataFrame): Входные данные содержащие колонку 'Close' цена закрытия.
+       Returns:
+            None
+       """
+
+    # Вычисляем изменение цены.
+    close_delta = data['Close'].diff()
+    # Разделяем цены на положительные и отрицательные.
+    up = close_delta.clip(lower=0)
+    down = -1 * close_delta.clip(upper=0)
+    # Вычисляем скользящие средние (значение 14 рекомендуется).
+    ma_up = up.rolling(window=14).mean()
+    ma_down = down.rolling(window=14).mean()
+
+    # Вычисляем индекс RSI с простой скользящей средней.
+    rsi = ma_up / ma_down
+    rsi = 100 - (100 / (1 + rsi))
+    # Добавляем RSI в DataFrame.
+    data['RSI'] = rsi
