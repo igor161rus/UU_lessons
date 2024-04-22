@@ -12,9 +12,9 @@ def main():
 
     period = ''
     ticker = input("Введите тикер акции (например, «AAPL» для Apple Inc):»")
-    date_start = input("Введите дату начала периода (для периода по умолчанию, нажмите Enter): ")
-    date_end = input("Введите дату окончания периода (для текущей даты, нажмите Enter): ")
-    if date_start == '' and date_end == '':
+    date_start = input("Введите дату начала периода в формате YYYY-MM-DD (для периода по умолчанию, нажмите Enter): ")
+    date_end = input("Введите дату окончания периода в формате YYYY-MM-DD (для текущей даты или периода по умолчанию, нажмите Enter): ")
+    if date_start == '' or date_end == '':
         period = input("Введите период для данных (например, '1mo' для одного месяца или 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max): ")
     threshold = float(input("Введите порог для уведомления: "))
 

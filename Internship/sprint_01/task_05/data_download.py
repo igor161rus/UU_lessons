@@ -5,6 +5,14 @@ import yfinance as yf
 
 def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
     """
+    Fetches historical stock data for a given ticker symbol within a specified period.
+
+    :param ticker: Stock ticker symbol
+    :param period: Data period to retrieve, default is '1mo'
+    :param date_start: Start date for data retrieval, default is 99 years ago
+    :param date_end: End date for data retrieval, default is now
+    :return: Historical stock data within the specified period
+
     :param ticker:
     :param period:
     :param date_start:
@@ -18,7 +26,7 @@ def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
     :return:
 
     """
-    period_list = ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']
+    # period_list = ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']
     dict_timedelta = {'1d': timedelta(days=1),
                       '5d': timedelta(days=5),
                       '1mo': timedelta(days=30),
@@ -35,10 +43,17 @@ def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
     # if period not in period_list:
     #     raise ValueError('Период должен быть одним из следующих значений: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max')
     stock = yf.Ticker(ticker)
-    if date_start is None or date_start == '':
-        date_start = (datetime.now() - dict_timedelta[period]).strftime("%Y-%m-%d")
-    if date_end is None or date_end == '':
-        date_end = datetime.now().strftime("%Y-%m-%d")
+    # Handling default values for date_start and date_end
+    if date_start == '':
+        if date_end == '':
+            date_start = (datetime.now() - dict_timedelta[period]).strftime("%Y-%m-%d")
+        else:
+            date_start = (datetime.strptime(date_end, "%Y-%m-%d") - dict_timedelta[period]).strftime("%Y-%m-%d")
+    if date_end == '':
+        if period == '':
+            date_end = datetime.now().strftime("%Y-%m-%d")
+        else:
+            date_end = (datetime.strptime(date_start, "%Y-%m-%d") + dict_timedelta[period]).strftime("%Y-%m-%d")
     if date_start > date_end:
         raise ValueError('Дата окончания периода должна быть больше даты начала периода')
 
