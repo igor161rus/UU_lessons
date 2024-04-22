@@ -30,14 +30,18 @@ def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
                       '10y': timedelta(days=3650),
                       'ytd': timedelta(days=365),
                       'max': timedelta(days=0)}
-
-    if period not in period_list:
-        raise ValueError('Период должен быть одним из следующих значений: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max')
+    # if period == '':
+    #     period = '1mo'
+    # if period not in period_list:
+    #     raise ValueError('Период должен быть одним из следующих значений: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max')
     stock = yf.Ticker(ticker)
     if date_start is None or date_start == '':
         date_start = (datetime.now() - dict_timedelta[period]).strftime("%Y-%m-%d")
     if date_end is None or date_end == '':
         date_end = datetime.now().strftime("%Y-%m-%d")
+    if date_start > date_end:
+        raise ValueError('Дата окончания периода должна быть больше даты начала периода')
+
     data = stock.history(period=period, start=date_start, end=date_end)
     return data
 
