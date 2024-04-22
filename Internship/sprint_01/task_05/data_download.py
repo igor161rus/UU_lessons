@@ -3,7 +3,7 @@ from datetime import datetime
 import yfinance as yf
 
 
-def fetch_stock_data(ticker, period='1mo', date_start='', date_end=''):
+def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
     """
     :param ticker:
     :param period:
@@ -22,9 +22,9 @@ def fetch_stock_data(ticker, period='1mo', date_start='', date_end=''):
     if period not in period_list:
         raise ValueError('Период должен быть одним из следующих значений: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max')
     stock = yf.Ticker(ticker)
-    if date_start == '':
-        date_start = stock.info['trailingAnnualDividendYieldDate']
-    if date_end == '':
+    if date_start is None or date_start == '':
+        date_start = datetime.now() - datetime.now().replace(day=1)
+    if date_end is None or date_end == '':
         date_end = datetime.now().strftime("%Y-%m-%d")
     data = stock.history(period=period, start=date_start, end=date_end)
     return data
