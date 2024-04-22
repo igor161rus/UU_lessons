@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import yfinance as yf
 
@@ -19,11 +19,23 @@ def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
 
     """
     period_list = ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']
+    dict_timedelta = {'1d': timedelta(days=1),
+                      '5d': timedelta(days=5),
+                      '1mo': timedelta(days=30),
+                      '3mo': timedelta(days=90),
+                      '6mo': timedelta(days=180),
+                      '1y': timedelta(days=365),
+                      '2y': timedelta(days=730),
+                      '5y': timedelta(days=1825),
+                      '10y': timedelta(days=3650),
+                      'ytd': timedelta(days=365),
+                      'max': timedelta(days=0)}
+
     if period not in period_list:
         raise ValueError('Период должен быть одним из следующих значений: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max')
     stock = yf.Ticker(ticker)
     if date_start is None or date_start == '':
-        date_start = datetime.now() - datetime.now().replace(day=1)
+        date_start = (datetime.now() - dict_timedelta[period]).strftime("%Y-%m-%d")
     if date_end is None or date_end == '':
         date_end = datetime.now().strftime("%Y-%m-%d")
     data = stock.history(period=period, start=date_start, end=date_end)
