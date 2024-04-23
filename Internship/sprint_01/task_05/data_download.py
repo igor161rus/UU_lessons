@@ -5,25 +5,22 @@ import yfinance as yf
 
 def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
     """
-    Fetches historical stock data for a given ticker symbol within a specified period.
+    Извлекает исторические данные по акциям для данного тикера за указанный период.
+    В случае если указано начало и конец периода, параметр period не используется.
+    Если не указано начало периода, но указан конец периода и период, то date_start расчитывается.
+    Если не указан конец периода, но указано начало периода и период, то date_end расчитывается.
 
-    :param ticker: Stock ticker symbol
-    :param period: Data period to retrieve, default is '1mo'
+    :param ticker: Биржевой тикер
+    :param period: Период данных для получения, по умолчанию — 1mo — «1 месяц».
     :param date_start: Start date for data retrieval, default is 99 years ago
+        Дата начала загрузки (ГГГГ-ММ-ДД) или _datetime включительно.
+        По умолчанию 99 лет назад.
+        Например. для start="2020-01-01" первая точка данных будет "2020-01-01"
     :param date_end: End date for data retrieval, default is now
-    :return: Historical stock data within the specified period
-
-    :param ticker:
-    :param period:
-    :param date_start:
-        Download start date string(YYYY-MM-DD) or _datetime, inclusive.
-        Default is 99 years ago
-        E.g. for start="2020-01-01", the first data point will be on "2020-01-01"
-    :param date_end:
-        Download end date string(YYYY-MM-DD) or _datetime, exclusive.
-        Default is now
-        E.g. for end="2023-01-01", the last data point will be on "2022-12-31"
-    :return:
+        Дата окончания загрузки (ГГГГ-ММ-ДД) или _datetime, не включая.
+        По умолчанию сегодняшняя
+        Например, для end="2023-01-01" последняя точка данных будет "2022-12-31"
+    :return: Исторические данные об акции за указанный период
 
     """
     # period_list = ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']
@@ -38,12 +35,11 @@ def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
                       '10y': timedelta(days=3650),
                       'ytd': timedelta(days=365),
                       'max': timedelta(days=0)}
-    # if period == '':
-    #     period = '1mo'
+
     # if period not in period_list:
     #     raise ValueError('Период должен быть одним из следующих значений: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max')
     stock = yf.Ticker(ticker)
-    # Handling default values for date_start and date_end
+    # Обработка значений по умолчанию для date_start и date_end
     if date_start == '':
         if date_end == '':
             date_start = (datetime.now() - dict_timedelta[period]).strftime("%Y-%m-%d")
