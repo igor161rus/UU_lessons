@@ -19,7 +19,7 @@ def main():
     threshold = float(input("Введите порог для уведомления: "))
 
     # Fetch stock data
-    stock_data = dd.fetch_stock_data(ticker, period, date_start, date_end)
+    stock_data = dd.fetch_stock_data(ticker.upper(), period, date_start, date_end)
 
     # Add moving average to the data
     stock_data = dd.add_moving_average(stock_data)
