@@ -34,7 +34,7 @@ def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
                       '5y': timedelta(days=1825),
                       '10y': timedelta(days=3650),
                       'ytd': timedelta(days=365),
-                      'max': timedelta(days=0)}
+                      'max': timedelta(days=36500)}
 
     # if period not in period_list:
     #     raise ValueError('Период должен быть одним из следующих значений: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max')
