@@ -24,6 +24,12 @@ def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
 
     """
     # period_list = ['1d', '5d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max']
+    now_year = str(datetime.now().year) + '-01-01'
+    if period == 'ytd' and date_end != '':
+        day_now_year = datetime.strptime(date_end, "%Y-%m-%d") - datetime.strptime(now_year, "%Y-%m-%d")
+    else:
+        day_now_year = datetime.now() - datetime.strptime(now_year, "%Y-%m-%d")
+
     dict_timedelta = {'1d': timedelta(days=1),
                       '5d': timedelta(days=5),
                       '1mo': timedelta(days=30),
@@ -33,7 +39,7 @@ def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
                       '2y': timedelta(days=730),
                       '5y': timedelta(days=1825),
                       '10y': timedelta(days=3650),
-                      'ytd': timedelta(days=365),
+                      'ytd': timedelta(days=day_now_year.days),
                       'max': timedelta(days=36500)}
 
     # if period not in period_list:
