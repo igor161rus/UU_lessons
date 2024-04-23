@@ -12,11 +12,11 @@ def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
 
     :param ticker: Биржевой тикер
     :param period: Период данных для получения, по умолчанию — 1mo — «1 месяц».
-    :param date_start: Start date for data retrieval, default is 99 years ago
+    :param date_start: Дата начала получения данных. По умолчанию – 99лет назад.
         Дата начала загрузки (ГГГГ-ММ-ДД) или _datetime включительно.
         По умолчанию 99 лет назад.
         Например. для start="2020-01-01" первая точка данных будет "2020-01-01"
-    :param date_end: End date for data retrieval, default is now
+    :param date_end: Дата окончания получения данных, по умолчанию — сейчас.
         Дата окончания загрузки (ГГГГ-ММ-ДД) или _datetime, не включая.
         По умолчанию сегодняшняя
         Например, для end="2023-01-01" последняя точка данных будет "2022-12-31"
