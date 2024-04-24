@@ -5,6 +5,7 @@ import logging
 import logging.config
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType, VkBotEvent
 import handlers
+from course_project.models import Registration
 
 # from course_project import handlers
 # from settings import club, token
@@ -164,6 +165,8 @@ class Bot:
                 self.user_states.pop(user_id)
                 log_i = logging.getLogger('info')
                 log_i.info('Зврегистрирован: {name} {email}'.format(**state.context))
+                Registration(name=state.context['name'], email=state.context['email'])
+                state.delete()
         else:
             # return current step
             text_to_send = step['failure_text'].format(**state.context)
