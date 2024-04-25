@@ -58,11 +58,8 @@ class Bot:
         # Set the group_id and token
         self.group_id = club
         self.token = token
-
-        # Initialize VK API and long poller
         self.vk = vk_api.VkApi(token=token)
         self.long_poller = VkBotLongPoll(self.vk, self.group_id)
-
         self.api = self.vk.get_api()
         self.user_states = dict()  # user_id -> UserState
 
