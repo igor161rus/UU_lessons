@@ -1,9 +1,22 @@
+import os
+
 import data_download as dd
 import data_plotting as dplt
 import calculation as clc
+import logging.config
+from log_settings import log_config
+
+logging.config.dictConfig(log_config)
+logger = logging.getLogger('Logger')
 
 
 def main():
+    log_i = logging.getLogger('info')
+    log_e = logging.getLogger('warning')
+    log_i.info(f'os: {os.name}')
+    log_i.info(os.getcwd())
+    log_i.info(os.listdir(os.getcwd()))
+
     print("Добро пожаловать в инструмент получения и построения графиков биржевых данных.")
     print(
         "Вот несколько примеров биржевых тикеров, которые вы можете рассмотреть: AAPL (Apple Inc), GOOGL (Alphabet Inc), MSFT (Microsoft Corporation), AMZN (Amazon.com Inc), TSLA (Tesla Inc).")
@@ -23,9 +36,15 @@ def main():
     except ValueError:
         threshold = 0
 
+    log_i.info(f'period: {period}')
+    log_i.info(f'ticker: {ticker}')
+    log_i.info(f'date_start: {date_start}')
+    log_i.info(f'date_end: {date_end}')
+    log_i.info(f'threshold: {threshold}')
+
     # Fetch stock data
     stock_data = dd.fetch_stock_data(ticker.upper(), period, date_start, date_end)
-
+    log_i.info(f'Получено: {len(stock_data)} значений')
     # Add moving average to the data
     stock_data = dd.add_moving_average(stock_data)
 
