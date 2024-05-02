@@ -46,13 +46,13 @@ def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
     #     raise ValueError('Период должен быть одним из следующих значений: 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max')
     stock = yf.Ticker(ticker)
     # Обработка значений по умолчанию для date_start и date_end
-    if date_start == '':
-        if date_end == '':
+    if date_start == '' or date_start is None:
+        if date_end == '' or date_start is None:
             date_start = (datetime.now() - dict_timedelta[period]).strftime("%Y-%m-%d")
         else:
             date_start = (datetime.strptime(date_end, "%Y-%m-%d") - dict_timedelta[period]).strftime("%Y-%m-%d")
-    if date_end == '':
-        if period == '':
+    if date_end == '' or date_end is None:
+        if period == '' or period is None:
             date_end = datetime.now().strftime("%Y-%m-%d")
         else:
             date_end = (datetime.strptime(date_start, "%Y-%m-%d") + dict_timedelta[period]).strftime("%Y-%m-%d")
