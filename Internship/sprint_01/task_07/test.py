@@ -6,8 +6,9 @@ from data_download import fetch_stock_data
 
 class TestFetchStockData(unittest.TestCase):
 
-    @patch('data_download.fetch_stock_data.ticker')
+    @patch('data_download.fetch_stock_data')
     def test_fetch_stock_data(self, mock_ticker):
+        print(dir(fetch_stock_data))
         mock_ticker.return_value.history.return_value = 'mock_data'
         result = fetch_stock_data('AAPL')
         self.assertEqual(result, 'mock_data')
