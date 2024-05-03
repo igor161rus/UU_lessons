@@ -119,3 +119,19 @@ Name: Moving_Average, dtype: float64
 2024-05-03 11:02:14,660 - INFO - Стиль графика: 7
 2024-05-03 11:02:14,872 - INFO - Сохранен график
 2024-05-03 11:02:15,360 - INFO - Расчитана средняя цена (AveragePrice)
+2024-05-03 11:09:08,625 - INFO - os: nt
+2024-05-03 11:09:08,625 - INFO - D:\Python\Projects\UU\lessons\Internship\sprint_01\task_07
+2024-05-03 11:09:08,625 - INFO - ['aapl_1mo_stock_price_chart_6.png', 'aapl_1mo_stock_price_chart_7.png', 'aapl_1mo_stock_price_chart_8.png', 'aapl_3mo_stock_price_chart_5.png', 'calculation.py', 'data_download.py', 'data_plotting.py', 'log', 'log_settings.py', 'main.py', 'readme.txt', 'test.py', '__pycache__']
+2024-05-03 11:09:20,802 - INFO - period: 1mo
+2024-05-03 11:09:20,802 - INFO - ticker: aapl
+2024-05-03 11:09:20,802 - INFO - date_start: 
+2024-05-03 11:09:20,802 - INFO - date_end: 
+2024-05-03 11:09:20,802 - INFO - threshold: 0
+2024-05-03 11:09:22,812 - INFO - Получено: 22 значений
+2024-05-03 11:09:22,812 - INFO - Добавлены средние значения (Moving_Average)(шт): 22
+2024-05-03 11:09:22,813 - INFO - Добавлены значения RSI (шт): 22
+2024-05-03 11:09:22,813 - INFO - Расчитано стандартное отклонение.
+2024-05-03 11:09:25,258 - INFO - Стиль графика: 8
+2024-05-03 11:09:25,478 - INFO - Сохранен график
+2024-05-03 11:09:25,478 - INFO - Расчитана средняя цена (AveragePrice)
+2024-05-03 11:09:25,478 - INFO - Уведомления по уровню: 0
