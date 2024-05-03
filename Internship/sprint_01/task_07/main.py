@@ -45,31 +45,40 @@ def main():
     # Fetch stock data
     stock_data = dd.fetch_stock_data(ticker.upper(), period, date_start, date_end)
     log_i.info(f'Получено: {len(stock_data)} значений')
+
     # Add moving average to the data
     stock_data = dd.add_moving_average(stock_data)
+    log_i.info(f'Добавлены средние значения (Moving_Average)(шт): {len(stock_data["Moving_Average"])}')
 
     # Calculate the relative strength (RSI)
     dd.calculate_rsi(stock_data)
+    log_i.info(f'Добавлены значения RSI (шт): {len(stock_data["RSI"])}')
 
     # Calculate the standard deviation
     clc.calculation_std(stock_data)
+    log_i.info(f'Расчитано стандартное отклонение.')
 
     # Choose the style
     style = dplt.select_styles()
+    log_i.info(f'Стиль графика: {style}')
 
     # Plot the data
     dplt.create_and_save_plot(stock_data, ticker, period, style)
+    log_i.info('Сохранен график')
 
     # Calculate the indicators
     clc.calculate_and_display_average_price(stock_data)
+    log_i.info('Расчитана средняя цена (AveragePrice)')
 
     # Notify if strong fluctuations
     clc.notify_if_strong_fluctuations(stock_data, threshold)
+    log_i.info(f'Уведомления по уровню: {threshold}')
 
     # Export data to CSV
     filename = input("Введите имя файла для экспорта (например, 'data.csv'), или нажмите Enter для пропуска: ")
     if filename != '':
         clc.export_data_to_csv(stock_data, filename)
+        log_i.info(f'Экспорт в CSV: {filename}')
 
 
 if __name__ == "__main__":

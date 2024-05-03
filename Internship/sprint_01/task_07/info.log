@@ -1,9 +1,0 @@
-2024-05-01 01:35:38,632 - INFO - os: nt
-2024-05-01 01:35:38,632 - INFO - C:\Python\Projects\UU_lessons\Internship\sprint_01\task_07
-2024-05-01 01:35:38,632 - INFO - ['aapl_3mo_stock_price_chart_5.png', 'calculation.py', 'data_download.py', 'data_plotting.py', 'debug.log', 'export.csv', 'info.log', 'log_settings.py', 'main.py', 'readme.txt', 'warning.log', '__pycache__']
-2024-05-01 01:36:02,662 - INFO - period: 3mo
-2024-05-01 01:36:02,663 - INFO - ticker: aapl
-2024-05-01 01:36:02,663 - INFO - date_start: 
-2024-05-01 01:36:02,663 - INFO - date_end: 
-2024-05-01 01:36:02,663 - INFO - threshold: 0
-2024-05-01 01:36:26,946 - INFO - Получено: 62 значений

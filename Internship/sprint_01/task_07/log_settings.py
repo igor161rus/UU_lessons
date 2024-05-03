@@ -15,19 +15,19 @@ log_config = {
         'info_handler': {
             'class': 'logging.FileHandler',
             'formatter': 'info_formatter',
-            'filename': 'info.log',
+            'filename': 'log/info.log',
             'encoding': 'utf-8',
         },
         'debug_handler': {
             'class': 'logging.FileHandler',
             'formatter': 'debug_formatter',
-            'filename': 'debug.log',
+            'filename': 'log/debug.log',
             'encoding': 'utf-8',
         },
         'warning_handler': {
             'class': 'logging.FileHandler',
             'formatter': 'warning_formatter',
-            'filename': 'warning.log',
+            'filename': 'log/warning.log',
             'encoding': 'utf-8',
         },
     },
