@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 import yfinance as yf
+import log
 
 
 def fetch_stock_data(ticker, period='1mo', date_start='', date_end=''):
@@ -60,6 +61,11 @@ def fetch_stock_data(ticker, period='1mo', date_start='', date_end=''):
         raise ValueError('Дата окончания периода должна быть больше даты начала периода')
 
     data = stock.history(period=period, start=date_start, end=date_end)
+    if len(data) > 0:
+        log.log_i.info(f'Получено: {len(data)} значений')
+    else:
+        log.log_i.info('Получено: 0 значений')
+        log.log_w.warn('Данных не получено')
     return data
 
 

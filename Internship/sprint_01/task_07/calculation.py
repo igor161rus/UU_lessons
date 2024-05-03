@@ -1,3 +1,6 @@
+import log
+
+
 def calculate_and_display_average_price(data):
     """
        Вычисляет и выводит среднюю цену по колонке 'Close' в DataFrame.
@@ -43,8 +46,10 @@ def export_data_to_csv(data, filename):
     """
     try:
         data.to_csv(filename, index=False)
+        log.log_i.info(f'Сохранен файл - {filename}')
     except Exception as e:
         print(f'Не удалось экспортировать данные в CSV. Ошибка: {e}')
+        log.log_w.warn(f'Не удалось экспортировать данные в CSV. Ошибка: {e}')
 
 
 def calculation_std(data):
@@ -56,6 +61,4 @@ def calculation_std(data):
     Returns:
         None
     """
-    # Calculate the rolling standard deviation over a window of 5 for the 'Close' column
-    # and add the result as a new column 'STD_5' in the input DataFrame
     data['STD_5'] = data['Close'].rolling(5).std()

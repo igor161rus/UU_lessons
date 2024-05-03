@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import log
 
 
 def create_and_save_plot(data, ticker, period, style_index, filename=None):
@@ -14,7 +15,9 @@ def create_and_save_plot(data, ticker, period, style_index, filename=None):
             plt.plot(dates, data['RSI'].values, label='RSI')
             plt.plot(dates, data['STD_5'].values, label='STD_5')
         else:
-            print("Информация о дате отсутствует или не имеет распознаваемого формата.")
+            str_warn = 'Информация о дате отсутствует или не имеет распознаваемого формата.'
+            print(str_warn)
+            log.log_w.warn(str_warn)
             return
     else:
         if not pd.api.types.is_datetime64_any_dtype(data['Date']):

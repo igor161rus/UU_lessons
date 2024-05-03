@@ -3,19 +3,20 @@ import os
 import data_download as dd
 import data_plotting as dplt
 import calculation as clc
-import logging.config
-from log_settings import log_config
+import log
 
-logging.config.dictConfig(log_config)
-logger = logging.getLogger('Logger')
+# import logging.config
+# from log_settings import log_config
+#
+# logging.config.dictConfig(log_config)
+# logger = logging.getLogger('Logger')
 
 
 def main():
-    log_i = logging.getLogger('info')
-    log_e = logging.getLogger('warning')
-    log_i.info(f'os: {os.name}')
-    log_i.info(os.getcwd())
-    log_i.info(os.listdir(os.getcwd()))
+
+    log.log_i.info(f'os: {os.name}')
+    log.log_i.info(os.getcwd())
+    log.log_i.info(os.listdir(os.getcwd()))
 
     print("Добро пожаловать в инструмент получения и построения графиков биржевых данных.")
     print(
@@ -36,49 +37,48 @@ def main():
     except ValueError:
         threshold = 0
 
-    log_i.info(f'period: {period}')
-    log_i.info(f'ticker: {ticker}')
-    log_i.info(f'date_start: {date_start}')
-    log_i.info(f'date_end: {date_end}')
-    log_i.info(f'threshold: {threshold}')
+    log.log_i.info(f'period: {period}')
+    log.log_i.info(f'ticker: {ticker}')
+    log.log_i.info(f'date_start: {date_start}')
+    log.log_i.info(f'date_end: {date_end}')
+    log.log_i.info(f'threshold: {threshold}')
 
     # Fetch stock data
     stock_data = dd.fetch_stock_data(ticker.upper(), period, date_start, date_end)
-    log_i.info(f'Получено: {len(stock_data)} значений')
 
     # Add moving average to the data
     stock_data = dd.add_moving_average(stock_data)
-    log_i.info(f'Добавлены средние значения (Moving_Average)(шт): {len(stock_data["Moving_Average"])}')
+    log.log_i.info(f'Добавлены средние значения (Moving_Average)(шт): {len(stock_data["Moving_Average"])}')
 
     # Calculate the relative strength (RSI)
     dd.calculate_rsi(stock_data)
-    log_i.info(f'Добавлены значения RSI (шт): {len(stock_data["RSI"])}')
+    log.log_i.info(f'Добавлены значения RSI (шт): {len(stock_data["RSI"])}')
 
     # Calculate the standard deviation
     clc.calculation_std(stock_data)
-    log_i.info(f'Расчитано стандартное отклонение.')
+    log.log_i.info(f'Расчитано стандартное отклонение.')
 
     # Choose the style
     style = dplt.select_styles()
-    log_i.info(f'Стиль графика: {style}')
+    log.log_i.info(f'Стиль графика: {style}')
 
     # Plot the data
     dplt.create_and_save_plot(stock_data, ticker, period, style)
-    log_i.info('Сохранен график')
+    log.log_i.info('Сохранен график')
 
     # Calculate the indicators
     clc.calculate_and_display_average_price(stock_data)
-    log_i.info('Расчитана средняя цена (AveragePrice)')
+    log.log_i.info('Расчитана средняя цена (AveragePrice)')
 
     # Notify if strong fluctuations
     clc.notify_if_strong_fluctuations(stock_data, threshold)
-    log_i.info(f'Уведомления по уровню: {threshold}')
+    log.log_i.info(f'Уведомления по уровню: {threshold}')
 
     # Export data to CSV
     filename = input("Введите имя файла для экспорта (например, 'data.csv'), или нажмите Enter для пропуска: ")
     if filename != '':
         clc.export_data_to_csv(stock_data, filename)
-        log_i.info(f'Экспорт в CSV: {filename}')
+        log.log_i.info(f'Экспорт в CSV: {filename}')
 
 
 if __name__ == "__main__":
