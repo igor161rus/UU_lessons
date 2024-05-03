@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import yfinance as yf
 
 
-def fetch_stock_data(ticker, period='1mo', date_start=None, date_end=None):
+def fetch_stock_data(ticker, period='1mo', date_start='', date_end=''):
     """
     Извлекает исторические данные по акциям для данного тикера за указанный период.
     В случае если указано начало и конец периода, параметр period не используется.
