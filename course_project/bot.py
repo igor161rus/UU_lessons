@@ -93,8 +93,8 @@ class Bot:
             # logger.info('We received an event %s', event.type)
             return
 
-        user_id = event.message.peer_id
-        text = event.message.text
+        user_id = event.message.peer_id # event.object.peer_id  # .message.peer_id
+        text = event.message.text #event.object.text #event.message.text
         if user_id in self.user_states:
             # Continue the scenario
             text_to_send = self.continue_scenario(user_id, text)
