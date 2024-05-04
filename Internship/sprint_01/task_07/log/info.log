@@ -30,3 +30,52 @@
 2024-05-03 20:05:08,533 - INFO - Сохранен график
 2024-05-03 20:05:08,534 - INFO - Расчитана средняя цена (AveragePrice)
 2024-05-03 20:05:08,534 - INFO - Уведомления по уровню: 5.0
+2024-05-04 23:59:42,949 - INFO - os: nt
+2024-05-04 23:59:42,949 - INFO - C:\Python\Projects\UU_lessons\Internship\sprint_01\task_07
+2024-05-04 23:59:42,949 - INFO - ['aapl_1mo_stock_price_chart_5.png', 'aapl_3mo_stock_price_chart_5.png', 'calculation.py', 'data_download.py', 'data_plotting.py', 'export.csv', 'log', 'log.py', 'log_settings.py', 'main.py', 'readme.txt', 'test.py', '__pycache__']
+2024-05-04 23:59:56,909 - INFO - period: 1mo
+2024-05-04 23:59:56,909 - INFO - ticker: aapl
+2024-05-04 23:59:56,909 - INFO - date_start: 
+2024-05-04 23:59:56,909 - INFO - date_end: 
+2024-05-04 23:59:56,909 - INFO - threshold: 5.0
+2024-05-05 00:00:24,754 - INFO - Получено: 0 значений
+2024-05-05 00:00:24,755 - INFO - Добавлены средние значения (Moving_Average)(шт): 0
+2024-05-05 00:00:24,758 - INFO - Добавлены значения RSI (шт): 0
+2024-05-05 00:00:24,758 - INFO - Расчитано стандартное отклонение.
+2024-05-05 00:00:28,792 - INFO - Стиль графика: fast
+2024-05-05 00:00:28,792 - INFO - Стиль графика: 7
+2024-05-05 00:00:29,317 - INFO - Сохранен график
+2024-05-05 00:00:29,317 - INFO - Расчитана средняя цена (AveragePrice)
+2024-05-05 00:00:29,317 - INFO - Уведомления по уровню: 5.0
+2024-05-05 00:02:14,952 - INFO - os: nt
+2024-05-05 00:02:14,952 - INFO - C:\Python\Projects\UU_lessons\Internship\sprint_01\task_07
+2024-05-05 00:02:14,952 - INFO - ['aapl_1mo_stock_price_chart_5.png', 'aapl_3mo_stock_price_chart_5.png', 'calculation.py', 'data_download.py', 'data_plotting.py', 'export.csv', 'log', 'log.py', 'log_settings.py', 'main.py', 'readme.txt', 'test.py', '__pycache__']
+2024-05-05 00:02:29,243 - INFO - period: 1mo
+2024-05-05 00:02:29,243 - INFO - ticker: aapl
+2024-05-05 00:02:29,243 - INFO - date_start: 
+2024-05-05 00:02:29,243 - INFO - date_end: 
+2024-05-05 00:02:29,243 - INFO - threshold: 4.0
+2024-05-05 00:02:37,701 - INFO - Получено: 21 значений
+2024-05-05 00:02:37,703 - INFO - Добавлены средние значения (Moving_Average)(шт): 21
+2024-05-05 00:02:37,705 - INFO - Добавлены значения RSI (шт): 21
+2024-05-05 00:02:37,705 - INFO - Расчитано стандартное отклонение.
+2024-05-05 00:02:41,279 - INFO - Стиль графика: ggplot
+2024-05-05 00:02:41,279 - INFO - Стиль графика: 9
+2024-05-05 00:03:41,783 - INFO - os: nt
+2024-05-05 00:03:41,783 - INFO - C:\Python\Projects\UU_lessons\Internship\sprint_01\task_07
+2024-05-05 00:03:41,783 - INFO - ['aapl_1mo_stock_price_chart_10.png', 'aapl_1mo_stock_price_chart_5.png', 'aapl_3mo_stock_price_chart_5.png', 'calculation.py', 'data_download.py', 'data_plotting.py', 'export.csv', 'log', 'log.py', 'log_settings.py', 'main.py', 'readme.txt', 'test.py', '__pycache__']
+2024-05-05 00:03:57,370 - INFO - period: 1mo
+2024-05-05 00:03:57,370 - INFO - ticker: aapl
+2024-05-05 00:03:57,370 - INFO - date_start: 
+2024-05-05 00:03:57,370 - INFO - date_end: 
+2024-05-05 00:03:57,370 - INFO - threshold: 8.0
+2024-05-05 00:04:05,040 - INFO - Получено: 21 значений
+2024-05-05 00:04:05,040 - INFO - Добавлены средние значения (Moving_Average)(шт): 21
+2024-05-05 00:04:05,042 - INFO - Добавлены значения RSI (шт): 21
+2024-05-05 00:04:05,042 - INFO - Расчитано стандартное отклонение.
+2024-05-05 00:04:08,476 - INFO - Стиль графика: ggplot
+2024-05-05 00:04:08,476 - INFO - Стиль графика: 9
+2024-05-05 00:04:08,706 - INFO - График сохранен как aapl_1mo_stock_price_chart_10.png
+2024-05-05 00:04:08,706 - INFO - Сохранен график
+2024-05-05 00:04:08,706 - INFO - Расчитана средняя цена (AveragePrice)
+2024-05-05 00:04:08,706 - INFO - Уведомления по уровню: 8.0

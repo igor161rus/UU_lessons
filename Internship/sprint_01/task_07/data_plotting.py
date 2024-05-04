@@ -36,7 +36,9 @@ def create_and_save_plot(data, ticker, period, style_index, filename=None):
         filename = f"{ticker}_{period}_stock_price_chart_{style_index + 1}.png"
 
     plt.savefig(filename)
-    print(f"График сохранен как {filename}")
+    msg = f"График сохранен как {filename}"
+    print(msg)
+    log.log_i.info(msg)
 
 
 def select_styles():
@@ -55,5 +57,7 @@ def select_styles():
 
     # Предлогаем пользователю выбрать стиль графика
     index = int(input("Выберите стиль графика: "))
-    print("Стиль графика:", plt.style.available[index - 1])
+    msg = f"Стиль графика: {plt.style.available[index - 1]}"
+    print(msg)
+    log.log_i.info(msg)
     return index - 1
