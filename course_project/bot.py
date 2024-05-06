@@ -62,6 +62,8 @@ class Bot:
         self.long_poller = VkBotLongPoll(self.vk, self.group_id)
         self.api = self.vk.get_api()
         self.user_states = dict()  # user_id -> UserState
+        self.user_id = None
+        self.event = None
 
     def run(self):
         """
@@ -93,8 +95,8 @@ class Bot:
             # logger.info('We received an event %s', event.type)
             return
 
-        user_id = event.message.peer_id # event.object.peer_id  # .message.peer_id
-        text = event.message.text #event.object.text #event.message.text
+        user_id = event.object.message['from_id'] # event.object.peer_id  # .message.peer_id
+        text = event.object.message['text'] #event.object.text #event.message.text
         if user_id in self.user_states:
             # Continue the scenario
             text_to_send = self.continue_scenario(user_id, text)
@@ -149,7 +151,13 @@ class Bot:
         steps = settings.SCENARIOS[state.scenario_name]['steps']
         step = steps[state.step_name]
 
-        handler = getattr(handlers, step['handler'])
+        try:
+            handler = getattr(handlers, step['handler'])
+        except AttributeError as exc:
+            print(exc)
+            handler = None
+
+        # print(handler.result)
         if handler(text=text, context=state.context):
             # Go to the next step
             next_step = steps[step['next_step']]
