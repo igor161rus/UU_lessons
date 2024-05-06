@@ -35,7 +35,7 @@ SCENARIOS = {
             'step2': {
                 'text': 'Введите email. Мы отпрвим на него все данные',
                 'failure_text': 'Во введенном адресе ошибка. Попробуйте еще раз',
-                'handler': 'handle_name',
+                'handler': 'handle_email',
                 'next_step': 'step3'
             },
             'step3': {
