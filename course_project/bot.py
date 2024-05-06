@@ -151,13 +151,7 @@ class Bot:
         steps = settings.SCENARIOS[state.scenario_name]['steps']
         step = steps[state.step_name]
 
-        try:
-            handler = getattr(handlers, step['handler'])
-        except AttributeError as exc:
-            print(exc)
-            handler = None
-
-        # print(handler.result)
+        handler = getattr(handlers, step['handler'])
         if handler(text=text, context=state.context):
             # Go to the next step
             next_step = steps[step['next_step']]

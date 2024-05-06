@@ -20,3 +20,7 @@ def handle_email(text, context):
         return True
     else:
         return False
+
+
+def handle_registration(text, context):
+    return True
