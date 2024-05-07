@@ -68,5 +68,4 @@ def select_styles():
 def plotly_graph(data):
     data.plot()
     plt.show()
-    fig = data.boxplot()
-    fig.show()
+
