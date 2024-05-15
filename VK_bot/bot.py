@@ -8,7 +8,7 @@ import handlers
 from models import Registration
 
 try:
-    import settings
+    from practice_03 import settings
 except ImportError:
     exit('You should use settings.py file to configure settings')
 
