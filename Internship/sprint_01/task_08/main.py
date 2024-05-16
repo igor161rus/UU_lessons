@@ -5,6 +5,7 @@ import data_plotting as dplt
 import calculation as clc
 import log
 
+
 # import logging.config
 # from log_settings import log_config
 #
@@ -13,7 +14,6 @@ import log
 
 
 def main():
-
     log.log_i.info(f'os: {os.name}')
     log.log_i.info(os.getcwd())
     log.log_i.info(os.listdir(os.getcwd()))
@@ -74,8 +74,9 @@ def main():
     clc.notify_if_strong_fluctuations(stock_data, threshold)
     log.log_i.info(f'Уведомления по уровню: {threshold}')
 
+    # Plot with Plotly
     dplt.plotly_graph(stock_data)
-
+    log.log_i.info('График в Plotly')
 
     # Export data to CSV
     filename = input("Введите имя файла для экспорта (например, 'data.csv'), или нажмите Enter для пропуска: ")

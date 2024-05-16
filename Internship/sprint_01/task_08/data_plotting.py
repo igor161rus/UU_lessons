@@ -66,6 +66,21 @@ def select_styles():
 
 
 def plotly_graph(data):
-    data.plot()
-    plt.show()
+    """
+    Функция для построения данных с использованием библиотеки Plotly и отображения графика
 
+    Parameters:
+    data : pandas DataFrame
+        The data to be plotted.
+    """
+    gr = data.plot()
+    type_graph = input("Вид графика (0 - в отдельном окне, 1 - в браузере): ")
+    if type_graph == '1':
+        gr.show()
+        log.log_i.info("График построен в браузере")
+    elif type_graph == '0':
+        plt.show()
+        log.log_i.info("График построен ")
+    else:
+        print("Некорректный ввод")
+        log.log_i.error("Некорректный ввод")
