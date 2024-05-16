@@ -67,11 +67,11 @@ def select_styles():
 
 def plotly_graph(data):
     """
-    Функция для построения данных с использованием библиотеки Plotly и отображения графика
+    Функция для отображения графика с использованием библиотеки Plotly
 
     Parameters:
     data : pandas DataFrame
-        The data to be plotted.
+        Датафрейм с данными для построения графика.
     """
     gr = data.plot()
     type_graph = input("Вид графика (0 - в отдельном окне, 1 - в браузере): ")
