@@ -5,6 +5,7 @@ from PIL import Image, ImageDraw
 
 class DrawingApp:
     def __init__(self, root):
+        # Инициализация option_var
         self.option_var = tk.StringVar(root)
         self.root = root
         self.root.title("Рисовалка с сохранением в PNG")
@@ -38,9 +39,10 @@ class DrawingApp:
 
         # self.brush_size_scale = tk.Scale(control_frame, from_=1, to=10, orient=tk.HORIZONTAL)
         # self.brush_size_scale.pack(side=tk.LEFT)
+        # Добавляем метку для размера кисти
         label = ttk.Label(control_frame, text='Размер кисти:')
         label.pack(side=tk.LEFT)
-
+        # Выпадающее меню для выбора размера кисти
         sizes = ['1', '2', '5', '10']
         combo = ttk.OptionMenu(control_frame, self.option_var, sizes[0], *sizes)
         combo.pack(side=tk.LEFT)
