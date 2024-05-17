@@ -36,8 +36,6 @@ class DrawingApp:
         self.root.bind('<Control-c>', self.choose_color)
 
         # Окно предварительного просмотра текущего цвета
-        preview_frame = tk.LabelFrame(root, text="Предварительный просмотр цвета", padx=5, pady=5)
-        preview_frame.pack(side=tk.LEFT)
         self.preview_color = tk.Canvas(root, width=20, height=20, bg=self.pen_color)
         self.preview_color.pack(side=tk.LEFT)
 
@@ -97,6 +95,7 @@ class DrawingApp:
             self: Экземпляр класса DrawingApp.
         """
         self.pen_color = colorchooser.askcolor(color=self.pen_color)[1]
+        self.preview_color.configure(bg=self.pen_color)
 
     def save_image(self, event=None):
         """
