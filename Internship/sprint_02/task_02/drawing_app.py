@@ -20,6 +20,7 @@ class DrawingApp:
 
         self.last_x, self.last_y = None, None
         self.pen_color = 'black'
+        self.last_color = self.pen_color
 
         self.canvas.bind('<B1-Motion>', self.paint)
         self.canvas.bind('<ButtonRelease-1>', self.reset)
@@ -40,14 +41,17 @@ class DrawingApp:
         # Добавляем метку для размера кисти
         label = ttk.Label(control_frame, text='Размер кисти:')
         label.pack(side=tk.LEFT)
+
         # Выпадающее меню для выбора размера кисти
         sizes = ['1', '2', '5', '10']
         combo = ttk.OptionMenu(control_frame, self.option_var, sizes[0], *sizes)
         combo.pack(side=tk.LEFT)
 
+        # Кнопка "Ластик"
         eraser_button = tk.Button(control_frame, text="Ластик", command=self.eraser)
         eraser_button.pack(side=tk.LEFT)
 
+        # Кнопка "Карандаш"
         pencil_button = tk.Button(control_frame, text="Карандаш", command=self.pencil)
         pencil_button.pack(side=tk.LEFT)
 
@@ -82,10 +86,17 @@ class DrawingApp:
             messagebox.showinfo("Информация", "Изображение успешно сохранено!")
 
     def eraser(self):
+        """
+        Функция "Ластик", устанавливающая цвет кисти на белый.
+        """
+        self.last_color = self.pen_color
         self.pen_color = 'white'
 
     def pencil(self):
-        self.pen_color = 'black'
+        """
+        Функция устанавливает цвет кисти на предыдущий цвет.
+        """
+        self.pen_color = self.last_color
 
 
 def main():
