@@ -28,6 +28,12 @@ class DrawingApp:
         # Привязываем обработчик события <Button-3> к холсту, чтобы выбрать цвет
         self.canvas.bind('<Button-3>', self.pick_color)
 
+        # Привязываем обработчик события <Control-s> для сохранения изображения
+        self.root.bind('<Control-s>', self.save_image)
+
+        # Привязываем обработчик события <Control-c> для выбора цвета
+        self.root.bind('<Control-c>', self.choose_color)
+
     def setup_ui(self):
         control_frame = tk.Frame(self.root)
         control_frame.pack(fill=tk.X)
@@ -77,10 +83,20 @@ class DrawingApp:
         self.image = Image.new("RGB", (600, 400), "white")
         self.draw = ImageDraw.Draw(self.image)
 
-    def choose_color(self):
+    def choose_color(self, event=None):
+        """
+        Функция для выбора цвета.
+        Args:
+            self: Экземпляр класса DrawingApp.
+        """
         self.pen_color = colorchooser.askcolor(color=self.pen_color)[1]
 
-    def save_image(self):
+    def save_image(self, event=None):
+        """
+        Функция для сохранения изображения.
+        Args:
+            self: Экземпляр класса DrawingApp.
+        """
         file_path = filedialog.asksaveasfilename(filetypes=[('PNG files', '*.png')])
         if file_path:
             if not file_path.endswith('.png'):
