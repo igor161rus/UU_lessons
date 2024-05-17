@@ -37,8 +37,6 @@ class DrawingApp:
         save_button = tk.Button(control_frame, text="Сохранить", command=self.save_image)
         save_button.pack(side=tk.LEFT)
 
-        # self.brush_size_scale = tk.Scale(control_frame, from_=1, to=10, orient=tk.HORIZONTAL)
-        # self.brush_size_scale.pack(side=tk.LEFT)
         # Добавляем метку для размера кисти
         label = ttk.Label(control_frame, text='Размер кисти:')
         label.pack(side=tk.LEFT)
@@ -46,6 +44,12 @@ class DrawingApp:
         sizes = ['1', '2', '5', '10']
         combo = ttk.OptionMenu(control_frame, self.option_var, sizes[0], *sizes)
         combo.pack(side=tk.LEFT)
+
+        eraser_button = tk.Button(control_frame, text="Ластик", command=self.eraser)
+        eraser_button.pack(side=tk.LEFT)
+
+        pencil_button = tk.Button(control_frame, text="Карандаш", command=self.pencil)
+        pencil_button.pack(side=tk.LEFT)
 
     def paint(self, event):
         if self.last_x and self.last_y:
@@ -76,6 +80,12 @@ class DrawingApp:
                 file_path += '.png'
             self.image.save(file_path)
             messagebox.showinfo("Информация", "Изображение успешно сохранено!")
+
+    def eraser(self):
+        self.pen_color = 'white'
+
+    def pencil(self):
+        self.pen_color = 'black'
 
 
 def main():
