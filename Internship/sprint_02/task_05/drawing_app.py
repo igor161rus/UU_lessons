@@ -6,6 +6,7 @@ from PIL import Image, ImageDraw
 class DrawingApp:
     def __init__(self, root):
         # Инициализация option_var
+        self.preview_color = None
         self.option_var = tk.StringVar(root)
         self.root = root
         self.root.title("Рисовалка с сохранением в PNG")
@@ -33,6 +34,12 @@ class DrawingApp:
 
         # Привязываем обработчик события <Control-c> для выбора цвета
         self.root.bind('<Control-c>', self.choose_color)
+
+        # Окно предварительного просмотра текущего цвета
+        preview_frame = tk.LabelFrame(root, text="Предварительный просмотр цвета", padx=5, pady=5)
+        preview_frame.pack(side=tk.LEFT)
+        self.preview_color = tk.Canvas(root, width=20, height=20, bg=self.pen_color)
+        self.preview_color.pack(side=tk.LEFT)
 
     def setup_ui(self):
         control_frame = tk.Frame(self.root)
@@ -64,6 +71,9 @@ class DrawingApp:
         pencil_button = tk.Button(control_frame, text="Карандаш", command=self.pencil)
         pencil_button.pack(side=tk.LEFT)
 
+
+
+
     def paint(self, event):
         if self.last_x and self.last_y:
             self.canvas.create_line(self.last_x, self.last_y, event.x, event.y,
@@ -90,6 +100,7 @@ class DrawingApp:
             self: Экземпляр класса DrawingApp.
         """
         self.pen_color = colorchooser.askcolor(color=self.pen_color)[1]
+
 
     def save_image(self, event=None):
         """
