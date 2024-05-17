@@ -69,8 +69,9 @@ class DrawingApp:
         pencil_button = tk.Button(control_frame, text="Карандаш", command=self.pencil)
         pencil_button.pack(side=tk.LEFT)
 
-        # Кнопка "Очистить изменить размкр холста"
-        size_button = tk.Button(control_frame, text="Размер холста", command=tk.simpledialog.askinteger)
+        # Кнопка "Изменить размкр холста"
+        size_button = tk.Button(control_frame, text="Размер холста", command=self.resize_canvas)
+        size_button.pack(side=tk.LEFT)
 
     def paint(self, event):
         if self.last_x and self.last_y:
@@ -135,15 +136,18 @@ class DrawingApp:
         """
         self.pen_color = '#%02x%02x%02x' % self.image.getpixel((event.x, event.y))
 
-    def resize_canvas(self, width, height):
+    def resize_canvas(self):
         """
         Функция для изменения размера холста.
         Args:
             self: Экземпляр класса DrawingApp.
-            width: Ширина холста.
-            height: Высота холста.
         """
+        width = tk.simpledialog.askinteger(title="Изменить размер холста", prompt="Ширина холста:")
+        height = tk.simpledialog.askinteger(title="Изменить размер холста", prompt="Высота холста:")
         self.canvas.config(width=width, height=height)
+        self.image = self.image.resize((width, height))
+        self.draw = ImageDraw.Draw(self.image)
+
 
 def main():
     root = tk.Tk()
