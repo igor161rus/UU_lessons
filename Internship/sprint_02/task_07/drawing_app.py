@@ -73,6 +73,9 @@ class DrawingApp:
         size_button = tk.Button(control_frame, text="Размер холста", command=self.resize_canvas)
         size_button.pack(side=tk.LEFT)
 
+        text_button = tk.Button(control_frame, text="Текст", command=self.text)
+        text_button.pack(side=tk.LEFT)
+
     def paint(self, event):
         if self.last_x and self.last_y:
             self.canvas.create_line(self.last_x, self.last_y, event.x, event.y,
@@ -147,6 +150,39 @@ class DrawingApp:
         self.canvas.config(width=width, height=height)
         self.image = self.image.resize((width, height))
         self.draw = ImageDraw.Draw(self.image)
+
+    def text(self):
+        """
+        Функция для добавления текста на изображение.
+        Args:
+            self: Экземпляр класса DrawingApp.
+            :param event:
+        """
+        text = tk.simpledialog.askstring(title="Добавить текст", prompt="Текст:")
+        if text:
+            self.canvas.bind('<Button-1>', self.coordinates)
+
+            self.canvas.create_text(self.last_x, self.last_y, text=text, fill=self.pen_color)
+
+        # if text:
+        #     x = tk.simpledialog.askinteger(title="Добавить текст", prompt="X:")
+        #     y = tk.simpledialog.askinteger(title="Добавить текст", prompt="Y:")
+        #     self.draw.text((x, y), text, fill=self.pen_color)
+        #     self.canvas.create_text(x, y, text=text, fill=self.pen_color)
+
+    def coordinates(self, event):
+        """
+        Функция для получения координат клика мыши.
+        Args:
+            self: Экземпляр класса DrawingApp.
+            event: Событие, содержащее координаты клика мыши.
+        """
+        # print(event.x, event.y)
+        self.last_x = event.x
+        self.last_y = event.y
+
+        # self.canvas.bind('<B1-Motion>', self.paint)
+        # self.canvas.bind('<ButtonRelease-1>', self.reset)
 
 
 def main():
