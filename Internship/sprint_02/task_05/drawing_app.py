@@ -71,9 +71,6 @@ class DrawingApp:
         pencil_button = tk.Button(control_frame, text="Карандаш", command=self.pencil)
         pencil_button.pack(side=tk.LEFT)
 
-
-
-
     def paint(self, event):
         if self.last_x and self.last_y:
             self.canvas.create_line(self.last_x, self.last_y, event.x, event.y,
@@ -100,7 +97,6 @@ class DrawingApp:
             self: Экземпляр класса DrawingApp.
         """
         self.pen_color = colorchooser.askcolor(color=self.pen_color)[1]
-
 
     def save_image(self, event=None):
         """
