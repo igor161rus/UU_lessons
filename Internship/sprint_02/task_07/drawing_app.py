@@ -7,6 +7,7 @@ class DrawingApp:
     def __init__(self, root):
         # Инициализация option_var
         self.preview_color = None
+        self.text_past = None
         self.option_var = tk.StringVar(root)
         self.root = root
         self.root.title("Рисовалка с сохранением в PNG")
@@ -38,6 +39,9 @@ class DrawingApp:
         # Окно предварительного просмотра текущего цвета
         self.preview_color = tk.Canvas(root, width=20, height=20, bg=self.pen_color)
         self.preview_color.pack(side=tk.LEFT)
+
+        # Привязываем обработчик события <Button-1> к холсту, чтобы вставлять текст
+        self.canvas.bind('<Button-1>', self.past_text)
 
     def setup_ui(self):
         control_frame = tk.Frame(self.root)
@@ -73,7 +77,12 @@ class DrawingApp:
         size_button = tk.Button(control_frame, text="Размер холста", command=self.resize_canvas)
         size_button.pack(side=tk.LEFT)
 
+        # Кнопка "Добавить текст"
         text_button = tk.Button(control_frame, text="Текст", command=self.text)
+        text_button.pack(side=tk.LEFT)
+
+        # Кнопка "Изменить цвет холста"
+        text_button = tk.Button(control_frame, text="Цвет холста", command=self.change_canvas_color)
         text_button.pack(side=tk.LEFT)
 
     def paint(self, event):
@@ -153,36 +162,36 @@ class DrawingApp:
 
     def text(self):
         """
-        Функция для добавления текста на изображение.
+        Функция выводит диалоговое окно для ввода текста.
         Args:
             self: Экземпляр класса DrawingApp.
             :param event:
         """
         text = tk.simpledialog.askstring(title="Добавить текст", prompt="Текст:")
         if text:
-            self.canvas.bind('<Button-1>', self.coordinates)
+            self.text_past = text
 
-            self.canvas.create_text(self.last_x, self.last_y, text=text, fill=self.pen_color)
-
-        # if text:
-        #     x = tk.simpledialog.askinteger(title="Добавить текст", prompt="X:")
-        #     y = tk.simpledialog.askinteger(title="Добавить текст", prompt="Y:")
-        #     self.draw.text((x, y), text, fill=self.pen_color)
-        #     self.canvas.create_text(x, y, text=text, fill=self.pen_color)
-
-    def coordinates(self, event):
+    def past_text(self, event):
         """
-        Функция для получения координат клика мыши.
+        Функция вставляет текст на холст в координатах щелчка левой кнопки мыши.
         Args:
             self: Экземпляр класса DrawingApp.
             event: Событие, содержащее координаты клика мыши.
         """
-        # print(event.x, event.y)
         self.last_x = event.x
         self.last_y = event.y
+        self.canvas.create_text(self.last_x, self.last_y, text=self.text_past, fill=self.pen_color)
+        self.text_past = None
 
-        # self.canvas.bind('<B1-Motion>', self.paint)
-        # self.canvas.bind('<ButtonRelease-1>', self.reset)
+    def change_canvas_color(self):
+        """
+        Функция изменяет цвет холста.
+        Args:
+            self: Экземпляр класса DrawingApp.
+        """
+        color = tk.colorchooser.askcolor()
+        print(color)
+        self.canvas.config(bg=color[1])
 
 
 def main():
