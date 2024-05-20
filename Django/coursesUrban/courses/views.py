@@ -9,3 +9,7 @@ def get_courses_page(request):
                         "<li>Курс 1</li>"
                         "<li>Курс 2</li>"
                         " </ol>")
+
+
+def get_courses_news(request):
+    return HttpResponse('Новости курсов')
