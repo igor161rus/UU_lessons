@@ -58,13 +58,12 @@ class Bot:
         # Set the group_id and token
         self.group_id = club
         self.token = token
-
-        # Initialize VK API and long poller
         self.vk = vk_api.VkApi(token=token)
         self.long_poller = VkBotLongPoll(self.vk, self.group_id)
-
         self.api = self.vk.get_api()
         self.user_states = dict()  # user_id -> UserState
+        self.user_id = None
+        self.event = None
 
     def run(self):
         """
@@ -96,8 +95,8 @@ class Bot:
             # logger.info('We received an event %s', event.type)
             return
 
-        user_id = event.message.peer_id
-        text = event.message.text
+        user_id = event.object.message['from_id'] # event.object.peer_id  # .message.peer_id
+        text = event.object.message['text'] #event.object.text #event.message.text
         if user_id in self.user_states:
             # Continue the scenario
             text_to_send = self.continue_scenario(user_id, text)
