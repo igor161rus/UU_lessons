@@ -22,5 +22,5 @@ class AboutView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['name'] = 'Tasks'
         context['title'] = 'About'
-        context['description'] = 'About Tasks'
+        context['description'] = 'About Tasks. It is a simple todo app.'
         return context
