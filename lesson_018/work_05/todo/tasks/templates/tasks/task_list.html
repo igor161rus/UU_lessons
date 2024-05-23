@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<ul>
-    <li><a href="/task1">Task 1</a></li>
-    <li>Task 2</li>
-</ul>
-</body>
+<html>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                {{ task }}
+            </li>
+        {% endfor %}
+    </ul>
 </html>
