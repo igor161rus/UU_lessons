@@ -9,4 +9,4 @@ def task_list(request, *args, **kwargs):
     #                     '<li>Task 3</li>'
     #                     '</ul>'
     #                     )
-    return render(request, 'tasks/task_list.html', {})
+    return render(request, 'task_list.html', {})
