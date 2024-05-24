@@ -138,7 +138,6 @@ def handle_message(message):
         ascii_and_send(message)
         user_states[message.chat.id]['ascii'] = False
         user_states[message.chat.id] = None
-        print(user_states)
 
 
 bot.polling(none_stop=True)
