@@ -91,16 +91,17 @@ def get_options_keyboard():
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
+    chat_id = call.message.chat.id
+
     if call.data == "pixelate":
         bot.answer_callback_query(call.id, "Pixelating your image...")
         pixelate_and_send(call.message)
     elif call.data == "ascii":
-        #bot.send_message(message.chat.id, "Enter char for converting your image to ASCII art...", parse_mode="MarkdownV2")
+        user_states[chat_id]['ascii'] = True
         bot.reply_to(call.message, "Enter char for converting your image to ASCII art...")
 
-
-        bot.answer_callback_query(call.id, "Converting your image to ASCII art...")
-        ascii_and_send(call.message)
+        # bot.answer_callback_query(call.id, "Converting your image to ASCII art...")
+        # ascii_and_send(call.message)
 
 
 def pixelate_and_send(message):
@@ -127,6 +128,17 @@ def ascii_and_send(message):
 
     ascii_art = image_to_ascii(image_stream)
     bot.send_message(message.chat.id, f"```\n{ascii_art}\n```", parse_mode="MarkdownV2")
+
+
+@bot.message_handler(func=lambda message: True)
+def handle_message(message):
+    if user_states.get(message.chat.id) and user_states[message.chat.id]['ascii']:
+        global ASCII_CHARS
+        ASCII_CHARS = message.text
+        ascii_and_send(message)
+        user_states[message.chat.id]['ascii'] = False
+        user_states[message.chat.id] = None
+        print(user_states)
 
 
 bot.polling(none_stop=True)
