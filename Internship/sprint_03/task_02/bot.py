@@ -76,17 +76,32 @@ def send_welcome(message):
 
 @bot.message_handler(content_types=['photo'])
 def handle_photo(message):
+    user_states[message.chat.id] = {'level': 0}
     bot.reply_to(message, "I got your photo! Please choose what you'd like to do with it.",
-                 reply_markup=get_options_keyboard())
+                 reply_markup=get_options_keyboard(message))
     user_states[message.chat.id] = {'photo': message.photo[-1].file_id}
 
 
-def get_options_keyboard():
-    keyboard = types.InlineKeyboardMarkup()
-    pixelate_btn = types.InlineKeyboardButton("Pixelate", callback_data="pixelate")
-    ascii_btn = types.InlineKeyboardButton("ASCII Art", callback_data="ascii")
-    keyboard.add(pixelate_btn, ascii_btn)
-    return keyboard
+def get_options_keyboard(message):
+    print(user_states.get(message.chat.id))
+    if user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 0:
+        keyboard = types.InlineKeyboardMarkup()
+        pixelate_btn = types.InlineKeyboardButton("Pixelate", callback_data="pixelate")
+        ascii_btn = types.InlineKeyboardButton("ASCII Art", callback_data="ascii")
+        keyboard.add(pixelate_btn, ascii_btn)
+        return keyboard
+    elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 1:
+        keyboard = types.InlineKeyboardMarkup()
+        pixelate_btn = types.InlineKeyboardButton("Pixelate", callback_data="pixelate")
+        ascii_btn = types.InlineKeyboardButton("ASCII Art", callback_data="ascii")
+        keyboard.add(pixelate_btn, ascii_btn)
+        return keyboard
+    elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 2:
+        keyboard = types.InlineKeyboardMarkup()
+        pixelate_btn = types.InlineKeyboardButton("ASCII Art", callback_data="ascii")
+        ascii_btn = types.InlineKeyboardButton("ASCII Personal Art", callback_data="ascii_personal")
+        keyboard.add(pixelate_btn, ascii_btn)
+        return keyboard
 
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -94,11 +109,14 @@ def callback_query(call):
     chat_id = call.message.chat.id
 
     if call.data == "pixelate":
+        user_states[chat_id]['level'] = 1
         bot.answer_callback_query(call.id, "Pixelating your image...")
         pixelate_and_send(call.message)
     elif call.data == "ascii":
         user_states[chat_id]['ascii'] = True
-        bot.reply_to(call.message, "Enter char for converting your image to ASCII art...")
+        user_states[chat_id]['level'] = 2
+        bot.reply_to(call.message, "Converting your image to ASCII art...",
+                     reply_markup=get_options_keyboard(call.message))
 
         # bot.answer_callback_query(call.id, "Converting your image to ASCII art...")
         # ascii_and_send(call.message)
