@@ -127,6 +127,7 @@ def callback_query(call):
         user_states[chat_id]['level'] = 4
         bot.reply_to(call.message, "Inverting your image...",
                      reply_markup=get_options_keyboard(call.message))
+        user_states[call.message.chat.id]['message_id'] = call.message.message_id
         # bot.answer_callback_query(call.id, "Inverting your image...")
         # invert_and_send(call.message)
         pixelate_and_send(call.message)
@@ -136,6 +137,7 @@ def callback_query(call):
         user_states[chat_id]['level'] = 2
         bot.reply_to(call.message, "Converting your image to ASCII art...",
                      reply_markup=get_options_keyboard(call.message))
+        user_states[call.message.chat.id]['message_id'] = call.message.message_id
 
         # bot.answer_callback_query(call.id, "Converting your image to ASCII art...")
         # ascii_and_send(call.message)
@@ -156,9 +158,10 @@ def pixelate_and_send(message):
     pixelated.save(output_stream, format="JPEG")
     output_stream.seek(0)
     bot.send_photo(message.chat.id, output_stream)
-    user_states[message.chat.id] = {'level': 0}
+    user_states[message.chat.id]['level'] = 0
     bot.reply_to(message, "Please choose what you'd like to do with it.",
                  reply_markup=get_options_keyboard(message))
+    user_states[message.chat.id]['message_id'] = message.message_id
 
 
 def ascii_and_send(message):
@@ -170,9 +173,10 @@ def ascii_and_send(message):
 
     ascii_art = image_to_ascii(image_stream)
     bot.send_message(message.chat.id, f"```\n{ascii_art}\n```", parse_mode="MarkdownV2")
-    user_states[message.chat.id] = {'level': 0}
+    user_states[message.chat.id]['level'] = 0
     bot.reply_to(message, "Please choose what you'd like to do with it.",
                  reply_markup=get_options_keyboard(message))
+    user_states[message.chat.id]['message_id'] = message.message_id
 
 
 @bot.message_handler(func=lambda message: True)
@@ -183,9 +187,10 @@ def handle_message(message):
         ascii_and_send(message)
         # user_states[message.chat.id]['ascii'] = False
         # user_states[message.chat.id] = None
-        user_states[message.chat.id] = {'level': 0}
+        user_states[message.chat.id]['level'] = 0
         bot.reply_to(message, "Please choose what you'd like to do with it.",
                      reply_markup=get_options_keyboard(message))
+        user_states[message.chat.id]['message_id'] = message.message_id
 
 
 # Запускаем бота
