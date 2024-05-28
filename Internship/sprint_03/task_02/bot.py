@@ -116,8 +116,8 @@ def callback_query(call):
     chat_id = call.message.chat.id
     if call.data == "pixelate":
         user_states[chat_id]['level'] = 1
-        bot.delete_message(chat_id, user_states[chat_id]['message_id'] + 1)
         bot.reply_to(call.message, "Выберите действие...", reply_markup=get_options_keyboard(call.message))
+        bot.delete_message(chat_id, user_states[chat_id]['message_id'] + 1)
         # pixelate_and_send(call.message)
     elif call.data == "pixelate_img":
         user_states[chat_id]['level'] = 3
