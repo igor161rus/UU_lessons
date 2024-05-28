@@ -29,6 +29,8 @@ class DrawingApp:
         control_frame = tk.Frame(self.root)
         control_frame.pack(fill=tk.X)
 
+        # Кнопки
+        # Кнопка "Ластик"
         clear_button = tk.Button(control_frame, text="Очистить", command=self.clear_canvas)
         clear_button.pack(side=tk.LEFT)
 
