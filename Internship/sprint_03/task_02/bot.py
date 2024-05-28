@@ -68,6 +68,7 @@ def pixelate_image(image, pixel_size):
     )
     return image
 
+
 # Инвертируем цвета
 def invert_colors(image):
     return ImageOps.invert(image)
@@ -155,6 +156,9 @@ def pixelate_and_send(message):
     pixelated.save(output_stream, format="JPEG")
     output_stream.seek(0)
     bot.send_photo(message.chat.id, output_stream)
+    user_states[message.chat.id] = {'level': 0}
+    bot.reply_to(message, "Please choose what you'd like to do with it.",
+                 reply_markup=get_options_keyboard(message))
 
 
 def ascii_and_send(message):
@@ -166,6 +170,9 @@ def ascii_and_send(message):
 
     ascii_art = image_to_ascii(image_stream)
     bot.send_message(message.chat.id, f"```\n{ascii_art}\n```", parse_mode="MarkdownV2")
+    user_states[message.chat.id] = {'level': 0}
+    bot.reply_to(message, "Please choose what you'd like to do with it.",
+                 reply_markup=get_options_keyboard(message))
 
 
 @bot.message_handler(func=lambda message: True)
@@ -174,12 +181,12 @@ def handle_message(message):
         global ASCII_CHARS
         ASCII_CHARS = message.text
         ascii_and_send(message)
-        user_states[message.chat.id]['ascii'] = False
-        user_states[message.chat.id] = None
+        # user_states[message.chat.id]['ascii'] = False
+        # user_states[message.chat.id] = None
+        user_states[message.chat.id] = {'level': 0}
+        bot.reply_to(message, "Please choose what you'd like to do with it.",
+                     reply_markup=get_options_keyboard(message))
 
 
-def invert_colors(image):
-    return ImageOps.invert(image)
-
-
+# Запускаем бота
 bot.polling(none_stop=True)
