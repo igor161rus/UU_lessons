@@ -139,8 +139,9 @@ def callback_query(call):
     elif call.data == "ascii_art":
         # user_states[chat_id]['ascii'] = True
         user_states[chat_id]['level'] = 2
-        bot.reply_to(call.message, "Converting your image to ASCII art...",
+        bot.reply_to(call.message, "Выберите способ преобразования картинки в ASCII...",
                      reply_markup=get_options_keyboard(call.message))
+        bot.delete_message(chat_id, user_states[chat_id]['message_id'])
         # user_states[call.message.chat.id]['message_id'] = call.message.message_id
 
         # bot.answer_callback_query(call.id, "Converting your image to ASCII art...")
@@ -151,8 +152,9 @@ def callback_query(call):
     elif call.data == "ascii_personal":
         user_states[chat_id]['level'] = 6
         bot.reply_to(call.message, "Enter char for converting your image to ASCII art...")
+        bot.delete_message(chat_id, user_states[chat_id]['message_id'])
         # bot.answer_callback_query(call.id, "Converting your image to ASCII personal art...")
-        ascii_and_send(call.message)
+        # ascii_and_send(call.message)
 
 
 def pixelate_and_send(message):
@@ -188,8 +190,8 @@ def ascii_and_send(message):
     ascii_art = image_to_ascii(image_stream)
     bot.send_message(message.chat.id, f"```\n{ascii_art}\n```", parse_mode="MarkdownV2")
     user_states[message.chat.id]['level'] = 0
-    bot.reply_to(message, "Please choose what you'd like to do with it.",
-                 reply_markup=get_options_keyboard(message))
+    bot.send_message(message.chat.id, "Please choose what you'd like to do with it.",
+                     reply_markup=get_options_keyboard(message))
     bot.delete_message(message.chat.id, user_states[message.chat.id]['message_id'])
     # user_states[message.chat.id]['message_id'] = message.message_id
 
@@ -197,15 +199,16 @@ def ascii_and_send(message):
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
     if user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 6:
+        # bot.delete_message(message.chat.id, user_states[message.chat.id]['message_id'])
         global ASCII_CHARS
         ASCII_CHARS = message.text
         ascii_and_send(message)
         # user_states[message.chat.id]['ascii'] = False
         # user_states[message.chat.id] = None
-        user_states[message.chat.id]['level'] = 0
-        bot.reply_to(message, "Please choose what you'd like to do with it.",
-                     reply_markup=get_options_keyboard(message))
-        bot.delete_message(message.chat.id, user_states[message.chat.id]['message_id'])
+        # user_states[message.chat.id]['level'] = 0
+        # bot.send_message(message.chat.id, "Please choose what you'd like to do with it.",
+        #                  reply_markup=get_options_keyboard(message))
+        # bot.delete_message(message.chat.id, user_states[message.chat.id]['message_id'])
         # user_states[message.chat.id]['message_id'] = message.message_id
 
 
