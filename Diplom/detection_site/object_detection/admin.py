@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import ImageFeed, DetectedObject
 
-# Register your models here.
+admin.site.register(ImageFeed)
+admin.site.register(DetectedObject)
