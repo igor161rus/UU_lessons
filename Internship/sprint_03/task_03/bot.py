@@ -81,6 +81,18 @@ def invert_colors(image):
     return ImageOps.invert(image)
 
 
+# Отражаем изображение
+def mirror_image(image):
+    """
+    Функция для отражения изображения по вертикали.
+    Args:
+    image (PIL.Image): Изображение для отражения.
+    Returns:
+    PIL.Image: Зеркальное отражение изображения.
+    """
+    return ImageOps.mirror(image)
+
+
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
     bot.reply_to(message, "Send me an image, and I'll provide options for you!")
@@ -113,7 +125,8 @@ def get_options_keyboard(message):
         keyboard = types.InlineKeyboardMarkup()
         pixelate_btn = types.InlineKeyboardButton("Pixelate", callback_data="pixelate")
         ascii_btn = types.InlineKeyboardButton("ASCII Art", callback_data="ascii_art")
-        keyboard.add(pixelate_btn, ascii_btn)
+        mirror_btn = types.InlineKeyboardButton("Mirror", callback_data="mirror")
+        keyboard.add(pixelate_btn, ascii_btn, mirror_btn)
         user_states[message.chat.id]['message_id'] = message.message_id
         return keyboard
     elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 1:
@@ -181,6 +194,11 @@ def callback_query(call):
         user_states[chat_id]['level'] = 6
         bot.reply_to(call.message, "Enter char for converting your image to ASCII art...")
         bot.delete_message(chat_id, user_states[chat_id]['message_id'])
+    # Уровень 7 - зеркальное отображение
+    elif call.data == "mirror":
+        user_states[chat_id]['level'] = 7
+        bot.answer_callback_query(call.id, "Mirroring your image...")
+        pixelate_and_send(call.message)
 
 
 def pixelate_and_send(message):
@@ -199,11 +217,13 @@ def pixelate_and_send(message):
     image_stream = io.BytesIO(downloaded_file)
     image = Image.open(image_stream)
     # Проверяем уровень пользователя и выбираем соответствующую обработку изображения.
-    # 3 - пикселизация, 4 - инвертирование
+    # 3 - пикселизация, 4 - инвертирование, 7 - зеркальное отображение
     if user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 3:
         pixelated = pixelate_image(image, 20)
     elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 4:
         pixelated = invert_colors(image)
+    elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 7:
+        pixelated = mirror_image(image)
     output_stream = io.BytesIO()
     pixelated.save(output_stream, format="JPEG")
     output_stream.seek(0)
