@@ -71,6 +71,13 @@ def pixelate_image(image, pixel_size):
 
 # Инвертируем цвета
 def invert_colors(image):
+    """
+    Инвертирует цвета полученного изображения.
+    Args:
+    image (PIL.Image): изображение для инвертирования цветов.
+    Returns:
+    PIL.Image: изображение с инвертированными цветами.
+    """
     return ImageOps.invert(image)
 
 
@@ -90,8 +97,19 @@ def handle_photo(message):
 
 
 def get_options_keyboard(message):
+    """
+    Генерирует различные InlineKeyboards в зависимости от уровня пользователя, хранящегося в user_states.
+
+    Args:
+        message: объект сообщения, полученный от пользователя.
+
+    Returns:
+        types.InlineKeyboardMarkup: Сгенерированаая InlineKeyboard.
+    """
+    # Проверка, есть ли в user_states ключ для текущего идентификатора чата и уровня пользователя
     print(user_states.get(message.chat.id))
     if user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 0:
+        # Создание InlineKeyboard для level 0
         keyboard = types.InlineKeyboardMarkup()
         pixelate_btn = types.InlineKeyboardButton("Pixelate", callback_data="pixelate")
         ascii_btn = types.InlineKeyboardButton("ASCII Art", callback_data="ascii_art")
@@ -99,6 +117,7 @@ def get_options_keyboard(message):
         user_states[message.chat.id]['message_id'] = message.message_id
         return keyboard
     elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 1:
+        # Создание InlineKeyboard для level 1
         keyboard = types.InlineKeyboardMarkup()
         pixelate_btn = types.InlineKeyboardButton("Pixelate img", callback_data="pixelate_img")
         ascii_btn = types.InlineKeyboardButton("Invert color", callback_data="invert")
@@ -106,6 +125,7 @@ def get_options_keyboard(message):
         user_states[message.chat.id]['message_id'] = message.message_id
         return keyboard
     elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 2:
+        # Создание InlineKeyboard для level 2
         keyboard = types.InlineKeyboardMarkup()
         pixelate_btn = types.InlineKeyboardButton("ASCII Art", callback_data="ascii")
         ascii_btn = types.InlineKeyboardButton("ASCII Personal Art", callback_data="ascii_personal")
@@ -116,54 +136,70 @@ def get_options_keyboard(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
+    """
+    Обработка запросов обратного вызова для различных действий по обработке изображений.
+
+    Parameters:
+    - call: Объект запроса обратного вызова
+
+    Returns:
+    - None
+    """
     chat_id = call.message.chat.id
+
+    # Определяем действие по обработке изображений
+    # Уровень 1 - пикселизация и инверсия
     if call.data == "pixelate":
         user_states[chat_id]['level'] = 1
         bot.reply_to(call.message, f"Выберите действие... {call.message.message_id}",
                      reply_markup=get_options_keyboard(call.message))
         bot.delete_message(chat_id, user_states[chat_id]['message_id'])
-        # user_states[call.message.chat.id]['message_id'] = call.message.message_id
-        # pixelate_and_send(call.message)
+    # Уровень 3 - пикселизация изображения
     elif call.data == "pixelate_img":
         user_states[chat_id]['level'] = 3
         bot.answer_callback_query(call.id, f"Pixelating your image... {call.message.message_id}")
         pixelate_and_send(call.message)
+    # Уровень 4 - инвертирование изображения
     elif call.data == "invert":
         user_states[chat_id]['level'] = 4
         bot.reply_to(call.message, f"Inverting your image... {call.message.message_id}")
-        # user_states[call.message.chat.id]['message_id'] = call.message.message_id
-        # bot.answer_callback_query(call.id, "Inverting your image...")
-        # invert_and_send(call.message)
         pixelate_and_send(call.message)
-
+    # Уровень 2 - ascii арт преобразование
     elif call.data == "ascii_art":
-        # user_states[chat_id]['ascii'] = True
         user_states[chat_id]['level'] = 2
-        bot.reply_to(call.message, "Выберите способ преобразования картинки в ASCII...",
-                     reply_markup=get_options_keyboard(call.message))
+        bot.send_message(call.message,
+                         f"Выберите способ преобразования картинки в ASCII...{call.message.message_id}",
+                         reply_markup=get_options_keyboard(call.message))
         bot.delete_message(chat_id, user_states[chat_id]['message_id'])
-        # user_states[call.message.chat.id]['message_id'] = call.message.message_id
-
-        # bot.answer_callback_query(call.id, "Converting your image to ASCII art...")
+    # Уровень 5 - ascii арт преобразование по шаблону по умолчанию
     elif call.data == "ascii":
         user_states[chat_id]['level'] = 5
         bot.answer_callback_query(call.id, "Converting your image to ASCII art...")
         ascii_and_send(call.message)
+    # Уровень 6 - ascii арт преобразование по шаблону пользователя
     elif call.data == "ascii_personal":
         user_states[chat_id]['level'] = 6
         bot.reply_to(call.message, "Enter char for converting your image to ASCII art...")
         bot.delete_message(chat_id, user_states[chat_id]['message_id'])
-        # bot.answer_callback_query(call.id, "Converting your image to ASCII personal art...")
-        # ascii_and_send(call.message)
 
 
 def pixelate_and_send(message):
+    """
+        Функция пикселизации или инвертирования цветов изображения и отправки его обратно в чат.
+        Args:
+            message: объект сообщения, содержащий информацию о чате и пользователе.
+        Returns:
+            None
+        """
+    # Извлекаем photo_id из словаря user_states и загружаем изображение
     photo_id = user_states[message.chat.id]['photo']
     file_info = bot.get_file(photo_id)
     downloaded_file = bot.download_file(file_info.file_path)
 
     image_stream = io.BytesIO(downloaded_file)
     image = Image.open(image_stream)
+    # Проверяем уровень пользователя и выбираем соответствующую обработку изображения.
+    # 3 - пикселизация, 4 - инвертирование
     if user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 3:
         pixelated = pixelate_image(image, 20)
     elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 4:
@@ -177,7 +213,6 @@ def pixelate_and_send(message):
                      f"Выберите действие, которое хотите сделать с изображением. {message.message_id}",
                      reply_markup=get_options_keyboard(message))
     bot.delete_message(message.chat.id, user_states[message.chat.id]['message_id'])
-    # user_states[message.chat.id]['message_id'] = message.message_id + 1
 
 
 def ascii_and_send(message):
@@ -198,18 +233,21 @@ def ascii_and_send(message):
 
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
+    """
+    Функция для обработки входящих сообщений от пользователя.
+
+    Parameters:
+    message: объект сообщения, отправленный пользователем.
+    Returns:
+    None
+    """
+    # Проверяем, есть ли у пользователя состояние и находится ли он на уровне 6
+
     if user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 6:
-        # bot.delete_message(message.chat.id, user_states[message.chat.id]['message_id'])
+        bot.delete_message(message.chat.id, user_states[message.chat.id]['message_id'] + 1)
         global ASCII_CHARS
         ASCII_CHARS = message.text
         ascii_and_send(message)
-        # user_states[message.chat.id]['ascii'] = False
-        # user_states[message.chat.id] = None
-        # user_states[message.chat.id]['level'] = 0
-        # bot.send_message(message.chat.id, "Please choose what you'd like to do with it.",
-        #                  reply_markup=get_options_keyboard(message))
-        # bot.delete_message(message.chat.id, user_states[message.chat.id]['message_id'])
-        # user_states[message.chat.id]['message_id'] = message.message_id
 
 
 # Запускаем бота
