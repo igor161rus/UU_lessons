@@ -93,6 +93,19 @@ def mirror_image(image):
     return ImageOps.mirror(image)
 
 
+def convert_to_heatmap(image):
+    """
+    Преобразует изображение в тепловую карту.
+    Args:
+    image (PIL.Image): Изображение для преобразования в тепловую карту.
+    Returns:
+    PIL.Image: Тепловая карта.
+    """
+    img = image.convert('L')
+
+    return ImageOps.colorize(img, (0, 0, 255), (255, 0, 0))
+
+
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
     bot.reply_to(message, "Send me an image, and I'll provide options for you!")
@@ -126,7 +139,8 @@ def get_options_keyboard(message):
         pixelate_btn = types.InlineKeyboardButton("Pixelate", callback_data="pixelate")
         ascii_btn = types.InlineKeyboardButton("ASCII Art", callback_data="ascii_art")
         mirror_btn = types.InlineKeyboardButton("Mirror", callback_data="mirror")
-        keyboard.add(pixelate_btn, ascii_btn, mirror_btn)
+        heatmap_btn = types.InlineKeyboardButton("Heatmap", callback_data="heatmap")
+        keyboard.add(pixelate_btn, ascii_btn, mirror_btn, heatmap_btn)
         user_states[message.chat.id]['message_id'] = message.message_id
         return keyboard
     elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 1:
@@ -199,6 +213,11 @@ def callback_query(call):
         user_states[chat_id]['level'] = 7
         bot.answer_callback_query(call.id, "Mirroring your image...")
         pixelate_and_send(call.message)
+    # Уровень 8 - heatmap
+    elif call.data == "heatmap":
+        user_states[chat_id]['level'] = 8
+        bot.answer_callback_query(call.id, "Converting your image to heatmap...")
+        pixelate_and_send(call.message)
 
 
 def pixelate_and_send(message):
@@ -224,6 +243,8 @@ def pixelate_and_send(message):
         pixelated = invert_colors(image)
     elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 7:
         pixelated = mirror_image(image)
+    elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 8:
+        pixelated = convert_to_heatmap(image)
     output_stream = io.BytesIO()
     pixelated.save(output_stream, format="JPEG")
     output_stream.seek(0)
