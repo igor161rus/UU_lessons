@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Главная</title>
-</head>
-<body>
-    <h1>Добро пожаловать на платформу для распознавания объектов.</h1>
-</body>
-</html>
+{% extends 'object_detection/base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>>
+<p>Добро пожаловать на сайт распознования объектов</p>
+<ul>
+    {% for post in posts %}
+    <li>
+        <h2>{{ post.user }}</h2>
+        <hr>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
