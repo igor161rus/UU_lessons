@@ -1,4 +1,5 @@
 SQLLiteStudio
+Bootstrap: https://getbootstrap.com
 
 django-admin startproject detection
 python manage.py runserver
