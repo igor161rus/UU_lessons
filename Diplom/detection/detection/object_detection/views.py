@@ -6,6 +6,10 @@ def home(request):
     return render(request, "object_detection/home.html")
 
 
+def about(request):
+    return render(request, "object_detection/about.html")
+
+
 def dashboard(request):
     return HttpResponse("dashboard")
 
