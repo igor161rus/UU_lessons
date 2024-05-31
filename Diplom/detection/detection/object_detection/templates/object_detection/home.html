@@ -1,14 +1,14 @@
 {% extends 'object_detection/base.html' %}
 
 {% block content %}
-<h1>{{ title }}</h1>>
 <p>Добро пожаловать на сайт распознования объектов</p>
-<ul>
-    {% for post in posts %}
-    <li>
-        <h2>{{ post.user }}</h2>
-        <hr>
-    </li>
+<ul class="list-articles">
+    {% for p in posts %}
+        <li>
+            <h2>{{ p.user }}</h2>
+            <div class="clear"></div>
+            <hr>
+        </li>
     {% endfor %}
 </ul>
 {% endblock %}

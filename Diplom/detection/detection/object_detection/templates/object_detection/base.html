@@ -1,18 +1,59 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>{{ title }}</title>
+    <link type="text/css" href="{% static 'object_detection/css/styles.css' %}" rel="stylesheet" />
+    <link rel="shortcut icon" href="{% static 'object_detection/images/site.ico' %}" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
+<table class="table-page" border="0" cellpadding="0" cellspacing="0">
+<tr><td valign=top>
 {% block mainmenu %}
-<ul>
-    {% for item in menu %}
-<li>{{ item }}</li>
-    {% endfor %}
-</ul>
+    <div class="header">
+        <ul> id="mainmenu" class="mainmenu">
+        <li class="logo"><a href="#"><div class="logo"></div></a></li>
+{% for m in menu %}
+    {% if not forloop.last %}
+            <li><a href="#">{{ m.title }}</a></li>
+    {% else %}
+            <li class="last"><a href="#">{{ m.title }}</a></li>
+    {% endif %}
+{% endfor %}
+        </ul>
+        <div class="clear"></div>
+    </div>
 {% endblock mainmenu %}
 
+<table class="table-content"  border="0" cellpadding="0" cellspacing="0">
+<tr>
+    <td valign="top" class="left-chapters">
+    <ul id="leftchapters">
+        <li class="selected">Все категории</li>
+
+        <li class="share">
+        <p>Наш телеграмм</p>
+        <a class="telegram" href="https://t.me/UU_diplom"></a>
+        </li>
+
+    </ul>
+</td>
+<td valign="top" class="content">
+        {% block breadcrumbs %}
+        {% endblock %}
+
+    <div class="content-text">
 {% block content %}
-{% endblock content %}
+{% endblock %}
+    </div>
+</td></tr></table>
+</td></tr>
+
+<tr><td valign=top>
+    <div id="footer">
+            <p>© 2024. Все права защищены.</p>
+    </div>
+</td></tr></table>
 </body>
 </html>

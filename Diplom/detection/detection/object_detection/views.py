@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
-from models import *
+from .models import *
 
-menu = ['Главная', 'О сайте', 'приборная доска']
+menu = ['Главная', 'Приборная доска', 'О нас', 'Войти']
 
 
 def home(request):
