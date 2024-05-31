@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 
 
 def home(request):
-    return HttpResponse("<h1>Добро пожаловать на платформу для распознавания объектов.</h1>")
+    return render(request, "object_detection/home.html")
 
 
 def dashboard(request):
