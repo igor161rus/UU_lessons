@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 
 
 class ImageFeed(models.Model):
@@ -11,7 +12,8 @@ class ImageFeed(models.Model):
         return f"{self.user.username} - {self.image.name}"
 
     def get_absolute_url(self):
-        return f"/{self.pk}/"
+        # return f"/{self.pk}/"
+        return reverse('image', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = 'Изображение'

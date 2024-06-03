@@ -6,4 +6,5 @@ urlpatterns = [
     path('dashboard/', dashboard, name='dashboard'),
     path('login/', login, name='login'),
     path('about/', about, name='about'),
+    path('image/<int:pk>/', image, name='image'),
 ]

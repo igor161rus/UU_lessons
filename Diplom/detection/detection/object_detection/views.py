@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseNotFound
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseNotFound, Http404
 from .models import *
 
 menu = [
@@ -29,6 +29,14 @@ def dashboard(request):
 
 def login(request):
     return HttpResponse("login")
+
+
+def image(request, pk):
+    try:
+        image = ImageFeed.objects.get(pk=pk)
+        return render(request, "object_detection/image.html", {"image": image})
+    except:
+        raise Http404
 
 
 def pageNotFound(request, exception):
