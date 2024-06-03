@@ -13,14 +13,12 @@
 {% block mainmenu %}
     <div class="header">
         <ul> id="mainmenu" class="mainmenu">
-        <li class="logo"><a href="#"><div class="logo"></div></a></li>
+        <li class="logo"><a href="{% url 'home' %}"><div class="logo"></div></a></li>
 {% for m in menu %}
-    {% if not forloop.last %}
-            <li><a href="#">{{ m.title }}</a></li>
-    {% else %}
-            <li class="last"><a href="#">{{ m.title }}</a></li>
-    {% endif %}
+        <li><a href="{% url m.url_name %}">{{ m.title }}</a></li>
+        <li class="last"><a href="#">{{ m.title }}</a></li>
 {% endfor %}
+        <a href="{% url 'login' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a>
         </ul>
         <div class="clear"></div>
     </div>
@@ -29,9 +27,9 @@
 <table class="table-content"  border="0" cellpadding="0" cellspacing="0">
 <tr>
     <td valign="top" class="left-chapters">
-    <ul id="leftchapters">
-        <li class="selected">Все категории</li>
-
+   <ul id="leftchapters">
+<!--         <li class="selected">Все категории</li>
+-->
         <li class="share">
         <p>Наш телеграмм</p>
         <a class="telegram" href="https://t.me/UU_diplom"></a>

@@ -2,12 +2,21 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound
 from .models import *
 
-menu = ['Главная', 'Приборная доска', 'О нас', 'Войти']
+menu = [
+    {"title": "Главная", "url_name": "home"},
+    {"title": "Регистрация", "url_name": "register"},
+    {"title": "Войти", "url_name": "login"},
+]
 
 
 def home(request):
     posts = ImageFeed.objects.all()
-    return render(request, "object_detection/home.html", {'posts': posts, 'menu': menu, 'title': 'Главная'})
+    context = {
+        'posts': posts,
+        'menu': menu,
+        'title': 'Главная'
+    }
+    return render(request, "object_detection/home.html", context=context)
 
 
 def about(request):
@@ -16,6 +25,10 @@ def about(request):
 
 def dashboard(request):
     return HttpResponse("dashboard")
+
+
+def login(request):
+    return HttpResponse("login")
 
 
 def pageNotFound(request, exception):
