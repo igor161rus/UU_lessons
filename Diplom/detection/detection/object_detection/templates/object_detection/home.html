@@ -7,6 +7,10 @@
         <li>
             <h2>{{ p.user }}</h2>
             <div class="clear"></div>
+            {% if p.image %}
+                <p><img class="img-article-left thumb" src="{{ p.image.url }}"></p>
+            {% endif %}
+            <p>{{ p.text|safe }}</p>
             <hr>
         </li>
     {% endfor %}
