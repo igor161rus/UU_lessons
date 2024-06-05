@@ -1,20 +1,14 @@
 {% extends 'object_detection/base.html' %}
 
 {% block content %}
-<h1>Добро пожаловать на сайт распознования объектов</h1>
+<h1>Приборная доска {{ request.user }}</h1>
 
-<p>веб приложение, которое позволит
-пользователям применять предобученную модель для обнаружения и классификации
-объектов на фото.</p>
+<p>На странице представлены изображения для обнаружения объектов загруженные на сайт пользователем {{ request.user }}.</p>
 
 {% if request.user.is_authenticated %}
 
 <ul class="list-articles">
-
-
-
         {% for i in image_feeds %}
-                        <li><h2>{{ p.user }}</h2>
                 {% autoescape on %}
                 {{p.content|linebreaks|truncatewords:50}}
                 {% endautoescape %}
