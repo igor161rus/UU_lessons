@@ -11,6 +11,7 @@ from .models import *
 from .utils import *
 from .forms import *
 
+
 # menu = [
 #     {"title": "Главная", "url_name": "home"},
 #     {"title": "Приборная доска", "url_name": "dashboard"},
@@ -19,13 +20,7 @@ from .forms import *
 
 
 def home(request):
-    posts = ImageFeed.objects.all()
-    context = {
-        'posts': posts,
-        'menu': menu,
-        'title': 'Главная'
-    }
-    return render(request, "object_detection/home.html", context=context)
+    return render(request, 'object_detection/home.html')
 
 
 def about(request):
@@ -34,7 +29,17 @@ def about(request):
 
 @login_required
 def dashboard(request):
-    return HttpResponse("dashboard")
+    # return render(request, 'object_detection/dashboard.html', {'image_feeds': image_feeds})
+    # return HttpResponse("dashboard")
+    image_feeds = ImageFeed.objects.filter(user=request.user)
+    # posts = ImageFeed.objects.all()
+    context = {
+        'image_feeds': image_feeds,
+        # 'posts': posts,
+        'menu': menu,
+        'title': 'Главная'
+    }
+    return render(request, "object_detection/dashboard.html", context=context)
 
 
 # def login(request):
@@ -73,7 +78,7 @@ class RegisterUser(DataMixin, CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('home')
+        return redirect('dashboard')
 
 
 class LoginUser(DataMixin, LoginView):
@@ -86,7 +91,7 @@ class LoginUser(DataMixin, LoginView):
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_success_url(self):
-        return reverse_lazy('home')
+        return reverse_lazy('dashboard')
 
 
 def logout_user(request):
