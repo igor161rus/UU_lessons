@@ -180,7 +180,7 @@ def callback_query(call):
     # Уровень 2 - ascii арт преобразование
     elif call.data == "ascii_art":
         user_states[chat_id]['level'] = 2
-        bot.send_message(call.message,
+        bot.send_message(call.message.chat.id,
                          f"Выберите способ преобразования картинки в ASCII...{call.message.message_id}",
                          reply_markup=get_options_keyboard(call.message))
         bot.delete_message(chat_id, user_states[chat_id]['message_id'])
@@ -193,7 +193,7 @@ def callback_query(call):
     elif call.data == "ascii_personal":
         user_states[chat_id]['level'] = 6
         bot.reply_to(call.message, "Enter char for converting your image to ASCII art...")
-        bot.delete_message(chat_id, user_states[chat_id]['message_id'])
+        # bot.delete_message(chat_id, user_states[chat_id]['message_id'])
     # Уровень 7 - зеркальное отображение
     elif call.data == "mirror":
         user_states[chat_id]['level'] = 7
