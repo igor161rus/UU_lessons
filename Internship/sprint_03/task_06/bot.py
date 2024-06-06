@@ -3,6 +3,7 @@ from PIL import Image, ImageOps
 import io
 from telebot import types
 from settings import TOKEN_BOT
+from modules import Jokes
 
 TOKEN = TOKEN_BOT
 bot = telebot.TeleBot(TOKEN)
@@ -125,6 +126,8 @@ def send_welcome(message):
 @bot.message_handler(content_types=['photo'])
 def handle_photo(message):
     user_states[message.chat.id] = {'level': 0}
+    jokes0 = Jokes(0)
+    bot.send_message(message.chat.id, jokes0.get_joke())
     # user_states[message.chat.id]['photo'] = message.photo[-1].file_id
     bot.reply_to(message, "I got your photo! Please choose what you'd like to do with it.",
                  reply_markup=get_options_keyboard(message))
@@ -190,6 +193,8 @@ def callback_query(call):
     # Уровень 1 - пикселизация и инверсия
     if call.data == "pixelate":
         user_states[chat_id]['level'] = 1
+        jokes1 = Jokes(1)
+        bot.send_message(chat_id, jokes1.get_joke())
         bot.reply_to(call.message, f"Выберите действие... {call.message.message_id}",
                      reply_markup=get_options_keyboard(call.message))
         bot.delete_message(chat_id, user_states[chat_id]['message_id'])
