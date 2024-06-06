@@ -58,7 +58,7 @@ def image(request, pk):
 def process_image_feed(request, feed_id):
     image_feed = get_object_or_404(ImageFeed, id=feed_id, user=request.user)
     process_image(feed_id)
-    return redirect('object_detection:dashboard')
+    return redirect('dashboard')
 
 
 def pageNotFound(request, exception):
@@ -97,3 +97,24 @@ class LoginUser(DataMixin, LoginView):
 def logout_user(request):
     logout(request)
     return redirect('home')
+
+
+@login_required
+def add_image_feed(request):
+    if request.method == 'POST':
+        form = ImageFeedForm(request.POST, request.FILES)
+        if form.is_valid():
+            image_feed = form.save(commit=False)
+            image_feed.user = request.user
+            image_feed.save()
+            return redirect('object_detection:dashboard')
+    else:
+        form = ImageFeedForm()
+    return render(request, 'object_detection/add_image_feed.html', {'form': form})
+
+
+@login_required
+def delete_image(request, image_id):
+    image = get_object_or_404(ImageFeed, id=image_id, user=request.user)
+    image.delete()
+    return redirect('object_detection:dashboard')
