@@ -192,7 +192,7 @@ def callback_query(call):
     # Уровень 6 - ascii арт преобразование по шаблону пользователя
     elif call.data == "ascii_personal":
         user_states[chat_id]['level'] = 6
-        bot.reply_to(call.message, "Enter char for converting your image to ASCII art...")
+        bot.send_message(call.message.chat.id, "Enter char for converting your image to ASCII art...")
         # bot.delete_message(chat_id, user_states[chat_id]['message_id'])
     # Уровень 7 - зеркальное отображение
     elif call.data == "mirror":
