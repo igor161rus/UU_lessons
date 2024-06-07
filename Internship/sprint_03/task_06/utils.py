@@ -2,6 +2,9 @@ import random
 
 
 class Jokes:
+    """
+    Класс для работы с шутками.
+    """
     jokes = [
         'Почему в Telegram так много картинок? Потому что люди не хотят читать длинные тексты, они хотят видеть всё наглядно.',
         'В Telegram можно найти любую картинку, даже если ты ищешь «как нарисовать единорога».',
@@ -53,11 +56,21 @@ class Jokes:
         'Фотограф — это профессионал, который всегда готов к новым вызовам и экспериментам.',
     ]
 
-    def __init__(self, user_level: int):
-        self.user_level = user_level
-        self.rng = range(user_level * 5, user_level * 5 + 4)
+    def __init__(self):
+        self.user_level = 0
+        self.rng = range(0, 5)
 
-    def get_joke(self):
+    def get_joke(self, user_level):
+        """
+            Возвращает шутку по выбранному уровню
+        Args:
+            user_level (int): Уровень пользователя.
+        Returns:
+            str: Шутка на основании уровня пользователя.
+        """
+
+        self.user_level = user_level
+        self.rng = range(self.user_level * 5, self.user_level * 5 + 4)
         if self.user_level == 0:
             return self.jokes[random.choice(self.rng)]
         elif self.user_level == 1:
@@ -72,11 +85,6 @@ class Jokes:
             return self.jokes[random.choice(self.rng)]
 
 
-jokes = Jokes(0)
-print(jokes.get_joke())
-
-jokes = Jokes(1)
-print(jokes.get_joke())
-
-jokes = Jokes(2)
-print(jokes.get_joke())
+# jokes = Jokes()
+# for i in range(6):
+#     print(jokes.get_joke(i))
