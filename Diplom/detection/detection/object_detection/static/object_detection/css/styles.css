@@ -21,7 +21,7 @@ img {max-width: 600px; height: auto;}
 img.img-article-left {
 	max-width: 300px;
 	height: auto;
-	float: left;
+	float: none;
 	padding: 0 10px 10px 0;
 }
 
@@ -414,3 +414,11 @@ ul.lang-list li a:hover {color: #fdc073;}
     border-radius: .25rem;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
+
+.thumb img  {
+    border: 2px solid #55c5e9; /* Рамка вокруг фотографии */
+    padding: 15px; /* Расстояние от картинки до рамки */
+    background: #666; /* Цвет фона */
+    margin-right: 10px; /* Отступ справа */
+    margin-bottom: 10px; /* Отступ снизу */
+   }
