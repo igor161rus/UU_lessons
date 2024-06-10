@@ -119,10 +119,10 @@ def process_image_detr(image_feed_id):
             confidence=float(score.item())
         )
 
-        image = cv2.rectangle(np.array(image), (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (255, 0, 0), 2)
+        image = cv2.rectangle(np.array(image), (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 2)
         label = f'{model.config.id2label[label.item()]}: {round(score.item(), 3)}'
         image = cv2.putText(np.array(image), label, (int(box[0]), int(box[1])),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
         result, encoded_img = cv2.imencode('.jpg', image)
         if result:
             content = ContentFile(encoded_img.tobytes(), f'processed_{image_feed.image.name}')
