@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-import requests
+# import requests
 import torch
 from django.core.files.base import ContentFile
 from .models import *
@@ -43,6 +43,7 @@ class DataMixin:
 def process_image(image_feed_id):
     try:
         image_feed = ImageFeed.objects.get(id=image_feed_id)
+        # detected_objects = DetectedObject.objects.filter(image_feed=image_feed)
         image_path = image_feed.image.path
 
         model_path = 'object_detection/mobilenet_iter_73000.caffemodel'
@@ -75,13 +76,17 @@ def process_image(image_feed_id):
                     image_feed=image_feed,
                     object_type=class_label,
                     location=f"{startX},{startY},{endX},{endY}",
-                    confidence=float(confidence)
+                    confidence=float(confidence),
+                    # processed_image=detected_objects.processed_image
                 )
 
         result, encoded_img = cv2.imencode('.jpg', img)
+
+        detected_objects = DetectedObject.objects.filter(image_feed=image_feed)
         if result:
             content = ContentFile(encoded_img.tobytes(), f'processed_{image_feed.image.name}')
-            image_feed.processed_image.save(content.name, content, save=True)
+            # image_feed.processed_image.save(content.name, content, save=True)
+            detected_objects.processed_image.save(content.name, content, save=True)
 
         return True
 
@@ -120,7 +125,7 @@ def process_image_detr(image_feed_id):
         )
 
         image = cv2.rectangle(np.array(image), (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 2)
-        label = f'{model.config.id2label[label.item()]}: {round(score.item(), 3)}'
+        label = f'{model.config.id2label[label.item()]}: {round(score.item(), 2)}'
         image = cv2.putText(np.array(image), label, (int(box[0]), int(box[1])),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
         result, encoded_img = cv2.imencode('.jpg', image)

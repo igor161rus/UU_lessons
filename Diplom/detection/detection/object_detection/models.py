@@ -6,7 +6,7 @@ from django.urls import reverse
 class ImageFeed(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
     image = models.ImageField(upload_to='images/', verbose_name='Изображение')
-    processed_image = models.ImageField(upload_to='processed_images/', null=True, blank=True, verbose_name='Обработанное изображение')
+    # processed_image = models.ImageField(upload_to='processed_images/', null=True, blank=True, verbose_name='Обработанное изображение')
 
     def __str__(self):
         return f"{self.user.username} - {self.image.name}"
@@ -26,6 +26,8 @@ class DetectedObject(models.Model):
     object_type = models.CharField(max_length=100)
     confidence = models.FloatField()
     location = models.CharField(max_length=255)
+    processed_image = models.ImageField(upload_to='processed_images/', null=True, blank=True,
+                                        verbose_name='Обработанное изображение')
 
     def __str__(self):
         return f"{self.object_type} ({self.confidence * 100}%) on {self.image_feed.image.name}"
