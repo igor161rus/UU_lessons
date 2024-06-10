@@ -58,6 +58,7 @@ def image(request, pk):
 def process_image_feed(request, feed_id):
     image_feed = get_object_or_404(ImageFeed, id=feed_id, user=request.user)
     process_image(feed_id)
+    process_image_detr(feed_id)
     return redirect('dashboard')
 
 

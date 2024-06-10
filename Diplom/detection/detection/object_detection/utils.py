@@ -1,7 +1,12 @@
 import cv2
 import numpy as np
+import requests
+import torch
 from django.core.files.base import ContentFile
 from .models import *
+from PIL import Image
+from transformers import DetrImageProcessor, DetrForObjectDetection
+
 
 menu = [{'title': 'Главная', 'url_name': 'home'},
         {'title': 'Приборная доска', 'url_name': 'dashboard'},
@@ -83,3 +88,44 @@ def process_image(image_feed_id):
     except ImageFeed.DoesNotExist:
         print("ImageFeed not found.")
         return False
+
+
+def process_image_detr(image_feed_id):
+    image_feed = ImageFeed.objects.get(id=image_feed_id)
+    image_path = image_feed.image.path
+
+    image = Image.open(image_path)
+
+    processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
+    model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
+
+    inputs = processor(images=image, return_tensors="pt")
+    outputs = model(**inputs)
+
+    target_sizes = torch.tensor([image.size[::-1]])
+    results = processor.post_process_object_detection(outputs, target_sizes=target_sizes, threshold=0.9)[0]
+
+    for score, label, box in zip(results["scores"], results["labels"], results["boxes"]):
+        box = [round(i, 2) for i in box.tolist()]
+        print(
+            f"Detected {model.config.id2label[label.item()]} with confidence "
+            f"{round(score.item(), 3)} at location {box}"
+        )
+
+        DetectedObject.objects.create(
+            image_feed=image_feed,
+            object_type=model.config.id2label[label.item()],
+            location=f"{box[0]},{box[1]},{box[2]},{box[3]}",
+            confidence=float(score.item())
+        )
+
+        image = cv2.rectangle(np.array(image), (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (255, 0, 0), 2)
+        label = f'{model.config.id2label[label.item()]}: {round(score.item(), 3)}'
+        image = cv2.putText(np.array(image), label, (int(box[0]), int(box[1])),
+                            cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 0, 0), 2)
+        result, encoded_img = cv2.imencode('.jpg', image)
+        if result:
+            content = ContentFile(encoded_img.tobytes(), f'processed_{image_feed.image.name}')
+            image_feed.processed_image.save(content.name, content, save=True)
+
+    return True
