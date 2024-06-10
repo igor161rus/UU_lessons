@@ -4,7 +4,7 @@ from .models import *
 
 
 class DetectedObjectAdmin(admin.ModelAdmin):
-    list_display = ('image_feed', 'object_type', 'confidence', 'location', 'processed_image')
+    list_display = ('image_feed', 'object_type', 'confidence', 'location', 'processed_image', 'method_detected')
     list_display_links = ('image_feed',)
     search_fields = ('object_type', 'location')
 

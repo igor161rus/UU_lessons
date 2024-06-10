@@ -15,7 +15,7 @@
         <a href="{{ i.image.url }}" target="_blank">
             <img class="img-article-left thumb" src="{{ i.image.url }}" alt="Card image cap">
         </a>
-            <table>
+            <table class="table">
             <tr>
             {% for obj in i.detected_objects.all %}
                 {% if obj.processed_image %}
@@ -23,7 +23,8 @@
                         <a href="{{ obj.processed_image.url }}" target="_blank">
                             <img class="img-article-left thumb" src="{{ obj.processed_image.url }}" alt="Processed Image">
                         </a>
-                        <p>{{ obj.object_type }} - {{ obj.confidence|floatformat:2 }}</p>
+                        <p class="table_text">Обнаружено: {{ obj.object_type }} - {{ obj.confidence|floatformat:2 }}</p>
+                        <p class="table_text">Метод обнаружения: {{obj.method_detected}}</p>
                     </td>
                 {% endif %}
             {% endfor %}

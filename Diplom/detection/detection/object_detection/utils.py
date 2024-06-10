@@ -7,7 +7,6 @@ from .models import *
 from PIL import Image
 from transformers import DetrImageProcessor, DetrForObjectDetection
 
-
 menu = [{'title': 'Главная', 'url_name': 'home'},
         {'title': 'Приборная доска', 'url_name': 'dashboard'},
         {'title': 'О нас', 'url_name': 'about'},
@@ -85,10 +84,12 @@ def process_image(image_feed_id):
         detected_objects = DetectedObject.objects.filter(image_feed=image_feed).first()
         print(detected_objects)
         print(result)
-        if result:
-            content = ContentFile(encoded_img.tobytes(), f'processed_{image_feed.image.name}')
-            # image_feed.processed_image.save(content.name, content, save=True)
-            detected_objects.processed_image.save(content.name, content, save=True)
+        if detected_objects:
+            if result:
+                content = ContentFile(encoded_img.tobytes(), f'processed_{image_feed.image.name}')
+                # image_feed.processed_image.save(content.name, content, save=True)
+                detected_objects.method_detected = 'Caffe'
+                detected_objects.processed_image.save(content.name, content, save=True)
 
         return True
 
@@ -136,5 +137,7 @@ def process_image_detr(image_feed_id):
         if result:
             content = ContentFile(encoded_img.tobytes(), f'processed_{image_feed.image.name}')
             # image_feed.processed_image.save(content.name, content, save=True)
+            detected_objects.method_detected = 'Torch'
             detected_objects.processed_image.save(content.name, content, save=True)
+
     return True

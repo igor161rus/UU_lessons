@@ -28,6 +28,7 @@ class DetectedObject(models.Model):
     location = models.CharField(max_length=255)
     processed_image = models.ImageField(upload_to='processed_images/', null=True, blank=True,
                                         verbose_name='Обработанное изображение')
+    method_detected = models.CharField(max_length=100)
 
     def __str__(self):
         return f"{self.object_type} ({self.confidence * 100}%) on {self.image_feed.image.name}"
