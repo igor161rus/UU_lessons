@@ -15,20 +15,25 @@
         <a href="{{ i.image.url }}" target="_blank">
             <img class="img-article-left thumb" src="{{ i.image.url }}" alt="Card image cap">
         </a>
-        {% if i.processed_image %}
-            <a href="{{ i.processed_image.url }}" target="_blank">
-                <img class="img-article-left thumb" src="{{ i.processed_image.url }}" alt="Processed Image">
-            </a>
-            <ul class="list-topic">
-                {% for obj in i.detected_objects.all %}
-                    <li>{{ obj.object_type }} - {{ obj.confidence|floatformat:2 }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+            <table>
+            <tr>
+            {% for obj in i.detected_objects.all %}
+                {% if obj.processed_image %}
+                    <td>
+                        <a href="{{ obj.processed_image.url }}" target="_blank">
+                            <img class="img-article-left thumb" src="{{ obj.processed_image.url }}" alt="Processed Image">
+                        </a>
+                        <p>{{ obj.object_type }} - {{ obj.confidence|floatformat:2 }}</p>
+                    </td>
+                {% endif %}
+            {% endfor %}
+            </tr>
+            </table>
         <a href="{% url 'process_feed' i.id %}" class="btn btn-primary">Распознать</a>
         <div class="clear"></div>
         </p>
         <hr>
+
     {% endfor %}
 {% endif %}
 

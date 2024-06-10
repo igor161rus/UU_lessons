@@ -77,12 +77,14 @@ def process_image(image_feed_id):
                     object_type=class_label,
                     location=f"{startX},{startY},{endX},{endY}",
                     confidence=float(confidence),
-                    # processed_image=detected_objects.processed_image
+                    processed_image=''
                 )
 
         result, encoded_img = cv2.imencode('.jpg', img)
 
-        detected_objects = DetectedObject.objects.filter(image_feed=image_feed)
+        detected_objects = DetectedObject.objects.filter(image_feed=image_feed).first()
+        print(detected_objects)
+        print(result)
         if result:
             content = ContentFile(encoded_img.tobytes(), f'processed_{image_feed.image.name}')
             # image_feed.processed_image.save(content.name, content, save=True)
@@ -122,15 +124,17 @@ def process_image_detr(image_feed_id):
             object_type=model.config.id2label[label.item()],
             location=f"{box[0]},{box[1]},{box[2]},{box[3]}",
             confidence=float(score.item())
+            # processed_image=''
         )
 
         image = cv2.rectangle(np.array(image), (int(box[0]), int(box[1])), (int(box[2]), int(box[3])), (0, 255, 0), 2)
         label = f'{model.config.id2label[label.item()]}: {round(score.item(), 2)}'
-        image = cv2.putText(np.array(image), label, (int(box[0]), int(box[1])),
+        image = cv2.putText(np.array(image), label, (int(box[0]) + 5, int(box[1]) + 15),
                             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
         result, encoded_img = cv2.imencode('.jpg', image)
+        detected_objects = DetectedObject.objects.filter(image_feed=image_feed).first()
         if result:
             content = ContentFile(encoded_img.tobytes(), f'processed_{image_feed.image.name}')
-            image_feed.processed_image.save(content.name, content, save=True)
-
+            # image_feed.processed_image.save(content.name, content, save=True)
+            detected_objects.processed_image.save(content.name, content, save=True)
     return True
