@@ -7,9 +7,13 @@ import numpy as np
 # import requests
 import torch
 from django.core.files.base import ContentFile
+from django.db.models import Count
 from .models import *
 from PIL import Image
 from transformers import DetrImageProcessor, DetrForObjectDetection
+
+
+
 
 menu = [{'title': 'Главная', 'url_name': 'home'},
         {'title': 'Приборная доска', 'url_name': 'dashboard'},
@@ -158,26 +162,31 @@ def get_graph():
     return graph
 
 
-def get_plot(x, y, type):
+def get_plot(x, y, type_graph):
     # plt.style.use('_mpl-gallery')
     plt.switch_backend('AGG')
-    plt.figure(figsize=(10, 5))
-    if type == 'bar':
+    # plt.figure(figsize=(15, 5))
+    if type_graph == 'bar':
         plt.bar(x, y, width=1, edgecolor="white", linewidth=0.7)
-    else:
+    elif type_graph == 'line':
         plt.plot(x, y)
+    # plt.yscale('log')
+    # plt.xlabel('Объекты', fontsize=12)
+    # plt.ylabel('Вероятность', fontsize=12)
+    # plt.tight_layout()
     plt.yscale('log')
-    plt.xlabel('Объекты', fontsize=12)
-    plt.ylabel('Вероятность', fontsize=12)
-    plt.tight_layout()
-    plt.savefig('test.png')
-    plt.close()
-    plt.bar(x, y)
     plt.title("График")
-    plt.plot(x, y)
-    plt.yscale('log')
     plt.xlabel('Объекты', fontsize=12)
     plt.ylabel('Вероятность', fontsize=12)
-    plt.tight_layout()
+    plt.savefig('test.png')
+    # plt.close()
+    # plt.bar(x, y)
+
+    # plt.plot(x, y)
+
+    # plt.tight_layout()
     # plt.savefig('test.png')
     return get_graph()
+
+
+

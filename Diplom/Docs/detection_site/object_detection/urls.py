@@ -14,5 +14,5 @@ urlpatterns = [
     path('dashboard/', dashboard, name='dashboard'),
     path('process/<int:feed_id>/', process_image_feed, name='process_feed'),
     path('add-image-feed/', add_image_feed, name='add_image_feed'),
-    path('delete/<int:image_id>/', delete_image, name='delete_image'),
+    path('delete/<int:pk>/', delete_image, name='delete_image'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

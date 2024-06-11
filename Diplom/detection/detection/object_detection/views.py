@@ -7,6 +7,7 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, login
 from django.urls import reverse_lazy
 
+
 from .models import *
 from .utils import *
 from .forms import *
@@ -36,16 +37,16 @@ def dashboard(request):
     x = [x.object_type for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
     y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
     chart = get_plot(x, y, 'bar')
-    x = [x.method_detected for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
-    y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
-    chart_stat = get_plot(x, y, 'line')
+    # x = [x.method_detected for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+    # y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+    # chart_stat = get_plot(x, y, 'line')
     context = {
         'image_feeds': image_feeds,
         # 'posts': posts,
         'menu': menu,
         'title': 'Главная',
         'chart': chart,
-        'chart_stat': chart_stat
+        # 'chart_stat': chart_stat
     }
     return render(request, "object_detection/dashboard.html", context=context)
 
@@ -116,16 +117,16 @@ def add_image_feed(request):
             image_feed = form.save(commit=False)
             image_feed.user = request.user
             image_feed.save()
-            return redirect('object_detection:dashboard')
+            return redirect('dashboard')
     else:
         form = ImageFeedForm()
     return render(request, 'object_detection/add_image_feed.html', {'form': form})
 
 
 @login_required
-def delete_image(request, image_id):
-    print(image_id)
-    image = get_object_or_404(ImageFeed, id=image_id, user=request.user)
+def delete_image(request, pk):
+    image = get_object_or_404(ImageFeed, id=pk, user=request.user)
     image.delete()
     return redirect('dashboard')
+
 

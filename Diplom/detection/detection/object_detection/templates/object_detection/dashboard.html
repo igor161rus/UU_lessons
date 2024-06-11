@@ -45,51 +45,25 @@
             {% endfor %}
             </tr>
             </table>
+        {% current_time %}
 
         <a href="{% url 'process_feed' i.id %}" class="btn btn-primary">Распознать</a>
         <div class="clear"></div>
+        <p></p>
         <a href="{% url 'delete_image' i.id %}" class="btn btn-primary">Удалить</a>
         <div class="clear"></div>
 
-        <form action="{% url 'delete_image' i.id %}" method="post">
+        <p> {{ i.pk }} </p>
+<!--        <form action="{% url 'delete_image' i.pk %}" method="post">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary">Delete</button>
 
         </form>
         </p>
+-->
         <hr>
 
     {% endfor %}
 {% endif %}
-
-
-
-{% for feed in image_feeds %}
-<div class="card mb-3">
-    <div class="card-header">
-        <a href="{% url 'process_feed' feed.id %}" class="btn btn-primary">Process Image</a>
-    </div>
-    <div class="card-body">
-        <a href="{{ feed.image.url }}" target="_blank">
-            <img src="{{ feed.image.url }}" alt="Original Image" style="width: 50px; height: 50px;">
-        </a>
-        {% if feed.processed_image %}
-        <a href="{{ feed.processed_image.url }}" target="_blank">
-            <img src="{{ feed.processed_image.url }}" alt="Processed Image" style="width: 50px; height: 50px;">
-        </a>
-        <ul>
-            {% for obj in feed.detected_objects.all %}
-            <li>{{ obj.object_type }} - {{ obj.confidence|floatformat:2 }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-    <form action="{% url 'delete_image' feed.id %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Delete</button>
-    </form>
-</div>
-{% endfor %}
-
 
 {% endblock %}
