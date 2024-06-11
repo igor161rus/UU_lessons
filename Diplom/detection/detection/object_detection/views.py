@@ -33,11 +33,19 @@ def dashboard(request):
     # return HttpResponse("dashboard")
     image_feeds = ImageFeed.objects.filter(user=request.user)
     # posts = ImageFeed.objects.all()
+    x = [x.object_type for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+    y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+    chart = get_plot(x, y, 'bar')
+    x = [x.method_detected for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+    y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+    chart_stat = get_plot(x, y, 'line')
     context = {
         'image_feeds': image_feeds,
         # 'posts': posts,
         'menu': menu,
-        'title': 'Главная'
+        'title': 'Главная',
+        'chart': chart,
+        'chart_stat': chart_stat
     }
     return render(request, "object_detection/dashboard.html", context=context)
 
@@ -116,6 +124,8 @@ def add_image_feed(request):
 
 @login_required
 def delete_image(request, image_id):
+    print(image_id)
     image = get_object_or_404(ImageFeed, id=image_id, user=request.user)
     image.delete()
-    return redirect('object_detection:dashboard')
+    return redirect('dashboard')
+

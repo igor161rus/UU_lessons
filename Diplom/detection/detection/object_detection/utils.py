@@ -1,3 +1,7 @@
+import base64
+import io
+import matplotlib.pyplot as plt
+
 import cv2
 import numpy as np
 # import requests
@@ -141,3 +145,39 @@ def process_image_detr(image_feed_id):
             detected_objects.processed_image.save(content.name, content, save=True)
 
     return True
+
+
+def get_graph():
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    graph = base64.b64encode(image_png)
+    graph = graph.decode('utf-8')
+    buffer.close()
+    return graph
+
+
+def get_plot(x, y, type):
+    # plt.style.use('_mpl-gallery')
+    plt.switch_backend('AGG')
+    plt.figure(figsize=(10, 5))
+    if type == 'bar':
+        plt.bar(x, y, width=1, edgecolor="white", linewidth=0.7)
+    else:
+        plt.plot(x, y)
+    plt.yscale('log')
+    plt.xlabel('Объекты', fontsize=12)
+    plt.ylabel('Вероятность', fontsize=12)
+    plt.tight_layout()
+    plt.savefig('test.png')
+    plt.close()
+    plt.bar(x, y)
+    plt.title("График")
+    plt.plot(x, y)
+    plt.yscale('log')
+    plt.xlabel('Объекты', fontsize=12)
+    plt.ylabel('Вероятность', fontsize=12)
+    plt.tight_layout()
+    # plt.savefig('test.png')
+    return get_graph()
