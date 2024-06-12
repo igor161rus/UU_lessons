@@ -40,6 +40,8 @@ def dashboard(request):
     # x = [x.method_detected for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
     # y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
     # chart_stat = get_plot(x, y, 'line')
+    stat = DetectedObject.objects.filter(image_feed__in=image_feeds).values('object_type').annotate(Count('object_type'))
+
     context = {
         'image_feeds': image_feeds,
         # 'posts': posts,
