@@ -37,10 +37,10 @@ def dashboard(request):
     x = [x.object_type for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
     y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
     chart = get_plot(x, y, 'bar')
-    # x = [x.method_detected for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
-    # y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
-    # chart_stat = get_plot(x, y, 'line')
-    stat = DetectedObject.objects.filter(image_feed__in=image_feeds).values('object_type').annotate(Count('object_type'))
+    x = [x.method_detected for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+    y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+    chart_stat = get_plot(x, y, 'line')
+    # stat = DetectedObject.objects.filter(image_feed__in=image_feeds).values('object_type').annotate(Count('object_type'))
 
     context = {
         'image_feeds': image_feeds,
@@ -48,7 +48,7 @@ def dashboard(request):
         'menu': menu,
         'title': 'Главная',
         'chart': chart,
-        # 'chart_stat': chart_stat
+        'chart_stat': chart_stat
     }
     return render(request, "object_detection/dashboard.html", context=context)
 
