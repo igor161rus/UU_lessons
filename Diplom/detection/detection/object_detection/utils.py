@@ -12,9 +12,6 @@ from .models import *
 from PIL import Image
 from transformers import DetrImageProcessor, DetrForObjectDetection
 
-
-
-
 menu = [{'title': 'Главная', 'url_name': 'home'},
         {'title': 'Приборная доска', 'url_name': 'dashboard'},
         {'title': 'О нас', 'url_name': 'about'},
@@ -163,30 +160,38 @@ def get_graph():
 
 
 def get_plot(x, y, type_graph):
+
     # plt.style.use('_mpl-gallery')
     plt.switch_backend('AGG')
     # plt.figure(figsize=(15, 5))
     if type_graph == 'bar':
+        plt.subplot(1, 1, 1)
         plt.bar(x, y, width=1, edgecolor="white", linewidth=0.7)
     elif type_graph == 'line':
+        plt.subplot(1, 2, 1)
         plt.plot(x, y)
-    # plt.yscale('log')
-    # plt.xlabel('Объекты', fontsize=12)
-    # plt.ylabel('Вероятность', fontsize=12)
-    # plt.tight_layout()
+    elif type_graph == 'pie':
+        plt.pie(x, labels=y, autopct='%1.1f%%', shadow=True, startangle=90)
     plt.yscale('log')
     plt.title("График")
     plt.xlabel('Объекты', fontsize=12)
     plt.ylabel('Вероятность', fontsize=12)
-    plt.savefig('test.png')
-    # plt.close()
-    # plt.bar(x, y)
+    plt.tight_layout()
+    plt.savefig(type_graph + '.png')
 
-    # plt.plot(x, y)
-
-    # plt.tight_layout()
-    # plt.savefig('test.png')
     return get_graph()
 
 
+def get_plot_stat(x, y, type_graph):
+    # plt.style.use('_mpl-gallery')
+    plt.switch_backend('AGG')
+    # plt.figure(figsize=(15, 5))
+    plt.bar(x, y, width=1, edgecolor="white", linewidth=0.7)
 
+    plt.yscale('log')
+    plt.title("График")
+    plt.xlabel('Метод', fontsize=12)
+    plt.ylabel('Количество', fontsize=12)
+    plt.savefig(type_graph + '.png')
+
+    return get_graph()

@@ -37,14 +37,17 @@ def dashboard(request):
     x = [x.object_type for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
     y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
     chart = get_plot(x, y, 'bar')
-    x = [x.method_detected for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
-    y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+    # x = [x.method_detected for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+    detect_stat = [y for y in DetectedObject.objects.filter(image_feed__in=image_feeds).values('method_detected').annotate(Count('method_detected'))]
+    x = []
+    y = []
+    for i in detect_stat:
+        x.append(i['method_detected'])
+        y.append(i['method_detected__count'])
     chart_stat = get_plot(x, y, 'line')
-    # stat = DetectedObject.objects.filter(image_feed__in=image_feeds).values('object_type').annotate(Count('object_type'))
 
     context = {
         'image_feeds': image_feeds,
-        # 'posts': posts,
         'menu': menu,
         'title': 'Главная',
         'chart': chart,
