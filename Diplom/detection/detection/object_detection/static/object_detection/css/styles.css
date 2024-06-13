@@ -417,8 +417,30 @@ ul.lang-list li a:hover {color: #fdc073;}
 
 .thumb img  {
     border: 1px solid #55c5e9; /* Рамка вокруг фотографии */
-    padding: 10px; /* Расстояние от картинки до рамки */
+    padding: 5px; /* Расстояние от картинки до рамки */
     background: #666; /* Цвет фона */
     margin-right: 10px; /* Отступ справа */
     margin-bottom: 10px; /* Отступ снизу */
+   }
+
+.method {
+    font-size: smaller;
+    height: fit-content;
+}
+
+.table_text {
+    height: min-content;
+    font-size: smaller;
+}
+
+.table {
+    width: 300px; /* Ширина таблицы */
+    border-collapse: collapse; /* Убираем двойные линии между ячейками */
+   }
+   TD, TH {
+    padding: 3px; /* Поля вокруг содержимого таблицы */
+    border: 1px solid black; /* Параметры рамки */
+   }
+   TH {
+    background: #b0e0e6; /* Цвет фона */
    }
