@@ -170,8 +170,8 @@ def get_plot(x, y, type_graph):
     elif type_graph == 'line':
         plt.subplot(1, 2, 1)
         plt.plot(x, y)
-    elif type_graph == 'pie':
-        plt.pie(x, labels=y, autopct='%1.1f%%', shadow=True, startangle=90)
+    # elif type_graph == 'pie':
+    #     plt.pie(x, labels=y, autopct='%1.1f%%', shadow=True, startangle=90)
     plt.yscale('log')
     plt.title("График")
     plt.xlabel('Объекты', fontsize=12)
