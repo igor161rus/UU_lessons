@@ -150,5 +150,9 @@ def category(request, cat_id):
     return index(request)
 
 
-def image_detect(request):
-    return index(request)
+def image_detect(request, pk):
+    # image = get_object_or_404(ImageFeed, id=pk, user=request.user)
+    img = DetectedObject.objects.filter(image_feed=pk).values('image_feed_id', 'object_type', 'method_detected', 'confidence', 'processed_image')
+
+    print(img)
+    return render(request, "object_detection/image_detect.html", {'detect_image': img})

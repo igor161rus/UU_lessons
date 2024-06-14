@@ -22,10 +22,7 @@ def get_all_type():
 @register.inclusion_tag('object_detection/list_categories.html')
 def show_categories(cat_selected=0):
     type_detected = DetectedObject.objects.order_by('object_type').values('object_type', 'image_feed_id').distinct()
-    print(type_detected)
     t_list = []
     for t in type_detected:
-        print(t)
         t_list.append(t['object_type'])
-    print(t_list)
     return {'type_detected': type_detected,  'cat_selected': cat_selected}

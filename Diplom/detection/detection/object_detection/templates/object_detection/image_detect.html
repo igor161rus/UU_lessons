@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'object_detection/base.html' %}
 
-</body>
-</html>
+<table class="table">
+    <tr>
+        {% detect_image as img %}
+        {% for i in img %}
+            {% if i.processed_image %}
+                <td>
+                    <a href="{{ i.processed_image.url }}" target="_blank">
+                        <img class="img-article-left thumb" src="{{ i.processed_image.url }}" alt="Processed Image">
+                    </a>
+                    <p class="table_text">{{ i.object_type }} - {{ i.confidence|floatformat:2 }}</p>
+                    <p class="table_text">Метод: {{i.method_detected}}</p>
+                </td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+</table>

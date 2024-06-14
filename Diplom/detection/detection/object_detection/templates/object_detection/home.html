@@ -17,11 +17,15 @@
                     {% endautoescape %}
                     <div class="clear"></div>
                     {% if i.image %}
-                     <a href="{{ i.image.url }}" target="_blank">
-            <img class="img-article-left thumb" src="{{ i.image.url }}" alt="Card image cap">
-        </a>
-                    <p><img class="img-article-left thumb" src="{{ i.image.url }}"><a href="{% url 'image_detect' i.id %}"></a></p>
-                         <p><img class="img-article-left thumb" src="{{ i.image.url }}"><a href="{{ i.get_absolute_url }}">{{ i.title }}</a></p>
+
+                        <a href="{{ i.image.url }}" target="_blank">
+                            <img class="img-article-left thumb" src="{{ i.image.url }}" alt="Card image cap">
+                        </a>
+
+                        <a href="{% url 'image_detect' i.id %}">
+                            <img class="img-article-left thumb" src="{{ i.image.url }}" alt="Card image cap">
+                        </a>
+
                     {% endif %}
                     <p>{{ i.text|safe }}</p>
                     <hr>
