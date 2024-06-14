@@ -9,7 +9,6 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout, login
 from django.urls import reverse_lazy
 
-
 from .models import *
 from .utils import *
 from .forms import *
@@ -23,7 +22,15 @@ from .forms import *
 
 
 def home(request):
-    return render(request, 'object_detection/home.html')
+    image_feeds = ImageFeed.objects.filter(user=request.user)
+    context = {
+        'image_feeds': image_feeds,
+        'menu': menu,
+        'title': 'Главная',
+        # 'chart': chart,
+        # 'chart_stat': chart_stat
+    }
+    return render(request, 'object_detection/home.html', context=context)
 
 
 def about(request):
@@ -40,7 +47,9 @@ def dashboard(request):
     y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
     chart = get_plot(x, y, 'bar')
     # x = [x.method_detected for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
-    detect_stat = [y for y in DetectedObject.objects.filter(image_feed__in=image_feeds).values('method_detected').annotate(Count('method_detected'))]
+    detect_stat = [y for y in
+                   DetectedObject.objects.filter(image_feed__in=image_feeds).values('method_detected').annotate(
+                       Count('method_detected'))]
     x = []
     y = []
     for i in detect_stat:
@@ -136,5 +145,10 @@ def delete_image(request, pk):
     image.delete()
     return redirect('dashboard')
 
+
 def category(request, cat_id):
+    return index(request)
+
+
+def image_detect(request):
     return index(request)

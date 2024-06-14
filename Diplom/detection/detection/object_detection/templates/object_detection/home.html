@@ -1,31 +1,28 @@
 {% extends 'object_detection/base.html' %}
+{% load detection_tag %}
 
 {% block content %}
 <h1>Добро пожаловать на сайт распознования объектов</h1>
 
-<p>веб приложение, которое позволит
-пользователям применять предобученную модель для обнаружения и классификации
+<p>веб приложение, которое позволит пользователям применять предобученную модель для обнаружения и классификации
 объектов на фото.</p>
 
 {% if request.user.is_authenticated %}
-
-<ul class="list-articles">
-
-
-
-        {% for i in image_feeds %}
-                        <li><h2>{{ p.user }}</h2>
-                {% autoescape on %}
-                {{p.content|linebreaks|truncatewords:50}}
-                {% endautoescape %}
-                                <div class="clear"></div>
-                                {% if i.image %}
-                                    <p><img class="img-article-left thumb" src="{{ i.image.url }}"><a href="{{ i.get_absolute_url }}">{{ i.title }}</a></p>
-                                {% endif %}
-                                <p>{{ i.text|safe }}</p>
-                                <hr>
-                            </li>
-        {% endfor %}
-</ul>
+    <p>Вы вошли как {{ request.user }}</p>
+    <ul class="list-articles">
+            {% for i in image_feeds %}
+                <li><h2>{{ p.user }}</h2>
+                    {% autoescape on %}
+                    {{p.content|linebreaks|truncatewords:50}}
+                    {% endautoescape %}
+                    <div class="clear"></div>
+                    {% if i.image %}
+                         <p><img class="img-article-left thumb" src="{{ i.image.url }}"><a href="{{ i.get_absolute_url }}">{{ i.title }}</a></p>
+                    {% endif %}
+                    <p>{{ i.text|safe }}</p>
+                    <hr>
+                </li>
+            {% endfor %}
+    </ul>
 {% endif %}
 {% endblock %}
