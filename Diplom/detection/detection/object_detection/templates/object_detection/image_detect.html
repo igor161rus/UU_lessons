@@ -1,14 +1,17 @@
 {% extends 'object_detection/base.html' %}
-{% load static %}
 
+{% if request.user.is_authenticated %}
 {% block content %}
    <ul>
-       {% for i in image %}
+       {% for i in image_detect %}
            <li>
                         <a href="{{ i.processed_image.url }}" target="_blank">
-                            <img class="img-article-left thumb" src="{{ i.processed_image.url }}" alt="Processed Image">
+                            <img src="{{ i.url }}" alt="Processed Image">
                         </a>
+                 <p>1111 {{ i.processed_image.url }}</p>
+                        <p>2222 {{ i.processed_image }}</p>
            </li>
        {% endfor %}
    </ul>
 {% endblock %}
+{% endif %}

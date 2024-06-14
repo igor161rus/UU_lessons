@@ -151,11 +151,14 @@ def category(request, cat_id):
 
 
 def image_detect(request, pk):
-    # image = get_object_or_404(ImageFeed, id=pk, user=request.user)
+    image = get_object_or_404(ImageFeed, id=pk, user=request.user)
+    print(image, '\n')
+    for i in image.detected_objects.all():
+        print(i.processed_image)
     query_set = DetectedObject.objects.filter(image_feed=pk).values('image_feed_id', 'object_type', 'method_detected', 'confidence', 'processed_image')
 
     print(query_set[0])
-    context = {'image': query_set}
+    context = {'image_detect': query_set}
     return render(request, "object_detection/image_detect.html", context=context)
 #
 # <!--
