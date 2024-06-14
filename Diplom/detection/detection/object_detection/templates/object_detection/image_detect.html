@@ -1,5 +1,6 @@
 {% extends 'object_detection/base.html' %}
-
+{% load static %}
+{% block content %}
 <table class="table">
     <tr>
         {% detect_image as img %}
@@ -16,3 +17,4 @@
         {% endfor %}
     </tr>
 </table>
+{% endblock %}
