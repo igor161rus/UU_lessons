@@ -152,7 +152,27 @@ def category(request, cat_id):
 
 def image_detect(request, pk):
     # image = get_object_or_404(ImageFeed, id=pk, user=request.user)
-    img = DetectedObject.objects.filter(image_feed=pk).values('image_feed_id', 'object_type', 'method_detected', 'confidence', 'processed_image')
+    query_set = DetectedObject.objects.filter(image_feed=pk).values('image_feed_id', 'object_type', 'method_detected', 'confidence', 'processed_image')
 
-    print(img)
-    return render(request, "object_detection/image_detect.html", {'detect_image': img})
+    print(query_set[0])
+    context = {'image': query_set}
+    return render(request, "object_detection/image_detect.html", context=context)
+#
+# <!--
+# <table class="table">
+#     <tr>
+#         {% image as img %}
+#         {% for i in img %}
+#             {% if i.processed_image %}
+#                 <td>
+#                     <a href="{{ i.processed_image.url }}" target="_blank">
+#                         <img class="img-article-left thumb" src="{{ i.processed_image.url }}" alt="Processed Image">
+#                     </a>
+#                     <p class="table_text">{{ i.object_type }} - {{ i.confidence|floatformat:2 }}</p>
+#                     <p class="table_text">Метод: {{i.method_detected}}</p>
+#                 </td>
+#             {% endif %}
+#         {% endfor %}
+#     </tr>
+# </table>
+# -->
