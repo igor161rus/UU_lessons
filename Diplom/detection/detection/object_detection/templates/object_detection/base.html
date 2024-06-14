@@ -44,12 +44,16 @@
                 <p>Наш телеграмм</p>
                 <a class="telegram" href="https://t.me/UU_diplom"></a>
                 </li>
-                {% get_all_type as type_detect %}
+                <li class="selected">Обнаружены объекты</li>
+
+                {% show_categories cat_selected %}
+
+ <!--               {% get_all_type as type_detect %}
                 {% for t in type_detect %}
-                <li>{{t.object_type}}</li>
+                <li><a href="{% url 'category' t.image_feed_id %}">{{t.object_type}}</a></li>
 
                 {% endfor %}
-
+-->
         </ul>
 </td>
 

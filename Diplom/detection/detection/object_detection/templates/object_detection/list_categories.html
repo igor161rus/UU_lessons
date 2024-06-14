@@ -1,0 +1,7 @@
+{% for t in type_detect %}
+{% if t.image_feed_id == cat_selected %}
+<li class="selected"><a href="{% url 'category' t.image_feed_id %}">{{t.object_type}}</a></li>
+{% else %}
+<li><a href="{% url 'category' t.image_feed_id %}">{{t.object_type}}</a></li>
+{% endif %}
+{% endfor %}

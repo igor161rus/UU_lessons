@@ -1,3 +1,5 @@
+from operator import index
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.contrib.auth.decorators import login_required
@@ -134,4 +136,5 @@ def delete_image(request, pk):
     image.delete()
     return redirect('dashboard')
 
-
+def category(request, cat_id):
+    return index(request)
