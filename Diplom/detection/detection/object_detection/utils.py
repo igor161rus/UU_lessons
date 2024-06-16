@@ -163,15 +163,9 @@ def get_plot(x, y, type_graph):
 
     # plt.style.use('_mpl-gallery')
     plt.switch_backend('AGG')
-    # plt.figure(figsize=(15, 5))
-    if type_graph == 'bar':
-        plt.subplot(1, 1, 1)
-        plt.bar(x, y, width=1, edgecolor="white", linewidth=0.7)
-    elif type_graph == 'line':
-        plt.subplot(1, 2, 1)
-        plt.plot(x, y)
-    # elif type_graph == 'pie':
-    #     plt.pie(x, labels=y, autopct='%1.1f%%', shadow=True, startangle=90)
+    plt.figure(figsize=(15, 5))
+    # plt.subplot(1, 1, 1)
+    plt.bar(x, y, width=1, edgecolor="white", linewidth=0.7)
     plt.yscale('log')
     plt.title("График")
     plt.xlabel('Объекты', fontsize=12)

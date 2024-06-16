@@ -34,7 +34,8 @@ class DetectedObject(models.Model):
         return f"{self.object_type} ({self.confidence * 100}%) on {self.image_feed.image.name}"
 
     def get_absolute_url(self):
-        return f"/{self.pk}/"
+        # return f"/{self.pk}/"
+        return reverse('image', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = 'Обнаруженный объект'

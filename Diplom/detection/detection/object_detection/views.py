@@ -79,6 +79,14 @@ def image(request, pk):
         raise Http404
 
 
+def image_detect(request, pk):
+    try:
+        image = DetectedObject.objects.get(pk=pk)
+        return render(request, "object_detection/image_detect.html", {"image": image})
+    except:
+        raise Http404
+
+
 @login_required
 def process_image_feed(request, feed_id):
     image_feed = get_object_or_404(ImageFeed, id=feed_id, user=request.user)
@@ -151,31 +159,22 @@ def category(request, cat_id):
 
 
 def image_detect(request, pk):
-    image = get_object_or_404(ImageFeed, id=pk, user=request.user)
-    print(image, '\n')
-    for i in image.detected_objects.all():
-        print(i.processed_image)
-    query_set = DetectedObject.objects.filter(image_feed=pk).values('image_feed_id', 'object_type', 'method_detected', 'confidence', 'processed_image')
+    # image = get_object_or_404(ImageFeed, id=pk, user=request.user)
+    # print(image, '\n')
+    # for i in image.detected_objects.all():
+    #     print(i.processed_image)
+    # query_set = DetectedObject.objects.filter(image_feed=pk).values('image_feed_id', 'object_type',
+    #                                                                 'method_detected', 'confidence',
+    #                                                                 'processed_image')
 
-    print(query_set[0])
-    context = {'image_detect': query_set}
+    image_feeds = ImageFeed.objects.filter(user=request.user, id=pk)
+
+    x = [x.object_type for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+    y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+    chart = get_plot(x, y, 'bar')
+
+    context = {'image_feeds': image_feeds,
+               'chart': chart,
+               'menu': menu,
+               }
     return render(request, "object_detection/image_detect.html", context=context)
-#
-# <!--
-# <table class="table">
-#     <tr>
-#         {% image as img %}
-#         {% for i in img %}
-#             {% if i.processed_image %}
-#                 <td>
-#                     <a href="{{ i.processed_image.url }}" target="_blank">
-#                         <img class="img-article-left thumb" src="{{ i.processed_image.url }}" alt="Processed Image">
-#                     </a>
-#                     <p class="table_text">{{ i.object_type }} - {{ i.confidence|floatformat:2 }}</p>
-#                     <p class="table_text">Метод: {{i.method_detected}}</p>
-#                 </td>
-#             {% endif %}
-#         {% endfor %}
-#     </tr>
-# </table>
-# -->

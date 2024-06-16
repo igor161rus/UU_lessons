@@ -17,7 +17,7 @@
                     {% endautoescape %}
                     <div class="clear"></div>
                     {% if i.image %}
-
+                        {{ i.image.url }}
                         <a href="{{ i.image.url }}" target="_blank">
                             <img class="img-article-left thumb" src="{{ i.image.url }}" alt="Card image cap">
                         </a>
