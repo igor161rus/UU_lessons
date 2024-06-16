@@ -1,5 +1,7 @@
 import base64
 import io
+
+import matplotlib
 import matplotlib.pyplot as plt
 
 import cv2
@@ -160,6 +162,17 @@ def get_graph():
 
 
 def get_plot(x, y, type_graph):
+    font = {'family': 'serif',
+            'color': 'darkred',
+            'weight': 'normal',
+            'size': 'large',
+            }
+    matplotlib.rc('xtick', labelsize=20)
+    matplotlib.rc('ytick', labelsize=20)
+
+    matplotlib.rc('font', size=20)
+    # plt.ticklabel_format(style='sci', axis='y', scilimits=(0, 0), useMathText=True)
+    # plt.rc('axes.formatter', use_mathtext=True)
 
     # plt.style.use('_mpl-gallery')
     plt.switch_backend('AGG')
@@ -167,9 +180,9 @@ def get_plot(x, y, type_graph):
     # plt.subplot(1, 1, 1)
     plt.bar(x, y, width=1, edgecolor="white", linewidth=0.7)
     plt.yscale('log')
-    plt.title("График")
-    plt.xlabel('Объекты', fontsize=12)
-    plt.ylabel('Вероятность', fontsize=12)
+    plt.title("График", fontdict=font)
+    plt.xlabel('Объекты', fontdict=font)
+    plt.ylabel('Вероятность', fontdict=font)
     plt.tight_layout()
     plt.savefig(type_graph + '.png')
 
