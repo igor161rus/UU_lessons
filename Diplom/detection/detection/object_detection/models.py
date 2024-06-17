@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.urls import reverse
+from django.contrib.auth.models import User
 
 
 class ImageFeed(models.Model):
@@ -34,10 +35,22 @@ class DetectedObject(models.Model):
         return f"{self.object_type} ({self.confidence * 100}%) on {self.image_feed.image.name}"
 
     def get_absolute_url(self):
-        # return f"/{self.pk}/"
-        return reverse('image', kwargs={'pk': self.pk})
+        return f"/{self.pk}/"
+        # return reverse('image', kwargs={'pk': self.pk})
 
     class Meta:
         verbose_name = 'Обнаруженный объект'
         verbose_name_plural = 'Обнаруженные объекты'
         ordering = ['-pk']
+
+
+class UserAddFields(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    tg_id = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.tg_id}"
+
+    class Meta:
+        verbose_name = 'Дополнительные поля'
+        verbose_name_plural = 'Дополнительные поля'

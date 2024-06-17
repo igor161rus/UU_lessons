@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .models import *
 
@@ -16,5 +17,17 @@ class ImageFeedAdmin(admin.ModelAdmin):
     search_fields = ('user', 'image')
 
 
+class UserInline(admin.StackedInline):
+    model = UserAddFields
+    can_delete = False
+    verbose_name_plural = "Дополнительные поля"
+
+
+class UserAdmin(BaseUserAdmin):
+    inlines = [UserInline]
+
+
+admin.site.unregister(User)
 admin.site.register(ImageFeed, ImageFeedAdmin)
 admin.site.register(DetectedObject, DetectedObjectAdmin)
+admin.site.register(User, UserAdmin)

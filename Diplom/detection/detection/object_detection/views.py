@@ -5,13 +5,48 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 from django.contrib.auth import logout, login
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 
 from .models import *
 from .utils import *
 from .forms import *
+
+# from .forms import UserForgotPasswordForm, UserSetNewPasswordForm
+
+
+class UserForgotPasswordView(SuccessMessageMixin, PasswordResetView):
+    """
+    Представление по сбросу пароля по почте
+    """
+    form_class = UserForgotPasswordForm
+    template_name = 'object_detection/user_password_reset.html'
+    success_url = reverse_lazy('home')
+    success_message = 'Письмо с инструкцией по восстановлению пароля отправлена на ваш email'
+    subject_template_name = 'object_detection/email/password_subject_reset_mail.txt'
+    email_template_name = 'object_detection/email/password_reset_mail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Запрос на восстановление пароля'
+        return context
+
+
+class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
+    """
+    Представление установки нового пароля
+    """
+    form_class = UserSetNewPasswordForm
+    template_name = 'object_detection/user_password_set_new.html'
+    success_url = reverse_lazy('home')
+    success_message = 'Пароль успешно изменен. Можете авторизоваться на сайте.'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Установить новый пароль'
+        return context
 
 
 # menu = [
@@ -22,15 +57,18 @@ from .forms import *
 
 
 def home(request):
-    image_feeds = ImageFeed.objects.filter(user=request.user)
-    context = {
-        'image_feeds': image_feeds,
-        'menu': menu,
-        'title': 'Главная',
-        # 'chart': chart,
-        # 'chart_stat': chart_stat
-    }
-    return render(request, 'object_detection/home.html', context=context)
+    if request.user.is_authenticated:
+        image_feeds = ImageFeed.objects.filter(user=request.user)
+        context = {
+            'image_feeds': image_feeds,
+            'menu': menu,
+            'title': 'Главная',
+            # 'chart': chart,
+            # 'chart_stat': chart_stat
+        }
+        return render(request, 'object_detection/home.html', context=context)
+    else:
+        return render(request, 'object_detection/home.html', {'menu': menu, 'title': 'Главная'})
 
 
 def about(request):

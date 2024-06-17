@@ -15,6 +15,9 @@ urlpatterns = [
     path('delete-image/<int:pk>/', delete_image, name='delete_image'),
     path('category/<int:cat_id>/', category, name='category'),
     path('image_detect/<int:pk>/', image_detect, name='image_detect'),
+    # path('password-change/', UserPasswordChangeView.as_view(), name='password_change'),
+    path('password-reset/', UserForgotPasswordView.as_view(), name='password_reset'),
+    path('set-new-password/<uidb64>/<token>/', UserPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
 ]
 
 if settings.DEBUG:
