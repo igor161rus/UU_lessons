@@ -1,6 +1,7 @@
+import os
 from operator import index
 
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, DetailView, CreateView
@@ -188,6 +189,18 @@ def add_image_feed(request):
 @login_required
 def delete_image(request, pk):
     image = get_object_or_404(ImageFeed, id=pk, user=request.user)
+    image_det = DetectedObject.objects.filter(image_feed_id=pk).values('processed_image')
+    # image_det = get_list_or_404(DetectedObject, image_feed_id=pk)
+    print(image_det, '\n')
+    print(image.image.path, '\n')
+
+    if image_det:
+        for i in image_det:
+            print(image.image.path.strip(), i)
+            print(0, i['processed_image'], '\n')
+            os.remove(os.path.join(settings.MEDIA_ROOT, i['processed_image']))
+    if os.path.exists(image.image.path):
+        os.remove(image.image.path)
     image.delete()
     return redirect('dashboard')
 

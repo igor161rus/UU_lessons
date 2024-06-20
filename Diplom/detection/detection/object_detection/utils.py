@@ -83,7 +83,7 @@ def process_image(image_feed_id):
                     object_type=class_label,
                     location=f"{startX},{startY},{endX},{endY}",
                     confidence=float(confidence),
-                    processed_image=''
+                    # processed_image=''
                 )
 
         result, encoded_img = cv2.imencode('.jpg', img)
@@ -93,7 +93,9 @@ def process_image(image_feed_id):
         print(result)
         if detected_objects:
             if result:
-                content = ContentFile(encoded_img.tobytes(), f'processed_{image_feed.image.name}')
+                content = ContentFile(encoded_img.tobytes(), f'{image_feed.image.name}')
+                print(content)
+                print(content.name)
                 # image_feed.processed_image.save(content.name, content, save=True)
                 detected_objects.method_detected = 'Caffe'
                 detected_objects.processed_image.save(content.name, content, save=True)
@@ -142,7 +144,8 @@ def process_image_detr(image_feed_id):
         result, encoded_img = cv2.imencode('.jpg', image)
         detected_objects = DetectedObject.objects.filter(image_feed=image_feed).first()
         if result:
-            content = ContentFile(encoded_img.tobytes(), f'processed_{image_feed.image.name}')
+            # content = ContentFile(encoded_img.tobytes(), f'processed_{image_feed.image.name}')
+            content = ContentFile(encoded_img.tobytes(), image_feed.image.name)
             # image_feed.processed_image.save(content.name, content, save=True)
             detected_objects.method_detected = 'Torch'
             detected_objects.processed_image.save(content.name, content, save=True)

@@ -11,3 +11,6 @@ class ImageFeedConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'image_feed'
     verbose_name = 'Изображения'
+
+
+
