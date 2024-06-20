@@ -191,8 +191,6 @@ def delete_image(request, pk):
     image = get_object_or_404(ImageFeed, id=pk, user=request.user)
     image_det = DetectedObject.objects.filter(image_feed_id=pk).values('processed_image')
     # image_det = get_list_or_404(DetectedObject, image_feed_id=pk)
-    print(image_det, '\n')
-    print(image.image.path, '\n')
 
     if image_det:
         for i in image_det:
