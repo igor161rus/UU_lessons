@@ -40,19 +40,23 @@ def handle_photo(message):
     user_states[message.chat.id] = {'level': 0}
     bot.reply_to(message, "I got your photo! Please choose what you'd like to do with it.",
                  reply_markup=get_options_keyboard(message))
-    user_states[message.chat.id] = {'photo': message.photo[-1].file_id}
+    user_states[message.chat.id]['photo'] = message.photo[-1].file_id
+    # user_states[message.chat.id] = {'photo': message.photo[-1].file_id}
+    print(user_states)
 
 
 def get_options_keyboard(message):
+    print(user_states)
     if user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 0:
         keyboard = types.InlineKeyboardMarkup()
         load_btn = types.InlineKeyboardButton("Load image", callback_data="load_image")
         keyboard.add(load_btn)
         return keyboard
-    elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 1:
+    elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 2:
         keyboard = types.InlineKeyboardMarkup()
-        detect_btn = types.InlineKeyboardButton("Detect", callback_data="detect_image")
-        keyboard.add(detect_btn)
+        detr_btn = types.InlineKeyboardButton("DETR", callback_data="detect_image")
+        cafe_btn = types.InlineKeyboardButton("Cafe", callback_data="detect_image")
+        keyboard.add(detr_btn, cafe_btn)
         return keyboard
 
 
@@ -68,7 +72,14 @@ def callback_query(call):
         user_states[chat_id]['level'] = 2
         bot.answer_callback_query(call.id, "Определение объектов на изображении...")
         image_id = ImageFeed.objects.filter(image=user_states[chat_id]['image']).values('id').first()
-        process_image_detr(image_id)
+        process_image_detr(image_id['id'])
+        detected_objects = DetectedObject.objects.filter(image_feed=image_id['id']).values('object_type', 'confidence')
+        print(detected_objects)
+        message_text = "На изображении обнаружено " + str(len(detected_objects)) + " объектов \n"
+        for i in detected_objects:
+            conf = '%.2f' % i['confidence']
+            message_text += i['object_type'] + " - " + str(conf) + "\n"
+        bot.send_message(chat_id, message_text)
 
 
 def load_image(message):
@@ -78,19 +89,23 @@ def load_image(message):
     # image_stream = io.BytesIO(downloaded_file)
     # image = Image.open(image_stream)
 
-    image_name = '\\images\\tg_photo_' + generate_random_name() + '.jpg'
-    image_path = settings.MEDIA_ROOT + image_name  # 'tg_photo.jpg'
-    image_path = image_path.replace('\\', '/')
+    image_name = 'images/tg_photo_' + generate_random_name() + '.jpg'
+    image_path = settings.MEDIA_ROOT + '/' + image_name  # 'tg_photo.jpg'
+    # image_path = image_path.replace('\\', '/')
     with open(image_path, 'wb') as new_file:
         new_file.write(downloaded_file)
     bot.reply_to(message, 'Фотография сохранена.')
     image_feed = UserAddFields.objects.filter(tg_id=message.chat.id).values('user_id').first()
-    print('1----', image_feed['user_id'])
 
     ImageFeed.objects.create(user_id=image_feed['user_id'], image=image_name)
 
     user_states[message.chat.id]['level'] = 2
-    user_states[message.chat.id] = {'image': image_name}
+    user_states[message.chat.id]['image'] = image_name
+
+    bot.send_message(message.chat.id,
+                     f"Выберите способ детекции...{message.message_id}",
+                     reply_markup=get_options_keyboard(message))
+
 # def insert_db(image, id):
 #     con = sqlite3.connect('../../../db.sqlite3')
 #     cur = con.cursor()
