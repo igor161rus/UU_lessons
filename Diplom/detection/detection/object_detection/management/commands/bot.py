@@ -108,6 +108,6 @@ def load_image(message):
 # def insert_db(image, id):
 #     con = sqlite3.connect('../../../db.sqlite3')
 #     cur = con.cursor()
-#     cur.execute('''INSERT INTO object_detection_imagefeed VALUES (?), (?)''', (image, id))
+#     cur.execute('INSERT INTO object_detection_imagefeed VALUES (?), (?)', (image, id))
 
 # bot.polling(none_stop=True)
