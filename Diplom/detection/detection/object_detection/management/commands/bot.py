@@ -91,7 +91,6 @@ def load_image(message):
 
     image_name = 'images/tg_photo_' + generate_random_name() + '.jpg'
     image_path = settings.MEDIA_ROOT + '/' + image_name  # 'tg_photo.jpg'
-    # image_path = image_path.replace('\\', '/')
     with open(image_path, 'wb') as new_file:
         new_file.write(downloaded_file)
     bot.reply_to(message, 'Фотография сохранена.')
