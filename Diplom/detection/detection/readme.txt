@@ -1,77 +1,58 @@
-SQLLiteStudio
-Bootstrap: https://getbootstrap.com
+В приложении зарегистрирован запуск телеграм-бота с помощью manage.py
+https://docs.djangoproject.com/en/5.0/howto/custom-management-commands/
+Бот запускается командой: python manage.py bot
 
-django-admin startproject detection
-python manage.py runserver
-python manage.py startapp object_detection
-python manage.py makemigrations
-python manage.py migrate
-python manage.py sqlmigrate object_detection 0001
+management/
+    __init__.py
+    commands/
+    __init__.py
+    bot.py - содержит функции для работы с телеграм ботом
 
-python manage.py migrate
+class Command(BaseCommand) - Класс для создания собственной django-admin команды
 
-# ORM
-python manage.py shell
-from object_detection.models import ImageFeed
-ImageFeed(user='Igor')
-w1 = _
-w1
-w1.save()
-w1
-w1.id
-w1.user
-w1.pk
+generate_random_name - Функция генерирует случайное имя, состоящее из 7 символов, используя заранее определенный набор
+    символов. Полученный набор символов испольсуется для генерации случайного имени при сохранении загруженного
+    изображения из телеграма.
 
-from django.db import connection
-connection.queries
+send_welcome(message) - Отправляет пользователю приветственное сообщение, когда бот запускается (start) или
+    просит о помощи (help).
 
-w2 = ImageFeed(user='Maks')
-w2.save()
-connection.queries
+handle_photo(message) - Обрабатывает сообщение с фотографией, инициализируя уровень состояния пользователя,
+    отвечая сообщением и сохраняя информацию о фотографии.
 
-w3 = ImageFeed()
-w3.user = 'User3'
-w3.save()
+get_options_keyboard(message) - Генерирует различные InlineKeyboards в зависимости от уровня пользователя,
+    хранящегося в user_states.
 
-# object
-ImageFeed.objects
-w4 = ImageFeed.objects.create(user='User4')
-w4
-w4.user
-w4.pk
+callback_query(call) - Функция обратного вызова для обработки различных действий, связанных с обработкой изображений.
 
-ImageFeed.objects.all()
-q = _
-q[0]
-q1[0].user
-len(q)
-for qi in q:
-    print(qi.user)
+load_image(message) - Функция для загрузки изображения из сообщения, его сохранения и обновления состояний пользователя.
 
-ImageFeed.objects.filter(user='Igor')
-# from django.db import connection
-connection.queries
 
-ImageFeed.objects.filter(pk=1)
-ImageFeed.objects.filter(pk__gte=1)
+Модуль signals
+Была идея использовать сигналы при изменении определенных объектов вызывать функции обработки
+Отказался. Оставил в качкстве напоминая об интересном методе
+https://docs.djangoproject.com/en/5.0/topics/signals/
 
-ImageFeed.objects.exclude(pk=2)
+signals/
+    __init__.py
+    signals.py
 
-ImageFeed.objects.get(pk=2) #должна быть только одна запись
 
-ImageFeed.objects.filter(pk__lte=4.order_by('user')
+Модуль static
+В модуле расположены статические файлы для отрисовки Веб-сайта, такие как изображения, JavaScript, CSS
+https://docs.djangoproject.com/en/5.0/howto/static-files/
+static/
+    object_detection/
+        css/
+            docs.min.css
+            styles.css
+        images/
+            logo.png
+            site.ico
+        js/
+            docs.min.js
 
-ImageFeed.objects.order_by('user')
-ImageFeed.objects.order_by('-user')
-
-wu = ImageFeed.objects.get(pk=2)
-wu.user = 'Igor_1'
-wu.save()
-connection.queries
-
-wd = ImageFeed.objects.filter(pk__gte=2)
-wd
-wd.delete()
-
-Шаблонизатор Jinja2:
-https://www.youtube.com/watch?v=cFJqMXxVNsI&list=PLA0M1Bcd0w8wfmtElObQrBbZjY6XeA06U&index=1&t=0s
+Модуль templatetags
+templatetags/
+    __init__.py
+    detection_tag.py

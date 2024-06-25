@@ -1,8 +1,11 @@
+"""
+Модуль для запуска телеграм-бота.
+Бот запускается командой: python manage.py bot
+"""
 import random
-
+import telebot
 from django.core.management.base import BaseCommand
 from django.conf import settings
-import telebot
 from telebot import types
 from ...models import *
 from ...utils import *
@@ -23,6 +26,14 @@ class Command(BaseCommand):
 
 
 def generate_random_name():
+    """
+       Функция генерирует случайное имя, состоящее из 7 символов, используя заранее определенный набор символов.
+       Полученный набор символов испольсуется для генерации случайного имени при сохранении загруженного изображения
+       из телеграма.
+
+       Returns:
+           str: случайно сгенерированное имя.
+    """
     characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
     random_name = ''
     for i in range(7):
@@ -32,13 +43,28 @@ def generate_random_name():
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
+    """
+        Отправляет пользователю приветственное сообщение, когда бот запускается (start) или просит о помощи (help).
+        Args:
+            message: объект сообщения, который вызвал эту функцию.
+        Returns:
+            None
+    """
     bot.reply_to(message, "Привет! Я бот для обнаружения объектов. ")
 
 
 @bot.message_handler(content_types=['photo'])
 def handle_photo(message):
+    """
+        Обрабатывает сообщение с фотографией, инициализируя уровень состояния пользователя,
+        отвечая сообщением и сохраняя информацию о фотографии.
+        Args:
+            message: объект сообщения, содержащий фотографию и информацию о чате.
+        Returns:
+            None
+    """
     user_states[message.chat.id] = {'level': 0}
-    bot.reply_to(message, "I got your photo! Please choose what you'd like to do with it.",
+    bot.reply_to(message, "Я получил ваше фото! Выберите, что вы хотите сделать с ним.",
                  reply_markup=get_options_keyboard(message))
     user_states[message.chat.id]['photo'] = message.photo[-1].file_id
     # user_states[message.chat.id] = {'photo': message.photo[-1].file_id}
@@ -46,6 +72,13 @@ def handle_photo(message):
 
 
 def get_options_keyboard(message):
+    """
+        Генерирует различные InlineKeyboards в зависимости от уровня пользователя, хранящегося в user_states.
+        Args:
+            message: объект сообщения, полученный от пользователя.
+        Returns:
+            types.InlineKeyboardMarkup: Сгенерированная InlineKeyboard.
+    """
     print(user_states)
     if user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 0:
         keyboard = types.InlineKeyboardMarkup()
@@ -62,6 +95,13 @@ def get_options_keyboard(message):
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback_query(call):
+    """
+        Функция обратного вызова для обработки различных действий, связанных с обработкой изображений.
+        Parameters:
+        - call: объект запроса обратного вызова
+        Returns:
+        - None
+    """
     chat_id = call.message.chat.id
 
     if call.data == "load_image":
@@ -83,6 +123,13 @@ def callback_query(call):
 
 
 def load_image(message):
+    """
+        Функция для загрузки изображения из сообщения, его сохранения и обновления состояний пользователя.
+        Args:
+            message: объект сообщения, содержащий информацию о чате и пользователе.
+        Returns:
+            None
+    """
     photo_id = user_states[message.chat.id]['photo']
     file_info = bot.get_file(photo_id)
     downloaded_file = bot.download_file(file_info.file_path)
@@ -102,7 +149,7 @@ def load_image(message):
     user_states[message.chat.id]['image'] = image_name
 
     bot.send_message(message.chat.id,
-                     f"Выберите способ детекции...{message.message_id}",
+                     f"Выберите способ детекции...",
                      reply_markup=get_options_keyboard(message))
 
 # def insert_db(image, id):
