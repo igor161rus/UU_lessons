@@ -108,6 +108,13 @@ def process_image(image_feed_id):
 
 
 def process_image_detr(image_feed_id):
+    """
+        Функция определения объектов на изображении с использованием библиотеки DEtection TRansformers (DETR).
+        Args:
+            image_feed_id (int): идентификатор изображения для обработки.
+        Returns:
+            bool: True, если обработка прошла успешно.
+    """
     image_feed = ImageFeed.objects.get(id=image_feed_id)
     image_path = image_feed.image.path
 
@@ -154,6 +161,11 @@ def process_image_detr(image_feed_id):
 
 
 def get_graph():
+    """
+        Функция генерирует изображение текущего графика в кодировке Base64.
+        Returns:
+            str: изображение графика в кодировке Base64.
+    """
     buffer = io.BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
@@ -165,6 +177,15 @@ def get_graph():
 
 
 def get_plot(x, y, type_graph):
+    """
+        Функция создает график с помощью библиотеки matplotlib и с логарифмической шкалой y.
+        Parameters:
+            x (array-like): список значений по оси x.
+            y (array-like): список значений по оси y.
+            type_graph (str): тип графика для сохранения графика.
+        Returns:
+            matplotlib.figure.Figure: сгенерированный график.
+    """
     font = {'family': 'serif',
             'color': 'darkred',
             'weight': 'normal',
@@ -193,6 +214,15 @@ def get_plot(x, y, type_graph):
 
 
 def get_plot_stat(x, y, type_graph):
+    """
+        Функция создает график метода определения объектов с помощью библиотеки matplotlib и с логарифмической шкалой y.
+        Parameters:
+            x (array-like): список значений по оси x.
+            y (array-like): список значений по оси y.
+            type_graph (str): тип графика для сохранения графика.
+        Returns:
+            matplotlib.figure.Figure: сгенерированный график.
+    """
     # plt.style.use('_mpl-gallery')
     plt.switch_backend('AGG')
     # plt.figure(figsize=(15, 5))
