@@ -81,28 +81,36 @@ def dashboard(request):
     # return render(request, 'object_detection/dashboard.html', {'image_feeds': image_feeds})
     # return HttpResponse("dashboard")
     image_feeds = ImageFeed.objects.filter(user=request.user)
-    # posts = ImageFeed.objects.all()
-    x = [x.object_type for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
-    y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
-    chart = get_plot(x, y, 'bar')
-    # x = [x.method_detected for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
-    detect_stat = [y for y in
-                   DetectedObject.objects.filter(image_feed__in=image_feeds).values('method_detected').annotate(
-                       Count('method_detected'))]
-    x = []
-    y = []
-    for i in detect_stat:
-        x.append(i['method_detected'])
-        y.append(i['method_detected__count'])
-    chart_stat = get_plot(x, y, 'line')
+    if not image_feeds:
+        return redirect('add_image_feed')
+    else:
+        # posts = ImageFeed.objects.all()
+        x = [x.object_type for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+        y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+        if x and y:
+            chart = get_plot(x, y, 'bar')
+            # x = [x.method_detected for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
+            detect_stat = [y for y in
+                           DetectedObject.objects.filter(image_feed__in=image_feeds).values('method_detected').annotate(
+                               Count('method_detected'))]
+            x = []
+            y = []
+            for i in detect_stat:
+                x.append(i['method_detected'])
+                y.append(i['method_detected__count'])
+            chart_stat = get_plot(x, y, 'line')
+        else:
+            chart = None
+            chart_stat = None
 
-    context = {
-        'image_feeds': image_feeds,
-        'menu': menu,
-        'title': 'Главная',
-        'chart': chart,
-        'chart_stat': chart_stat
-    }
+        context = {
+            'image_feeds': image_feeds,
+            'menu': menu,
+            'title': 'Главная',
+            'chart': chart,
+            'chart_stat': chart_stat
+        }
+    # read_exif_data(41)
     return render(request, "object_detection/dashboard.html", context=context)
 
 
@@ -220,7 +228,10 @@ def image_detect(request, pk):
 
     x = [x.object_type for x in DetectedObject.objects.filter(image_feed__in=image_feeds)]
     y = [y.confidence for y in DetectedObject.objects.filter(image_feed__in=image_feeds)]
-    chart = get_plot(x, y, 'bar')
+    if x and y:
+        chart = get_plot(x, y, 'bar')
+    else:
+        chart = None
 
     context = {'image_feeds': image_feeds,
                'chart': chart,

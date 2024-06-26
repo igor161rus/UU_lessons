@@ -8,6 +8,8 @@ EMAIL_HOST_PASSWORD = пароль приложения google
 TOKEN = телеграм токен
 ________________________________________________________________________________________________________________________
 
+https://pypi.org/project/exif/
+
 Телеграм бот
 В приложении зарегистрирован запуск телеграм-бота с помощью manage.py
 https://docs.djangoproject.com/en/5.0/howto/custom-management-commands/

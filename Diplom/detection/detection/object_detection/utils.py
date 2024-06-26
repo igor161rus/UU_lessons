@@ -8,7 +8,7 @@ import cv2
 import numpy as np
 # import requests
 import torch
-from exif import Image
+from exif import Image as ExifImage
 from django.core.files.base import ContentFile
 from django.db.models import Count
 from .models import *
@@ -211,7 +211,7 @@ def get_plot(x, y, type_graph):
     plt.tight_layout()
     plt.savefig(type_graph + '.png')
 
-    read_exif_data(40)
+    read_exif_data(41)
 
     return get_graph()
 
@@ -237,11 +237,11 @@ def get_plot_stat(x, y, type_graph):
     plt.ylabel('Количество', fontsize=12)
     plt.savefig(type_graph + '.png')
 
-    read_exif_data(40)
+    read_exif_data(41)
     return get_graph()
 
 
-def read_exif_data(file_id) -> Image:
+def read_exif_data(file_id) -> ExifImage:
     image_name = ImageFeed.objects.get(id=file_id).image.name
     print(1, image_name)
     file_path = settings.MEDIA_ROOT + '/' + image_name
@@ -250,7 +250,13 @@ def read_exif_data(file_id) -> Image:
     with open(file_path, 'rb') as f:
 
         # return Image(f)
-        f_exif = Image.open(f)
-        for key, value in f_exif._getexif().items():
-            print(key, value)
+        f_exif = ExifImage(f)
+        print(2, f_exif.has_exif)
+        if f_exif.has_exif:
+            print(3, f_exif.list_all())
+            print(4, f_exif.gps_latitude)
+            print(5, f_exif.gps_longitude)
+            for key, value in f_exif._getexif().items():
+                print(key, value)
+
     # print(2,  f_exif.info.decode('utf-8'))
