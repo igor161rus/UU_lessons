@@ -2,13 +2,14 @@ from django.db import models
 from django.conf import settings
 from django.urls import reverse
 from django.contrib.auth.models import User
+from django_admin_geomap import GeoItem
 
 
-class ImageFeed(models.Model):
+class ImageFeed(models.Model, GeoItem):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
     image = models.ImageField(upload_to='images/', verbose_name='Изображение')
-
-    # processed_image = models.ImageField(upload_to='processed_images/', null=True, blank=True, verbose_name='Обработанное изображение')
+    lon = models.FloatField(verbose_name='Долгота')
+    lat = models.FloatField(verbose_name='Широта')
 
     def __str__(self):
         return f"{self.user.username} - {self.image.name}"
@@ -16,6 +17,14 @@ class ImageFeed(models.Model):
     def get_absolute_url(self):
         # return f"/{self.pk}/"
         return reverse('image', kwargs={'pk': self.pk})
+
+    @property
+    def geomap_longitude(self):
+        return '' if self.lon is None else str(self.lon)
+
+    @property
+    def geomap_latitude(self):
+        return '' if self.lat is None else str(self.lat)
 
     class Meta:
         verbose_name = 'Изображение'

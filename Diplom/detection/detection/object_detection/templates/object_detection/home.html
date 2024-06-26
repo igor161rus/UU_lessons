@@ -25,7 +25,7 @@
                         <a href="{% url 'image_detect' i.id %}">
                             <img class="img-article-left thumb" src="{{ i.image.url }}" alt="Card image cap">
                         </a>
-
+                        <p>{{ location }}</p>
                     {% endif %}
                     <p>{{ i.text|safe }}</p>
                     <hr>

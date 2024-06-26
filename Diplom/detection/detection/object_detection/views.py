@@ -10,6 +10,7 @@ from django.contrib.auth.views import LoginView, PasswordResetView, PasswordRese
 from django.contrib.auth import logout, login
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
+from django_admin_geomap import geomap_context
 
 from .models import *
 from .utils import *
@@ -60,10 +61,13 @@ class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView
 def home(request):
     if request.user.is_authenticated:
         image_feeds = ImageFeed.objects.filter(user=request.user)
+        x, y = read_exif_data(41)
+        loc = Location(6, 21)
         context = {
             'image_feeds': image_feeds,
             'menu': menu,
             'title': 'Главная',
+            'location': geomap_context(loc),
             # 'chart': chart,
             # 'chart_stat': chart_stat
         }

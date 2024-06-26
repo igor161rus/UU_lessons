@@ -11,6 +11,7 @@ import torch
 from exif import Image as ExifImage
 from django.core.files.base import ContentFile
 from django.db.models import Count
+from django_admin_geomap import GeoItem
 from .models import *
 from PIL import Image
 from transformers import DetrImageProcessor, DetrForObjectDetection
@@ -241,22 +242,20 @@ def get_plot_stat(x, y, type_graph):
     return get_graph()
 
 
-def read_exif_data(file_id) -> ExifImage:
+def read_exif_data(file_id):
+    lat = lon = None
     image_name = ImageFeed.objects.get(id=file_id).image.name
     print(1, image_name)
     file_path = settings.MEDIA_ROOT + '/' + image_name
-    # image_path = settings.MEDIA_ROOT + '/' + image_name
-    """Read metadata from photo."""
     with open(file_path, 'rb') as f:
-
-        # return Image(f)
         f_exif = ExifImage(f)
         print(2, f_exif.has_exif)
         if f_exif.has_exif:
+            lat, lon = f_exif.gps_latitude, f_exif.gps_longitude
             print(3, f_exif.list_all())
             print(4, f_exif.gps_latitude)
             print(5, f_exif.gps_longitude)
-            for key, value in f_exif._getexif().items():
-                print(key, value)
+
+    return lat, lon
 
     # print(2,  f_exif.info.decode('utf-8'))

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'django.contrib.sites',
     'object_detection.apps.ObjectDetectionConfig',
+    'django_admin_geomap',
 ]
 
 MIDDLEWARE = [
