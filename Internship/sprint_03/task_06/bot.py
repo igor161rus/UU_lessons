@@ -2,10 +2,11 @@ import telebot
 from PIL import Image, ImageOps
 import io
 from telebot import types
-from settings import TOKEN_BOT
+# from settings import TOKEN_BOT
+from decouple import config
 from utils import Jokes
 
-TOKEN = TOKEN_BOT
+TOKEN = config('TOKEN')
 bot = telebot.TeleBot(TOKEN)
 
 user_states = {}  # тут будем хранить информацию о действиях пользователя

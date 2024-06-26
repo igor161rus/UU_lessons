@@ -3,8 +3,8 @@ decouple
 https://pypi.org/project/python-decouple/
 Ключи хранятся в файле .env. Файл располагается в корне проекта, рядом с manage.py
 Содержание файла:
-EMAIL_HOST_USER = mail@mail.ru
-EMAIL_HOST_PASSWORD = ключ google
+EMAIL_HOST_USER = mail@google.com
+EMAIL_HOST_PASSWORD = пароль приложения google
 TOKEN = телеграм токен
 ________________________________________________________________________________________________________________________
 
@@ -99,11 +99,34 @@ ________________________________________________________________________________
 
 forms.py
 Файл определения форм
+https://docs.djangoproject.com/en/5.0/ref/forms/
 https://docs.djangoproject.com/en/5.0/topics/forms/
 https://docs.djangoproject.com/en/5.0/topics/auth/default/#built-in-auth-forms
 
-class RegisterUserForm(UserCreationForm) - форма связанная с моделью для регистрации пользователя
+RegisterUserForm(UserCreationForm) - форма связанная с моделью для регистрации пользователя
 https://docs.djangoproject.com/en/5.0/topics/auth/default/
+На форме выводятся следующие поля модели User:
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+
+    username, с подписью 'Логин'
+    email, с подписью 'Email'
+    password1, с подписью 'Пароль'
+    password2, с подписью 'Повтор пароля'
+Все поля выводятся со стилем 'class': 'form-input'
+
+LoginUserForm(AuthenticationForm) - форма связанная с моделью для аутентификации пользователя
+На форме выводятся следующие поля:
+    username, с подписью 'Логин'
+    password, с подписью 'Пароль'
+
+ImageFeedForm(forms.ModelForm) - форма связанная с моделью ImageFeed для загрузки изображения
+
+
+________________________________________________________________________________________________________________________
+
+models.py
 
 ________________________________________________________________________________________________________________________
 templates
