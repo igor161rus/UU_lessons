@@ -26,6 +26,7 @@
                             <img class="img-article-left thumb" src="{{ i.image.url }}" alt="Card image cap">
                         </a>
                         <p>{{ location }}</p>
+                        <div>{% include "geomap/common.html" %}</div>
                     {% endif %}
                     <p>{{ i.text|safe }}</p>
                     <hr>
