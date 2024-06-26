@@ -102,6 +102,25 @@ forms.py
 https://docs.djangoproject.com/en/5.0/topics/forms/
 https://docs.djangoproject.com/en/5.0/topics/auth/default/#built-in-auth-forms
 
-class RegisterUserForm(UserCreationForm)
+class RegisterUserForm(UserCreationForm) - форма связанная с моделью для регистрации пользователя
 https://docs.djangoproject.com/en/5.0/topics/auth/default/
 
+________________________________________________________________________________________________________________________
+templates
+Шаблоны
+templates/
+    object_detection/
+        email/
+            password_reset_mail.html
+            password_subject_reset_mail.txt
+        about.html
+        add_image_feed.html
+        base.html
+        dashboard.html
+        home.html
+        image_detect.html
+        list_categories.html
+        login.html
+        register.html
+        user_password_reset.html
+        user_password_set_new.html
