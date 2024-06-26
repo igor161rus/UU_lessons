@@ -9,8 +9,10 @@ from django.conf import settings
 from telebot import types
 from ...models import *
 from ...utils import *
+from decouple import config
 
-bot = telebot.TeleBot(settings.TOKEN, threaded=False)
+# bot = telebot.TeleBot(settings.TOKEN, threaded=False)
+bot = telebot.TeleBot(config('TOKEN'), threaded=False)  # telebot.TeleBot(settings.TOKEN, threaded=False)
 
 user_states = {}
 
