@@ -89,8 +89,8 @@ def get_options_keyboard(message):
         return keyboard
     elif user_states.get(message.chat.id) and user_states[message.chat.id]['level'] == 2:
         keyboard = types.InlineKeyboardMarkup()
-        detr_btn = types.InlineKeyboardButton("DETR", callback_data="detect_image")
-        cafe_btn = types.InlineKeyboardButton("Cafe", callback_data="detect_image")
+        detr_btn = types.InlineKeyboardButton("DETR", callback_data="detect_image_detr")
+        cafe_btn = types.InlineKeyboardButton("Cafe", callback_data="detect_image_standard")
         keyboard.add(detr_btn, cafe_btn)
         return keyboard
 
@@ -110,18 +110,32 @@ def callback_query(call):
         user_states[chat_id]['level'] = 1
         bot.answer_callback_query(call.id, "Загрузка изображения...")
         load_image(call.message)
-    elif call.data == "detect_image":
+    elif call.data == "detect_image_detr":
         user_states[chat_id]['level'] = 2
         bot.answer_callback_query(call.id, "Определение объектов на изображении...")
         image_id = ImageFeed.objects.filter(image=user_states[chat_id]['image']).values('id').first()
         process_image_detr(image_id['id'])
-        detected_objects = DetectedObject.objects.filter(image_feed=image_id['id']).values('object_type', 'confidence')
-        print(detected_objects)
-        message_text = "На изображении обнаружено " + str(len(detected_objects)) + " объектов \n"
-        for i in detected_objects:
-            conf = '%.2f' % i['confidence']
-            message_text += i['object_type'] + " - " + str(conf) + "\n"
-        bot.send_message(chat_id, message_text)
+        message_detect(chat_id, image_id)
+        # detected_objects = DetectedObject.objects.filter(image_feed=image_id['id']).values('object_type', 'confidence')
+        # print(detected_objects)
+        # message_text = "На изображении обнаружено " + str(len(detected_objects)) + " объектов \n"
+        # for i in detected_objects:
+        #     conf = '%.2f' % i['confidence']
+        #     message_text += i['object_type'] + " - " + str(conf) + "\n"
+        # bot.send_message(chat_id, message_text)
+    elif call.data == "detect_image_standard":
+        user_states[chat_id]['level'] = 2
+        bot.answer_callback_query(call.id, "Определение объектов на изображении...")
+        image_id = ImageFeed.objects.filter(image=user_states[chat_id]['image']).values('id').first()
+        process_image(image_id['id'])
+        message_detect(chat_id, image_id)
+        # detected_objects = DetectedObject.objects.filter(image_feed=image_id['id']).values('object_type', 'confidence')
+        # print(detected_objects)
+        # message_text = "На изображении обнаружено " + str(len(detected_objects)) + " объектов \n"
+        # for i in detected_objects:
+        #     conf = '%.2f' % i['confidence']
+        #     message_text += i['object_type'] + " - " + str(conf) + "\n"
+        # bot.send_message(chat_id, message_text)
 
 
 def load_image(message):
@@ -153,6 +167,25 @@ def load_image(message):
     bot.send_message(message.chat.id,
                      f"Выберите способ детекции...",
                      reply_markup=get_options_keyboard(message))
+
+
+def message_detect(chat_id, image_id):
+    """
+        Функция отправляет сообщение с результатами определения объектов в указанный чат.
+        Args:
+            chat_id (int): идентификатор чата, в который будет отправлено сообщение.
+            image_id (dict): идентификатор изображения, на котором необходимо обнаружить объекты.
+        Returns:
+            None
+    """
+    detected_objects = DetectedObject.objects.filter(image_feed=image_id['id']).values('object_type', 'confidence')
+    print(detected_objects)
+    message_text = "На изображении обнаружено " + str(len(detected_objects)) + " объектов \n"
+    for i in detected_objects:
+        conf = '%.2f' % i['confidence']
+        message_text += i['object_type'] + " - " + str(conf) + "\n"
+    bot.send_message(chat_id, message_text)
+
 
 # def insert_db(image, id):
 #     con = sqlite3.connect('../../../db.sqlite3')
