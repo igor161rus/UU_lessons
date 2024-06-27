@@ -26,7 +26,7 @@ class ImageFeedAdmin(ModelAdmin):
     geomap_field_latitude = "id_lat"
 
 Для отрисовки во view
-Особенность заключается в передаче контекста
+Особенность заключается в передаче контекста во view
     return render(request, 'object_detection/home.html', geomap_context(ImageFeed.objects.filter(user=request.user)))
 должен быть передан только один параметр - geomap_context(ImageFeed.objects.filter(user=request.user))
 
