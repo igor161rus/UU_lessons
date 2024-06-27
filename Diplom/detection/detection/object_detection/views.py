@@ -61,18 +61,21 @@ class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView
 def home(request):
     if request.user.is_authenticated:
         image_feeds = ImageFeed.objects.filter(user=request.user)
-        image_loc = ImageFeed.objects.filter(user=request.user).values('lon', 'lat')
+        image_loc = ImageFeed.objects.filter(user=request.user).values('image', 'lon', 'lat')
         # image_loc = ImageFeed.objects.all()
         print()
         context = {
+            'location': geomap_context(ImageFeed.objects.filter(user=request.user)),
             'image_feeds': image_feeds,
             'menu': menu,
             'title': 'Главная',
-            'location': geomap_context(image_loc),
-            # 'chart': chart,
-            # 'chart_stat': chart_stat
         }
-        return render(request, 'object_detection/home.html', context=context)
+        return render(request, 'object_detection/home.html',
+                      geomap_context(ImageFeed.objects.filter(user=request.user))
+
+                        )
+        # return render(request, 'object_detection/home.html',
+        #               context)
     else:
         return render(request, 'object_detection/home.html', {'menu': menu, 'title': 'Главная'})
 
