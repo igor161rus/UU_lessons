@@ -15,6 +15,7 @@ from django_admin_geomap import GeoItem
 from .models import *
 from PIL import Image
 from transformers import DetrImageProcessor, DetrForObjectDetection
+from transformers import VisionEncoderDecoderModel, ViTImageProcessor, AutoTokenizer
 
 menu = [{'title': 'Главная', 'url_name': 'home'},
         {'title': 'Приборная доска', 'url_name': 'dashboard'},
@@ -160,6 +161,52 @@ def process_image_detr(image_feed_id):
             detected_objects.processed_image.save(content.name, content, save=True)
 
     return True
+
+
+def image_caption(image_feed_id):
+    """
+        Функция возвращает описание изображения.
+        Parameters:
+            image (PIL.Image): изображение.
+        Returns:
+            str: описание изображения.
+    """
+    image_feed = ImageFeed.objects.get(id=image_feed_id)
+    image_path = image_feed.image.path
+
+    image = Image.open(image_path)
+
+    model = VisionEncoderDecoderModel.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
+    feature_extractor = ViTImageProcessor.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
+    tokenizer = AutoTokenizer.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+
+    max_length = 16
+    num_beams = 4
+    gen_kwargs = {"max_length": max_length, "num_beams": num_beams}
+
+    # def predict_step(image_paths):
+    #     images = []
+    #     for image_path in image_paths:
+    #         i_image = Image.open(image_path)
+    #         if i_image.mode != "RGB":
+    #             i_image = i_image.convert(mode="RGB")
+    #
+    #         images.append(i_image)
+
+    pixel_values = feature_extractor(images=image, return_tensors="pt").pixel_values
+    pixel_values = pixel_values.to(device)
+
+    output_ids = model.generate(pixel_values, **gen_kwargs)
+
+    preds = tokenizer.batch_decode(output_ids, skip_special_tokens=True)
+    preds = [pred.strip() for pred in preds]
+    print(preds)
+    return preds
+
+    # predict_step(['doctor.e16ba4e4.jpg'])  # ['a woman in a hospital bed with a woman in a hospital bed']
 
 
 def get_graph():
