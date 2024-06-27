@@ -212,7 +212,7 @@ def get_plot(x, y, type_graph):
     plt.tight_layout()
     plt.savefig(type_graph + '.png')
 
-    read_exif_data(41)
+    read_exif_data(42)
 
     return get_graph()
 
@@ -238,7 +238,7 @@ def get_plot_stat(x, y, type_graph):
     plt.ylabel('Количество', fontsize=12)
     plt.savefig(type_graph + '.png')
 
-    read_exif_data(41)
+    read_exif_data(42)
     return get_graph()
 
 

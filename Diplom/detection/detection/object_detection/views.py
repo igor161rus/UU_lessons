@@ -67,7 +67,7 @@ def home(request):
             'image_feeds': image_feeds,
             'menu': menu,
             'title': 'Главная',
-            'location': geomap_context(ImageFeed.objects.filter(user=request.user), 6, 21),
+            'location': geomap_context(image_loc, 6, 21),
             # 'chart': chart,
             # 'chart_stat': chart_stat
         }
@@ -191,6 +191,8 @@ def add_image_feed(request):
         if form.is_valid():
             image_feed = form.save(commit=False)
             image_feed.user = request.user
+            image_feed.lat = 0
+            image_feed.lon = 0
             image_feed.save()
             return redirect('dashboard')
     else:
