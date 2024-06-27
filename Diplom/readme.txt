@@ -16,8 +16,8 @@ ________________________________________________________________________________
 django_admin_geomap
 https://github.com/vb64/django.admin.geomap/blob/main/READMEru.md
 Библиотека для отрисовки карты
-Для отрисовки карты в админ панели
 
+Для отрисовки карты в админ панели
 from django_admin_geomap import ModelAdmin
 class ImageFeedAdmin(ModelAdmin):
     # list_display = ('user', 'image', 'processed_image')
@@ -25,7 +25,15 @@ class ImageFeedAdmin(ModelAdmin):
     geomap_field_longitude = "id_lon"
     geomap_field_latitude = "id_lat"
 
-Во view рисовать не хочет...
+Для отрисовки во view
+Особенность заключается в передаче контекста
+    return render(request, 'object_detection/home.html', geomap_context(ImageFeed.objects.filter(user=request.user)))
+должен быть передан только один параметр - geomap_context(ImageFeed.objects.filter(user=request.user))
+
+Для решения создан включающий тег
+@register.inclusion_tag('geomap/common.html')
+def get_map(user_id):
+    return geomap_context(ImageFeed.objects.filter(user=user_id))
 ________________________________________________________________________________________________________________________
 
 Телеграм бот
