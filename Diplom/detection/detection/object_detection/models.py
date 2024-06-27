@@ -12,7 +12,8 @@ class ImageFeed(models.Model, GeoItem):
     lat = models.FloatField(verbose_name='Широта')
 
     def __str__(self):
-        return f"{self.user.username} - {self.image.name} - {self.lon} - {self.lat}"
+        # return f"{self.user.username} - {self.image.name} - {self.lon} - {self.lat}"
+        return self.image.name
 
     def get_absolute_url(self):
         # return f"/{self.pk}/"

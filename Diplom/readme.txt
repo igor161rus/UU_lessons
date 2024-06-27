@@ -16,6 +16,16 @@ ________________________________________________________________________________
 django_admin_geomap
 https://github.com/vb64/django.admin.geomap/blob/main/READMEru.md
 Библиотека для отрисовки карты
+Для отрисовки карты в админ панели
+
+from django_admin_geomap import ModelAdmin
+class ImageFeedAdmin(ModelAdmin):
+    # list_display = ('user', 'image', 'processed_image')
+    list_display = ('user', 'image', 'lon', 'lat')
+    geomap_field_longitude = "id_lon"
+    geomap_field_latitude = "id_lat"
+
+Во view рисовать не хочет...
 ________________________________________________________________________________________________________________________
 
 Телеграм бот

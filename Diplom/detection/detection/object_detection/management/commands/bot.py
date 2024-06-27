@@ -159,7 +159,7 @@ def load_image(message):
     bot.reply_to(message, 'Фотография сохранена.')
     image_feed = UserAddFields.objects.filter(tg_id=message.chat.id).values('user_id').first()
 
-    ImageFeed.objects.create(user_id=image_feed['user_id'], image=image_name)
+    ImageFeed.objects.create(user_id=image_feed['user_id'], image=image_name, lon=0, lat=0)
 
     user_states[message.chat.id]['level'] = 2
     user_states[message.chat.id]['image'] = image_name
