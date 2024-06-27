@@ -16,6 +16,7 @@ from .models import *
 from PIL import Image
 from transformers import DetrImageProcessor, DetrForObjectDetection
 from transformers import VisionEncoderDecoderModel, ViTImageProcessor, AutoTokenizer
+from translate import Translator
 
 menu = [{'title': 'Главная', 'url_name': 'home'},
         {'title': 'Приборная доска', 'url_name': 'dashboard'},
@@ -205,7 +206,9 @@ def image_caption(image_feed_id):
     preds = [pred.strip() for pred in preds]
     print(preds)
     if preds:
-        image_feed.description = preds
+        translator = Translator(from_lang="english", to_lang="russian")
+        translation = translator.translate(preds[0])
+        image_feed.description = translation
         image_feed.save()
     return preds
 
@@ -262,7 +265,7 @@ def get_plot(x, y, type_graph):
     plt.tight_layout()
     plt.savefig(type_graph + '.png')
 
-    read_exif_data(42)
+    # read_exif_data(42)
 
     return get_graph()
 
@@ -288,7 +291,7 @@ def get_plot_stat(x, y, type_graph):
     plt.ylabel('Количество', fontsize=12)
     plt.savefig(type_graph + '.png')
 
-    read_exif_data(42)
+    # read_exif_data(42)
     return get_graph()
 
 
