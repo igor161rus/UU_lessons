@@ -61,8 +61,8 @@ class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView
 def home(request):
     if request.user.is_authenticated:
         image_feeds = ImageFeed.objects.filter(user=request.user)
-        # image_loc = ImageFeed.objects.filter(user=request.user).values('lon', 'lat')
-        image_loc = ImageFeed.objects.all()
+        image_loc = ImageFeed.objects.filter(user=request.user).values('lon', 'lat')
+        # image_loc = ImageFeed.objects.all()
         print()
         context = {
             'image_feeds': image_feeds,
