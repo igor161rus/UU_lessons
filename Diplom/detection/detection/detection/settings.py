@@ -58,7 +58,8 @@ ROOT_URLCONF = 'detection.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        # 'DIRS': [],
+        'DIRS': ['path/to/installed/django_admin_geomap/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
