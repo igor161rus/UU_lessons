@@ -204,6 +204,9 @@ def image_caption(image_feed_id):
     preds = tokenizer.batch_decode(output_ids, skip_special_tokens=True)
     preds = [pred.strip() for pred in preds]
     print(preds)
+    if preds:
+        image_feed.description = preds
+        image_feed.save()
     return preds
 
     # predict_step(['doctor.e16ba4e4.jpg'])  # ['a woman in a hospital bed with a woman in a hospital bed']

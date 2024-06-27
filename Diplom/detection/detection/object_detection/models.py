@@ -10,6 +10,7 @@ class ImageFeed(models.Model, GeoItem):
     image = models.ImageField(upload_to='images/', verbose_name='Изображение')
     lon = models.FloatField(verbose_name='Долгота')
     lat = models.FloatField(verbose_name='Широта')
+    description = models.TextField(verbose_name='Описание', null=True, blank=True)
 
     def __str__(self):
         # return f"{self.user.username} - {self.image.name} - {self.lon} - {self.lat}"
