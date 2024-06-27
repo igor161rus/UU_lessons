@@ -55,7 +55,7 @@ def show_categories(cat_selected=0):
 @register.inclusion_tag('geomap/common.html')
 def get_map(user_id):
     """
-        Получает список уникальных типов объектов вместе со связанными с ними идентификаторами изображений.
+        Выводит карту с геометками
         Returns:
         list: список словарей, содержащих «object_type» и «image_feed_id».
     """
