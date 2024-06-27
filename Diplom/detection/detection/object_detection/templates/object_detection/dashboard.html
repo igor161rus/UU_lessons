@@ -32,6 +32,7 @@
                         <a href="{{ obj.processed_image.url }}" target="_blank">
                             <img class="img-article-left thumb" src="{{ obj.processed_image.url }}" alt="Processed Image">
                         </a>
+
                         <p class="table_text">{{ obj.object_type }} - {{ obj.confidence|floatformat:2 }}</p>
                         <p class="table_text">Метод: {{obj.method_detected}}</p>
                     </td>
@@ -48,6 +49,7 @@
         {% endfor %}
         </ul>
         <a href="{% url 'process_feed' i.id %}" class="btn btn-primary">Распознать</a>
+        <a href="{% url 'process_feed' i.id %}" class="btn btn-primary">Создать описание</a>
         <div class="clear"></div>
         <p></p>
         <a href="{% url 'delete_image' i.id %}" class="btn btn-primary">Удалить</a>
