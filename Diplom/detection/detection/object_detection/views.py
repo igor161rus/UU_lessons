@@ -65,17 +65,15 @@ def home(request):
         # image_loc = ImageFeed.objects.all()
         print()
         context = {
-            'location': geomap_context(ImageFeed.objects.filter(user=request.user)),
+            # 'location': geomap_context(ImageFeed.objects.filter(user=request.user)),
             'image_feeds': image_feeds,
             'menu': menu,
             'title': 'Главная',
         }
-        return render(request, 'object_detection/home.html',
-                      geomap_context(ImageFeed.objects.filter(user=request.user))
-
-                        )
         # return render(request, 'object_detection/home.html',
-        #               context)
+        #               geomap_context(ImageFeed.objects.filter(user=request.user)))
+        return render(request, 'object_detection/home.html',
+                      context)
     else:
         return render(request, 'object_detection/home.html', {'menu': menu, 'title': 'Главная'})
 

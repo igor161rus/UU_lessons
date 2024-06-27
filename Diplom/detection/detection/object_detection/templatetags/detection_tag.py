@@ -2,6 +2,7 @@ from django import template
 # import datetime
 from ..models import *
 from django.db.models import Count
+from django_admin_geomap import geomap_context
 
 register = template.Library()
 
@@ -49,3 +50,13 @@ def show_categories(cat_selected=0):
     for t in type_detected:
         t_list.append(t['object_type'])
     return {'type_detected': type_detected,  'cat_selected': cat_selected}
+
+
+@register.inclusion_tag('geomap/common.html')
+def get_map(user_id):
+    """
+        Получает список уникальных типов объектов вместе со связанными с ними идентификаторами изображений.
+        Returns:
+        list: список словарей, содержащих «object_type» и «image_feed_id».
+    """
+    return geomap_context(ImageFeed.objects.filter(user=user_id))
