@@ -30,30 +30,8 @@
 
             {% endfor %}
         </div>
+    </div>
 </div>
-    <ul class="list-articles">
-            {% for i in image_feeds %}
-                <li><h2>{{ p.user }}</h2>
-                    {% autoescape on %}
-                    {{p.content|linebreaks|truncatewords:50}}
-                    {% endautoescape %}
-                    <div class="clear"></div>
-                    {% if i.image %}
-                        {{ i.image.url }}
-                        <a href="{{ i.image.url }}" target="_blank">
-                            <img class="img-article-left thumb" src="{{ i.image.url }}" alt="Card image cap">
-                        </a>
 
-                        <a href="{% url 'image_detect' i.id %}">
-                            <img class="img-article-left thumb" src="{{ i.image.url }}" alt="Card image cap">
-                        </a>
-                        <p>{{ location }}</p>
-                        <div>{{ i.description }}</div>
-                    {% endif %}
-                    <p>{{ i.text|safe }}</p>
-                    <hr>
-                </li>
-            {% endfor %}
-    </ul>
 {% endif %}
 {% endblock %}
