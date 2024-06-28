@@ -6,10 +6,9 @@
 
 <p>веб приложение, которое позволит пользователям применять предобученную модель для обнаружения и классификации
 объектов на фото.</p>
- <div>{% include "geomap/common.html" %}</div>
-<div>{% get_map 2 %}</div>
+
+<div>{% get_map request.user.id %}</div>
 {% if request.user.is_authenticated %}
-    <p>Вы вошли как {{ request.user }}</p>
     <ul class="list-articles">
             {% for i in image_feeds %}
                 <li><h2>{{ p.user }}</h2>
@@ -27,7 +26,7 @@
                             <img class="img-article-left thumb" src="{{ i.image.url }}" alt="Card image cap">
                         </a>
                         <p>{{ location }}</p>
-
+                        <div>{{ i.description }}</div>
                     {% endif %}
                     <p>{{ i.text|safe }}</p>
                     <hr>

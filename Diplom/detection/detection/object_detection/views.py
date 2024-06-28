@@ -12,6 +12,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django_admin_geomap import geomap_context
 
+
 from .models import *
 from .utils import *
 from .forms import *
