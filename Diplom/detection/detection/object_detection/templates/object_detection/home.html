@@ -15,15 +15,19 @@
     <div class="container">
         <div class="row text-center">
             {% for i in image_feeds %}
+            <span class="border">
                 <div class="col">
-                        <a href="{% url 'image_detect' i.id %}">
-                            <img src="{{ i.image.url }}" alt="..." class="w-100">
-                        </a>
-                        <div class="caption">
-                            <p>{{ i.description }}</p>
-                        </div>
-
+                    <p class="text-center fs-6">{{ i.image.url }}<br></p>
+                     <a href="{% url 'image_detect' i.id %}">
+                        <img src="{{ i.image.url }}" alt="..." class="w-25">
+                     </a>
+                     <p class="text-start fs-6">
+                        Координаты: {{ i.lat }}, {{i.lon}}<br>
+                        Описание: {{ i.description }}
+                     </p>
                 </div>
+            </span>
+
             {% endfor %}
         </div>
 </div>
