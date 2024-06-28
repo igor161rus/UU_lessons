@@ -16,7 +16,7 @@ from .models import *
 from PIL import Image
 from transformers import DetrImageProcessor, DetrForObjectDetection
 from transformers import VisionEncoderDecoderModel, ViTImageProcessor, AutoTokenizer
-from translate import Translator
+# from translate import Translator
 
 menu = [{'title': 'Главная', 'url_name': 'home'},
         {'title': 'Приборная доска', 'url_name': 'dashboard'},
@@ -56,8 +56,8 @@ def process_image(image_feed_id):
         # detected_objects = DetectedObject.objects.filter(image_feed=image_feed)
         image_path = image_feed.image.path
 
-        model_path = 'object_detection/mobilenet_iter_73000.caffemodel'
-        config_path = 'object_detection/mobilenet_ssd_deploy.prototxt'
+        model_path = 'object_detection/models_detect/caffe/mobilenet_iter_73000.caffemodel'
+        config_path = 'object_detection/models_detect/caffe/mobilenet_ssd_deploy.prototxt'
         net = cv2.dnn.readNetFromCaffe(config_path, model_path)
 
         img = cv2.imread(image_path)
@@ -126,6 +126,8 @@ def process_image_detr(image_feed_id):
 
     processor = DetrImageProcessor.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
     model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
+    # processor = DetrImageProcessor.from_pretrained('object_detection/models_detect/detr/'"facebook/detr-resnet-50", revision="no_timm")
+    # model = DetrForObjectDetection.from_pretrained("facebook/detr-resnet-50", revision="no_timm")
 
     inputs = processor(images=image, return_tensors="pt")
     outputs = model(**inputs)
@@ -205,10 +207,11 @@ def image_caption(image_feed_id):
     preds = tokenizer.batch_decode(output_ids, skip_special_tokens=True)
     preds = [pred.strip() for pred in preds]
     print(preds)
+
     if preds:
-        translator = Translator(from_lang="english", to_lang="russian")
-        translation = translator.translate(preds[0])
-        image_feed.description = translation
+        # translator = Translator(from_lang="english", to_lang="russian")
+        # translation = translator.translate(preds[0])
+        image_feed.description = preds[0]
         image_feed.save()
     return preds
 

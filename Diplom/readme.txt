@@ -119,6 +119,8 @@ utils.py
 process_image_detr(image_feed_id) - Функция определения объектов на изображении с использованием библиотеки
     DEtection TRansformers (DETR).
 
+image_caption(image_feed_id) - Функция возвращает описание изображения.
+
 get_graph() - Функция генерирует изображение текущего графика в кодировке Base64.
 
 get_plot(x, y, type_graph) - Функция создает график с помощью библиотеки matplotlib и с логарифмической шкалой y.
