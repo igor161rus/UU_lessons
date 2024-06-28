@@ -16,7 +16,7 @@
 <table class="table-page" border=0 cellpadding="0" cellspacing="0">
 <tr><td valign=top>
 {% block mainmenu %}
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <a class="navbar-brand" href="{% url 'home' %}"><img src="{% static 'object_detection/images/logo.png' %}" width="50" height="50" class="d-inline-block align-top" alt=""></a>
     <!--        <a class="navbar-brand" href="{% url 'home' %}">Главная</a> -->
@@ -34,7 +34,13 @@
                 </ul>
             </div>
             <div class="collapse navbar-collapse" id="navbarNav2">
-                {{user.username}} |
+                <nav class="navbar navbar-light"style="background-color: #e3f2fd;">
+                    <span class="navbar-text">
+                      {{user.username}} |
+                    </span>
+                </nav>
+
+
                 <div class="navbar-nav">
                     <a class="nav-item nav-link active" href="{% url 'logout' %}">Выйти</a>
                     {% else %}
