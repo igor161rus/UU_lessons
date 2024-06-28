@@ -34,13 +34,11 @@
                 </ul>
             </div>
             <div class="collapse navbar-collapse" id="navbarNav2">
-                <nav class="navbar navbar-light"style="background-color: #e3f2fd;">
+                <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
                     <span class="navbar-text">
                       {{user.username}} |
                     </span>
                 </nav>
-
-
                 <div class="navbar-nav">
                     <a class="nav-item nav-link active" href="{% url 'logout' %}">Выйти</a>
                     {% else %}
@@ -76,12 +74,15 @@
 <!--         <li class="selected">Все категории</li>
 -->
                 <li class="share">
-                <p>Наш телеграмм</p>
-                <a class="telegram" href="https://t.me/UU_diplom"></a>
+                <a class="telegram" href="https://t.me/UU_diplom_bot">Наш телеграмм</a>
                 </li>
                 <li class="selected">Обнаружены объекты</li>
 
-                {% show_categories cat_selected %}
+                {% for t in show_categories %}
+                    <li>{{t}}</li>
+                {% endfor %}
+
+                {{ show_categories }}
 
  <!--               {% get_all_type as type_detect %}
                 {% for t in type_detect %}

@@ -115,6 +115,7 @@ def callback_query(call):
         bot.answer_callback_query(call.id, "Определение объектов на изображении...")
         image_id = ImageFeed.objects.filter(image=user_states[chat_id]['image']).values('id').first()
         process_image_detr(image_id['id'])
+        image_caption(image_id['id'])
         message_detect(chat_id, image_id)
         # detected_objects = DetectedObject.objects.filter(image_feed=image_id['id']).values('object_type', 'confidence')
         # print(detected_objects)
@@ -128,6 +129,7 @@ def callback_query(call):
         bot.answer_callback_query(call.id, "Определение объектов на изображении...")
         image_id = ImageFeed.objects.filter(image=user_states[chat_id]['image']).values('id').first()
         process_image(image_id['id'])
+        image_caption(image_id['id'])
         message_detect(chat_id, image_id)
         # detected_objects = DetectedObject.objects.filter(image_feed=image_id['id']).values('object_type', 'confidence')
         # print(detected_objects)
@@ -179,11 +181,13 @@ def message_detect(chat_id, image_id):
             None
     """
     detected_objects = DetectedObject.objects.filter(image_feed=image_id['id']).values('object_type', 'confidence')
+    description = ImageFeed.objects.filter(id=image_id['id']).values('description')
     print(detected_objects)
     message_text = "На изображении обнаружено " + str(len(detected_objects)) + " объектов \n"
     for i in detected_objects:
         conf = '%.2f' % i['confidence']
         message_text += i['object_type'] + " - " + str(conf) + "\n"
+    message_text += 'Описание: ' + description[0]['description']
     bot.send_message(chat_id, message_text)
 
 

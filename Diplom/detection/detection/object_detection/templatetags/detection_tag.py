@@ -35,7 +35,7 @@ def get_all_type():
 
 
 @register.inclusion_tag('object_detection/list_categories.html')
-def show_categories(cat_selected=0):
+def show_categories():
     """
         Функция получает список уникальных обнаруженных типов объектов вместе с соответствующими идентификаторами
             изображений и отображает их в шаблоне list_categories.html.
@@ -49,7 +49,8 @@ def show_categories(cat_selected=0):
     t_list = []
     for t in type_detected:
         t_list.append(t['object_type'])
-    return {'type_detected': type_detected,  'cat_selected': cat_selected}
+    print(t_list)
+    return {'type_detected': t_list}
 
 
 @register.inclusion_tag('geomap/common.html')
