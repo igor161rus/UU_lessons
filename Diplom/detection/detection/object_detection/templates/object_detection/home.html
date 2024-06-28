@@ -9,6 +9,24 @@
 
 <div>{% get_map request.user.id %}</div>
 {% if request.user.is_authenticated %}
+
+<div class="container-fluid">
+    <h2>Ваши изображения</h2>
+    <div class="container">
+        <div class="row text-center">
+            {% for i in image_feeds %}
+                <div class="col">
+                        <a href="{% url 'image_detect' i.id %}">
+                            <img src="{{ i.image.url }}" alt="..." class="w-100">
+                        </a>
+                        <div class="caption">
+                            <p>{{ i.description }}</p>
+                        </div>
+
+                </div>
+            {% endfor %}
+        </div>
+</div>
     <ul class="list-articles">
             {% for i in image_feeds %}
                 <li><h2>{{ p.user }}</h2>
