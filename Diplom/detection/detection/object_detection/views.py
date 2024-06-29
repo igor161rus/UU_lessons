@@ -190,6 +190,16 @@ def logout_user(request):
 
 @login_required
 def add_image_feed(request):
+    """
+    Представление для добавления изображений. Если метод запроса — POST, он проверяет данные формы,
+    создает новый экземпляр ImageFeed, сохраняет изображения с широтой и долготой по умолчанию и
+    обновляет местоположение, если данные EXIF присутствуют. В случае успеха перенаправляется на страницу панели
+    мониторинга. Если метод запроса не POST, он отображает форму.
+    Args:
+        request (HttpRequest): объект HTTP-запроса.
+    Returns:
+        HttpResponse: объект ответа, содержащий отображаемую форму или перенаправление на страницу панели мониторинга
+    """
     if request.method == 'POST':
         form = ImageFeedForm(request.POST, request.FILES)
         if form.is_valid():
@@ -198,6 +208,13 @@ def add_image_feed(request):
             image_feed.lat = 0
             image_feed.lon = 0
             image_feed.save()
+            file_id = image_feed.id
+            exif_geo = read_exif_data(file_id)
+            print(exif_geo, '\n')
+            if exif_geo:
+                image_feed.lat = exif_geo[0]
+                image_feed.lon = exif_geo[1]
+                image_feed.save()
             return redirect('dashboard')
     else:
         form = ImageFeedForm()
