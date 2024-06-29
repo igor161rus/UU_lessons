@@ -299,19 +299,16 @@ def get_plot_stat(x, y, type_graph):
 
 
 def read_exif_data(file_id):
-    lat = lon = None
+    lat_decimal, lon_decimal = 0, 0
     image_name = ImageFeed.objects.get(id=file_id).image.name
-    print(1, image_name)
     file_path = settings.MEDIA_ROOT + '/' + image_name
-    with open(file_path, 'rb') as f:
+    with (open(file_path, 'rb') as f):
         f_exif = ExifImage(f)
-        print(2, f_exif.has_exif)
         if f_exif.has_exif:
-            lat, lon = f_exif.gps_latitude, f_exif.gps_longitude
-            print(3, f_exif.list_all())
-            print(4, f_exif.gps_latitude)
-            print(5, f_exif.gps_longitude)
 
-    return lat, lon
-
-    # print(2,  f_exif.info.decode('utf-8'))
+            if 'gps_latitude' and 'gps_longitude' in f_exif.list_all():
+                lat, lon = f_exif.gps_latitude, f_exif.gps_longitude,
+                lat_ref, lon_ref = f_exif.gps_latitude_ref, f_exif.gps_longitude_ref
+                lat_decimal = float(lat[0]) + float(lat[1]) / 60 + float(lat[2]) / (60 * 60) * (-1 if lat_ref in ['W', 'S'] else 1)
+                lon_decimal = float(lon[0]) + float(lon[1]) / 60 + float(lon[2]) / (60 * 60)
+    return lat_decimal, lon_decimal

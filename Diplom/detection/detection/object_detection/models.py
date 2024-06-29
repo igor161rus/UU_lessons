@@ -28,6 +28,18 @@ class ImageFeed(models.Model, GeoItem):
     def geomap_latitude(self):
         return '' if self.lat is None else str(self.lat)
 
+    @property
+    def geomap_popup_view(self):
+        return "<strong>{}</strong>".format(str(self))
+
+    @property
+    def geomap_popup_edit(self):
+        return self.geomap_popup_view
+
+    @property
+    def geomap_popup_common(self):
+        return self.geomap_popup_view
+
     class Meta:
         verbose_name = 'Изображение'
         verbose_name_plural = 'Изображения'
