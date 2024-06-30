@@ -9,8 +9,8 @@
 <br>
 </li>
 <li>Распознавание объектов на фотографии двумя методами, с выводом статистики</li>
-<img src="img-3.jpg" width="550">
+<img src="img-3.JPG" width="550">
 <br>
 <li>Работа с телеграмм ботом</li>
-<img src="img-4.jpg" width="550">
+<img src="img-4.JPG" width="550">
 </ul>
