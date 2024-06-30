@@ -305,7 +305,6 @@ def read_exif_data(file_id):
     with (open(file_path, 'rb') as f):
         f_exif = ExifImage(f)
         if f_exif.has_exif:
-
             if 'gps_latitude' and 'gps_longitude' in f_exif.list_all():
                 lat, lon = f_exif.gps_latitude, f_exif.gps_longitude,
                 lat_ref, lon_ref = f_exif.gps_latitude_ref, f_exif.gps_longitude_ref
