@@ -56,12 +56,12 @@
 </details>
 
 <details><summary><b>Структура</b></summary>
-Проект реализован с помощью на языке python с использованием фрэймворка Django.
+Проект реализован с помощью на языке python с использованием фрэймворка Django.<br>
+Для работы понадобится python (использовался python 3.12)<br>
 Все зависимости можно установить используя requirements.txt
+
 ```
-function test() {
-  console.log("notice the blank line before this function?");
-}
+pip install -r requirements.txt
 ```
 
 </details>
