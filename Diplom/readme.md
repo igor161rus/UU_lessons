@@ -37,6 +37,8 @@ title="bootstrap" width="40" height="40"/>&nbsp;
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/plotly/plotly-original.svg"
 title="bootstrap" width="40" height="40"/>&nbsp;
 
+![](https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=igor161rus=github_dark)
+![](https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=igor161rus=github_dark)
 ![](https://github-profile-summary-cards.vercel.app/api/cards/stats?username=igor161rus&theme=github_dark)
 
 Реализованы следующие возможности:
