@@ -63,7 +63,7 @@
 ```
 pip install -r requirements.txt
 ```
-В django создано приложение object_detection
+В django создано приложение object_detection<br>
 Структура проекта
 <img src="img-6.JPG">
 
