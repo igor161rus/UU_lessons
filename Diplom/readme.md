@@ -63,7 +63,44 @@
 ```
 pip install -r requirements.txt
 ```
+В django создано приложение object_detection
+Определены 3 модели: ImageFeed, DetectedObject, UserAddFields
+<ul>
+<li>ImageFeed - модель для хранения информации о загруженных фотографиях<br>
+Имеет следующую структуру:
 
+```
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
+    image = models.ImageField(upload_to='images/', verbose_name='Изображение')
+    lon = models.FloatField(verbose_name='Долгота')
+    lat = models.FloatField(verbose_name='Широта')
+    description = models.TextField(verbose_name='Описание', null=True, blank=True)
+```
+</li>
+<li>DetectedObject - модель для хранения информации об обнаруженных объектах<br>
+Имеет следующую структуру:
+
+```
+    image_feed = models.ForeignKey(ImageFeed, related_name='detected_objects', on_delete=models.CASCADE)
+    object_type = models.CharField(max_length=100)
+    confidence = models.FloatField()
+    location = models.CharField(max_length=255)
+    processed_image = models.ImageField(upload_to='processed_images/', null=True, blank=True,
+                                        verbose_name='Обработанное изображение')
+    method_detected = models.CharField(max_length=100)
+```
+</li>
+<li>UserAddFields - модель расширяющая стандартную модель django для хранения telegram id<br>
+Имеет следующую структуру:
+
+```
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    tg_id = models.IntegerField(null=True, blank=True)
+```
+</li>
+
+</ul>
+Функции определения моделей, построения графиков, извлечения exif информации реализованы в файле utils.py
 </details>
 
 
