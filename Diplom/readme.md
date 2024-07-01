@@ -27,10 +27,8 @@
 
 <div id="stat" align="center">
 
-![](https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=igor161rus=github_dark)
-
-![](https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=igor161rus=github_dark)
-
+![](http://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=igor161rus&theme=github_dark)
+![](http://github-profile-summary-cards.vercel.app/api/cards/productive-time?username=igor161rus&theme=github_dark&utcOffset=8)
 ![](https://github-profile-summary-cards.vercel.app/api/cards/stats?username=igor161rus&theme=github_dark)
 
 </div>
