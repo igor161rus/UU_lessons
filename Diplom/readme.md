@@ -98,9 +98,21 @@ pip install -r requirements.txt
     tg_id = models.IntegerField(null=True, blank=True)
 ```
 </li>
-
 </ul>
 Функции определения моделей, построения графиков, извлечения exif информации реализованы в файле utils.py
+<ul>
+<li>
+Функция process_image(image_feed_id) реализует определение объектов при помощи реализации Caffe сети обнаружения 
+MobileNet-SSD с предварительно обученными весами на VOC0712 и mAP = 0,727.<br>
+<a href="https://github.com/chuanqi305/MobileNet-SSD">MobileNet-SSD</a>
+</li>
+<li>
+Функция process_image_detr(image_feed_id) реализует определение объектов при помощи модели 
+DETR (сквозное обнаружение объектов) с магистралью ResNet-50.<br>
+<a href="https://huggingface.co/facebook/detr-resnet-50">DETR-resnet-50</a>
+</li>
+
+</ul>
 </details>
 
 
