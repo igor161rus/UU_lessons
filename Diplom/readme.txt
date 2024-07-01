@@ -1,3 +1,39 @@
+Структура object_detection
+
+├───.handler-saves
+├───detection
+│   └───__pycache__
+├───media
+│   ├───images
+│   └───processed_images
+│       └───images
+└───object_detection
+    ├───management
+    │   ├───commands
+    │   │   └───__pycache__
+    │   └───__pycache__
+    ├───migrations
+    │   └───__pycache__
+    ├───models_detect
+    │   └───caffe
+    ├───signals
+    ├───static
+    │   └───object_detection
+    │       ├───bootstrap
+    │       │   ├───css
+    │       │   └───js
+    │       ├───css
+    │       ├───images
+    │       └───js
+    ├───templates
+    │   └───object_detection
+    │       └───email
+    ├───templatetags
+    │   └───__pycache__
+    └───__pycache__
+
+________________________________________________________________________________________________________________________
+
 decouple
 Для хранения приватной информации (ключи, адреса, токены и тд) используется библиотека decouple
 https://pypi.org/project/python-decouple/
