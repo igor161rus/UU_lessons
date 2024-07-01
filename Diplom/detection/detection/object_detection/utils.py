@@ -90,19 +90,18 @@ def process_image(image_feed_id):
                     # processed_image=''
                 )
 
-        result, encoded_img = cv2.imencode('.jpg', img)
+            result, encoded_img = cv2.imencode('.jpg', img)
 
-        detected_objects = DetectedObject.objects.filter(image_feed=image_feed).first()
-        print(detected_objects)
-        print(result)
-        if detected_objects:
-            if result:
-                content = ContentFile(encoded_img.tobytes(), f'{image_feed.image.name}')
-                print(content)
-                print(content.name)
-                # image_feed.processed_image.save(content.name, content, save=True)
-                detected_objects.method_detected = 'Caffe'
-                detected_objects.processed_image.save(content.name, content, save=True)
+            detected_objects = DetectedObject.objects.filter(image_feed=image_feed).first()
+            print(detected_objects)
+            print(result)
+            if detected_objects:
+                if result:
+                    content = ContentFile(encoded_img.tobytes(), f'{image_feed.image.name}')
+                    print(content.name)
+                    # image_feed.processed_image.save(content.name, content, save=True)
+                    detected_objects.method_detected = 'Caffe'
+                    detected_objects.processed_image.save(content.name, content, save=True)
 
         return True
 
@@ -137,10 +136,10 @@ def process_image_detr(image_feed_id):
 
     for score, label, box in zip(results["scores"], results["labels"], results["boxes"]):
         box = [round(i, 2) for i in box.tolist()]
-        print(
-            f"Detected {model.config.id2label[label.item()]} with confidence "
-            f"{round(score.item(), 3)} at location {box}"
-        )
+        # print(
+        #     f"Detected DETR {model.config.id2label[label.item()]} with confidence "
+        #     f"{round(score.item(), 3)} at location {box}"
+        # )
 
         DetectedObject.objects.create(
             image_feed=image_feed,
