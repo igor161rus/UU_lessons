@@ -10,6 +10,7 @@
 </div>
 <br>
 Языки и технологии в проекте<br>
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" title="js" width="40" height="40"/>&nbsp;
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" title="python" width="40" height="40"/>&nbsp;
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" title="bootstrap" width="40" height="40"/>&nbsp;
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" title="bootstrap" width="40" height="40"/>&nbsp;
@@ -24,9 +25,15 @@
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" title="bootstrap" width="40" height="40"/>&nbsp;
 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/plotly/plotly-original.svg" title="bootstrap" width="40" height="40"/>&nbsp;
 
+<div id="stat" align="center">
+
 ![](https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=igor161rus=github_dark)
+
 ![](https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=igor161rus=github_dark)
+
 ![](https://github-profile-summary-cards.vercel.app/api/cards/stats?username=igor161rus&theme=github_dark)
+
+</div>
 
 Реализованы следующие возможности:
 <ul>
