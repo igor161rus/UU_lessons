@@ -33,6 +33,7 @@
 
 </div>
 
+<details><summary><b>Возможности</b></summary>
 <div>
 Реализованы следующие возможности:
 <ul>
@@ -51,3 +52,19 @@
 <img src="img-4.JPG" width="550">
 </ul>
 </div>
+
+</details>
+
+<details><summary><b>Структура</b></summary>
+Проект реализован с помощью на языке python с использованием фрэймворка Django.
+Все зависимости можно установить используя requirements.txt
+```
+function test() {
+  console.log("notice the blank line before this function?");
+}
+```
+
+</details>
+
+
+
