@@ -64,7 +64,8 @@
 pip install -r requirements.txt
 ```
 В django создано приложение object_detection<br>
-Структура проекта
+Структура проекта<br>
+
 <img src="img-6.JPG">
 
 <details><summary><b>Модель</b></summary>
