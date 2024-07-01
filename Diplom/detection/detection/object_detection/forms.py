@@ -64,3 +64,12 @@ class UserSetNewPasswordForm(SetPasswordForm):
                 'class': 'form-control',
                 'autocomplete': 'off'
             })
+
+
+class ImageCoordinatesForm(forms.Form):
+    lat = forms.FloatField(label='Широта', widget=forms.NumberInput(attrs={'class': 'form-control'}))
+    lon = forms.FloatField(label='Долгота', widget=forms.NumberInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = ImageFeed
+        fields = ['lat', 'lon']

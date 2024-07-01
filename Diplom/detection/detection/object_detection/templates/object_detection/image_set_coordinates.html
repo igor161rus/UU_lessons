@@ -1,0 +1,14 @@
+{% extends 'object_detection/base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+
+<form method="post">
+    {%  csrf_token %}
+    <input id="lon" type="text" name="lon" value="{{ image_set.lon }}">
+    <input id="lat" type="text" name="lat" value="{{ image_set.lat }}">
+
+    <button type="submit">Сохранить</button>
+</form>
+
+{% endblock %}

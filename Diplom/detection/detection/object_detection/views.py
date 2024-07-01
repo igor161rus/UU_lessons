@@ -12,10 +12,10 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django_admin_geomap import geomap_context
 
-
 from .models import *
 from .utils import *
 from .forms import *
+
 
 # from .forms import UserForgotPasswordForm, UserSetNewPasswordForm
 
@@ -148,6 +148,26 @@ def process_image_feed(request, feed_id):
     process_image_detr(feed_id)
     image_caption(feed_id)
     return redirect('dashboard')
+
+
+@login_required
+def image_set_coordinates(request, pk):
+    image_set = get_object_or_404(ImageFeed, id=pk, user=request.user)
+    if request.method == "POST":
+        form = ImageCoordinatesForm(request.POST)
+        if form.is_valid():
+            print(request.POST.get('lon', 0))
+            print(request.POST.get('lat', 0))
+            lon = request.POST.get('lon', 0)
+            lat = request.POST.get('lat', 0)
+            image_set.lon = lon
+            image_set.lat = lat
+            image_set.save()
+        #     form.save()
+            return redirect('dashboard')
+
+    # return redirect('dashboard')
+    return render(request, "object_detection/image_set_coordinates.html", {"image_set": image_set})
 
 
 def pageNotFound(request, exception):
