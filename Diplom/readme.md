@@ -64,6 +64,9 @@
 pip install -r requirements.txt
 ```
 В django создано приложение object_detection
+
+
+<details><summary><b>Модель</b></summary>
 Определены 3 модели: ImageFeed, DetectedObject, UserAddFields
 <ul>
 <li>ImageFeed - модель для хранения информации о загруженных фотографиях<br>
@@ -99,6 +102,8 @@ pip install -r requirements.txt
 ```
 </li>
 </ul>
+</details>
+<details><summary><b>Утилиты</b></summary>
 Функции определения моделей, построения графиков, извлечения exif информации реализованы в файле utils.py
 <ul>
 <li>
@@ -111,8 +116,22 @@ MobileNet-SSD с предварительно обученными весами 
 DETR (сквозное обнаружение объектов) с магистралью ResNet-50.<br>
 <a href="https://huggingface.co/facebook/detr-resnet-50">DETR-resnet-50</a>
 </li>
+<li>
+Функция image_caption(image_feed_id) возвращает текстовое описание фотографии.<br>
+<a href="https://huggingface.co/nlpconnect/vit-gpt2-image-captioning">vit-gpt2</a>
+</li>
+<li>
+Функции get_graph, get_plot, get_plot_stat предназначены для вывода статистических графиков на основе определенных 
+объектов и методов определения
+</li>
+<li>
+Функция read_exif_data(file_id) Используется для извлечения exif информации из фотографии.<br>
+<a href="https://pypi.org/project/exif/">exif</a>
+
+</li>
 
 </ul>
+</details>
 </details>
 
 
