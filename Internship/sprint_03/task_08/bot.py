@@ -3,7 +3,7 @@ from PIL import Image, ImageOps
 import io
 from telebot import types
 from settings import TOKEN_BOT
-from utils import Jokes, RandomCompliments
+from utils import Jokes, RandomCompliments, flip_coin
 
 TOKEN = TOKEN_BOT
 bot = telebot.TeleBot(TOKEN)
@@ -124,6 +124,17 @@ def resize_for_sticker(image):
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
     bot.reply_to(message, "Send me an image, and I'll provide options for you!")
+
+
+@bot.message_handler(commands=['flip_a_coin'])
+def flip_coin_send(message):
+    """
+    Отвечает на команду «flip_a_coin», подбрасывая монету и отправляя результат пользователю.
+    Parameters:
+    message (Telegram message object): объект сообщения, запускающий команду..
+    """
+    bot.reply_to(message, "Подбрасываю монетку...")
+    bot.send_message(message.chat.id, flip_coin())
 
 
 @bot.message_handler(commands=['random_compliment'])
