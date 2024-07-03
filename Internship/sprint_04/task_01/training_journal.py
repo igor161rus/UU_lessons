@@ -186,13 +186,15 @@ class TrainingLogApp:
         """
         Импортирует данные о тренировках из CSV-файла.
         """
+        data = {}
         with open('training_log.csv', 'r', newline='') as file:
-            reader = csv.reader(file)
-            for row in reader:
-                if row[0] == 'date' or row[1] == 'exercise' or row[2] == 'weight' or row[3] == 'repetitions':
-                    continue
-                self.add_entry(row[0], row[1], row[2], row[3])
-
+            csv_reader = csv.DictReader(file)
+            # reader = csv.reader(file)
+            for rows in csv_reader:
+                # if row[0] == 'date' or row[1] == 'exercise' or row[2] == 'weight' or row[3] == 'repetitions':
+                #     continue
+                # self.add_entry(row[0], row[1], row[2], row[3])
+                key = rows[0]
 
             next(reader)  # Пропускаем заголовок
             data = [row for row in reader]
