@@ -28,6 +28,7 @@ class TrainingLogApp:
         self.root = root
         root.title("Дневник тренировок")
         self.create_widgets()
+        self.state = {'edit': False}
 
     def create_widgets(self):
         # Виджеты для ввода данных
@@ -82,11 +83,32 @@ class TrainingLogApp:
         self.view_button_exercise = ttk.Button(self.root, text="Просмотр", command=self.view_record_exercise)
         self.view_button_exercise.grid(column=3, row=8, columnspan=1)
 
+        self.edit_button_exercise = ttk.Button(self.root, text="Редактировать", command=self.edit_record_exercise)
+        self.edit_button_exercise.grid(column=4, row=8, columnspan=1)
+
+        self.delete_button_exercise = ttk.Button(self.root, text="Удалить", command=self.delete_record_exercise)
+        self.delete_button_exercise.grid(column=5, row=8, columnspan=1)
+
         self.button_csv = ttk.Button(self.root, text="Экспорт в CSV", command=self.export_all_records_csv)
         self.button_csv.grid(column=0, row=9, columnspan=1)
 
         self.button_iport_csv = ttk.Button(self.root, text="Импорт из CSV", command=self.import_records_csv)
         self.button_iport_csv.grid(column=1, row=9, columnspan=1)
+
+        self.stat_label = ttk.Label(self.root, text="Статистика:")
+        self.stat_label.grid(column=4, row=0, pady=5)
+
+        self.stat_label_exercise = ttk.Label(self.root, text="Кол-во упражнении:")
+        self.stat_label_exercise.grid(column=3, row=1, pady=5)
+
+        self.stat_label_weight = ttk.Label(self.root, text="Суммарный вес:")
+        self.stat_label_weight.grid(column=3, row=2, pady=5)
+
+        self.stat_label_exercise_sum = ttk.Label(self.root, text="0")
+        self.stat_label_exercise_sum.grid(column=4, row=1, pady=5)
+
+        self.stat_label_weight_sum = ttk.Label(self.root, text="0")
+        self.stat_label_weight_sum.grid(column=4, row=2, pady=5)
 
     def add_entry(self):
         date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -114,6 +136,7 @@ class TrainingLogApp:
         self.weight_entry.delete(0, tk.END)
         self.repetitions_entry.delete(0, tk.END)
         messagebox.showinfo("Успешно", "Запись успешно добавлена!")
+        self.statistics()
 
     def view_records(self):
         data = load_data()
@@ -186,24 +209,92 @@ class TrainingLogApp:
         """
         Импортирует данные о тренировках из CSV-файла.
         """
-        data = {}
         with open('training_log.csv', 'r', newline='') as file:
             csv_reader = csv.DictReader(file)
-            # reader = csv.reader(file)
-            for rows in csv_reader:
-                # if row[0] == 'date' or row[1] == 'exercise' or row[2] == 'weight' or row[3] == 'repetitions':
-                #     continue
-                # self.add_entry(row[0], row[1], row[2], row[3])
-                key = rows[0]
-
-            next(reader)  # Пропускаем заголовок
-            data = [row for row in reader]
+            data = []
+            for row in csv_reader:
+                data.append(row)
             save_data(data)
+
+    def load_exercise(self):
+        """
+        Загружает список упражнение из JSON-файла.
+        """
+        data = load_data()
+        for entry in data:
+            if entry['exercise'] == self.view_exercise_entry.get():
+                self.exercise_entry.delete(0, tk.END)
+                self.weight_entry.delete(0, tk.END)
+                self.repetitions_entry.delete(0, tk.END)
+                self.exercise_entry.insert(0, entry['exercise'])
+                self.weight_entry.insert(0, str(entry['weight']))
+                self.repetitions_entry.insert(0, str(entry['repetitions']))
+                self.view_button_exercise.config(text='Cохранить')
+                self.state['edit'] = True
+                break
+        self.statistics()
+
+    def edit_record_exercise(self):
+        """
+        Редактирует данные о тренировке.
+        """
+        if self.state['edit']:
+            data = load_data()
+            for entry in data:
+                if entry['exercise'] == self.view_exercise_entry.get():
+                    self.state['edit'] = False
+                    self.view_button_exercise.config(text='Редактировать')
+                    entry['exercise'] = self.exercise_entry.get()
+                    entry['weight'] = self.weight_entry.get()
+                    entry['repetitions'] = self.repetitions_entry.get()
+                    save_data(data)
+                    self.exercise_entry.delete(0, tk.END)
+                    self.weight_entry.delete(0, tk.END)
+                    self.repetitions_entry.delete(0, tk.END)
+                    self.view_exercise_entry.delete(0, tk.END)
+                    messagebox.showinfo("Успешно", "Запись успешно отредактирована!")
+                    self.statistics()
+                    break
+            return
+        else:
+            self.load_exercise()
+
+    def delete_record_exercise(self):
+        """
+        Удаляет данные о тренировке.
+        """
+        data = load_data()
+        for entry in data:
+            if entry['exercise'] == self.view_exercise_entry.get():
+                data.remove(entry)
+                save_data(data)
+                self.exercise_entry.delete(0, tk.END)
+                self.weight_entry.delete(0, tk.END)
+                self.repetitions_entry.delete(0, tk.END)
+                self.view_exercise_entry.delete(0, tk.END)
+                messagebox.showinfo("Успешно", "Запись успешно удалена!")
+                self.statistics()
+                break
+
+    def statistics(self):
+        """
+        Статистика по тренировкам.
+        """
+        data = load_data()
+        data.sort(key=lambda x: x['date'])
+        exercises = 0
+        weights = 0
+        for entry in data:
+            exercises += 1
+            weights += int(entry['weight'])
+        self.stat_label_exercise_sum.config(text=exercises)
+        self.stat_label_weight_sum.config(text=weights)
 
 
 def main():
     root = tk.Tk()
     app = TrainingLogApp(root)
+    root.after_idle(app.statistics)
     root.mainloop()
 
 
