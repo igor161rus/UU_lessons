@@ -61,7 +61,7 @@ class TrainingLogApp:
         self.view_exercise = ttk.Label(self.root, text="-------------------------------------------------------")
         self.view_exercise.grid(column=1, row=4, columnspan=3, pady=5)
 
-        self.record_label = ttk.Label(self.root, text="Просмотреть записи")
+        self.record_label = ttk.Label(self.root, text="Просмотреть записи и построить графики")
         self.record_label.grid(column=0, row=5, sticky=tk.W, padx=5, pady=5)
 
         self.view_button = ttk.Button(self.root, text="Все", command=self.view_records)
@@ -71,16 +71,16 @@ class TrainingLogApp:
         self.view_button_period.grid(column=1, row=6, columnspan=1)
 
         self.in_label = ttk.Label(self.root, text="c")
-        self.in_label.grid(column=0, row=7, sticky=tk.E, padx=5, pady=5)
+        self.in_label.grid(column=2, row=6, sticky=tk.E, padx=5, pady=5)
 
         self.date_entry_in = ttk.Entry(self.root)
-        self.date_entry_in.grid(column=1, row=7, padx=5, pady=5)
+        self.date_entry_in.grid(column=3, row=6, padx=5, pady=5)
 
         self.out_label = ttk.Label(self.root, text="по")
-        self.out_label.grid(column=0, row=8, sticky=tk.E, pady=5)
+        self.out_label.grid(column=4, row=6, sticky=tk.E, pady=5)
 
         self.date_entry_out = ttk.Entry(self.root)
-        self.date_entry_out.grid(column=1, row=8, sticky=tk.W, padx=5, pady=5)
+        self.date_entry_out.grid(column=5, row=6, sticky=tk.W, padx=5, pady=5)
 
         self.view_exercise = ttk.Label(self.root, text="Просмотр упражнения:")
         self.view_exercise.grid(column=0, row=9, sticky=tk.E, pady=5)
@@ -98,10 +98,10 @@ class TrainingLogApp:
         self.delete_button_exercise.grid(column=5, row=9, columnspan=1, pady=5, padx=5)
 
         self.button_csv = ttk.Button(self.root, text="Экспорт в CSV", command=self.export_all_records_csv)
-        self.button_csv.grid(column=0, row=11, columnspan=1, pady=5, padx=5)
+        self.button_csv.grid(column=0, row=10, columnspan=1, pady=5, padx=5)
 
         self.button_iport_csv = ttk.Button(self.root, text="Импорт из CSV", command=self.import_records_csv)
-        self.button_iport_csv.grid(column=1, row=11, columnspan=1, pady=5, padx=5)
+        self.button_iport_csv.grid(column=1, row=10, columnspan=1, pady=5, padx=5)
 
         self.stat_label = ttk.Label(self.root, text="Статистика:", font=("Arial", 16, "bold"))
         self.stat_label.grid(column=4, row=0, pady=5)
@@ -145,6 +145,7 @@ class TrainingLogApp:
         self.repetitions_entry.delete(0, tk.END)
         messagebox.showinfo("Успешно", "Запись успешно добавлена!")
         self.statistics()
+        self.create_graph()
 
     def view_records(self):
         data = load_data()
@@ -161,6 +162,9 @@ class TrainingLogApp:
             tree.insert('', tk.END, values=(entry['date'], entry['exercise'], entry['weight'], entry['repetitions']))
 
         tree.pack(expand=True, fill=tk.BOTH)
+        self.date_entry_in.delete(0, tk.END)
+        self.date_entry_out.delete(0, tk.END)
+        self.create_graph()
 
     def view_records_period(self):
         """
@@ -177,10 +181,11 @@ class TrainingLogApp:
         tree.heading('Повторения', text="Повторения")
 
         for entry in data:
-            if entry['date'] >= self.date_entry_in.get() and entry['date'] <= self.date_entry_out.get() + " 23:59:59":
+            if self.date_entry_in.get() <= entry['date'] <= self.date_entry_out.get() + " 23:59:59":
                 tree.insert('', tk.END,
                             values=(entry['date'], entry['exercise'], entry['weight'], entry['repetitions']))
         tree.pack(expand=True, fill=tk.BOTH)
+        self.create_graph()
 
     def view_record_exercise(self):
         """
@@ -303,19 +308,37 @@ class TrainingLogApp:
         """
         График тренировок.
         """
-        fig = Figure(figsize=(5, 5), dpi=100)
+        fig = Figure(figsize=(7, 3), dpi=72)
         data = load_data()
         dates = []
         weights = []
+        repetitions = []
         for entry in data:
-            dates.append(format(datetime.strptime(entry['date'], '%Y-%m-%d %H:%M:%S'), '%d.%m.%Y'))
-            weights.append(int(entry['weight']))
+            if self.date_entry_in.get() and self.date_entry_out.get():
+                if self.date_entry_in.get() <= entry['date'] <= self.date_entry_out.get() + " 23:59:59":
+                    dates.append(format(datetime.strptime(entry['date'], '%Y-%m-%d %H:%M:%S'), '%d.%m'))
+                    weights.append(int(entry['weight']))
+                    repetitions.append(int(entry['repetitions']))
+            else:
+                dates.append(format(datetime.strptime(entry['date'], '%Y-%m-%d %H:%M:%S'), '%d.%m'))
+                weights.append(int(entry['weight']))
+                repetitions.append(int(entry['repetitions']))
 
-        ax = fig.add_subplot(111)
-        ax.bar(dates, weights)
+        ax1 = fig.add_subplot(121)
+        ax1.bar(sorted(dates), weights)
+        ax2 = fig.add_subplot(122)
+        ax2.bar(sorted(dates), repetitions)
+
+        ax1.set_xlabel('Дата')
+        ax1.set_ylabel('Вес')
+        ax1.set_title('Статистика по тренировкам')
+
+        ax2.set_xlabel('Дата')
+        ax2.set_ylabel('Повторения')
+        ax2.set_title('Статистика по повторениям')
 
         canvas = FigureCanvasTkAgg(fig, master=self.root)
-        canvas.get_tk_widget().grid(row=10, column=0, columnspan=6)
+        canvas.get_tk_widget().grid(row=12, column=0, columnspan=6, padx=5, pady=5)
 
 
 def main():

@@ -12,9 +12,15 @@
         "repetitions": "10"
     },
     {
-        "date": "2024-07-03 12:05:12",
+        "date": "2024-07-02 12:05:12",
         "exercise": "1",
         "weight": "5",
+        "repetitions": "5"
+    },
+    {
+        "date": "2024-07-03 23:39:41",
+        "exercise": "2",
+        "weight": "12",
         "repetitions": "5"
     }
 ]
