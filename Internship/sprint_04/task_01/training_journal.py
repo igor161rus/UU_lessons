@@ -4,13 +4,12 @@ from matplotlib.figure import Figure
 
 import csv
 import tkinter as tk
-from tkinter import ttk, Toplevel, messagebox
+from tkinter import ttk, Toplevel, messagebox, font
 import json
 from datetime import datetime
 
 # Файл для сохранения данных
 data_file = 'training_log.json'
-# LARGE_FONT = ("Verdana", 12)
 
 
 def load_data():
@@ -36,6 +35,7 @@ class TrainingLogApp:
         self.state = {'edit': False}
 
     def create_widgets(self):
+        font1 = font.Font(family="Verdana", size=11, weight="normal", slant="roman")
         # Виджеты для ввода данных
         self.exercise_label = ttk.Label(self.root, text="Упражнение:")
         self.exercise_label.grid(column=0, row=0, sticky=tk.W, padx=5, pady=5)
@@ -58,49 +58,52 @@ class TrainingLogApp:
         self.add_button = ttk.Button(self.root, text="Добавить запись", command=self.add_entry)
         self.add_button.grid(column=0, row=3, columnspan=2, pady=10)
 
+        self.view_exercise = ttk.Label(self.root, text="-------------------------------------------------------")
+        self.view_exercise.grid(column=1, row=4, columnspan=3, pady=5)
+
         self.record_label = ttk.Label(self.root, text="Просмотреть записи")
-        self.record_label.grid(column=0, row=4, sticky=tk.W, padx=5, pady=5)
+        self.record_label.grid(column=0, row=5, sticky=tk.W, padx=5, pady=5)
 
         self.view_button = ttk.Button(self.root, text="Все", command=self.view_records)
-        self.view_button.grid(column=0, row=5, columnspan=1)
+        self.view_button.grid(column=0, row=6, columnspan=1)
 
         self.view_button_period = ttk.Button(self.root, text="За период", command=self.view_records_period)
-        self.view_button_period.grid(column=1, row=5, columnspan=1)
+        self.view_button_period.grid(column=1, row=6, columnspan=1)
 
         self.in_label = ttk.Label(self.root, text="c")
-        self.in_label.grid(column=0, row=6, sticky=tk.E, padx=5, pady=5)
+        self.in_label.grid(column=0, row=7, sticky=tk.E, padx=5, pady=5)
 
         self.date_entry_in = ttk.Entry(self.root)
-        self.date_entry_in.grid(column=1, row=6, padx=5, pady=5)
+        self.date_entry_in.grid(column=1, row=7, padx=5, pady=5)
 
         self.out_label = ttk.Label(self.root, text="по")
-        self.out_label.grid(column=0, row=7, sticky=tk.E, pady=5)
+        self.out_label.grid(column=0, row=8, sticky=tk.E, pady=5)
 
         self.date_entry_out = ttk.Entry(self.root)
-        self.date_entry_out.grid(column=1, row=7, sticky=tk.W, padx=5, pady=5)
+        self.date_entry_out.grid(column=1, row=8, sticky=tk.W, padx=5, pady=5)
 
         self.view_exercise = ttk.Label(self.root, text="Просмотр упражнения:")
-        self.view_exercise.grid(column=0, row=8, sticky=tk.E, pady=5)
+        self.view_exercise.grid(column=0, row=9, sticky=tk.E, pady=5)
 
         self.view_exercise_entry = ttk.Entry(self.root)
-        self.view_exercise_entry.grid(column=1, row=8, sticky=tk.W, padx=5, pady=5)
+        self.view_exercise_entry.grid(column=1, row=9, sticky=tk.W, padx=5, pady=5)
 
         self.view_button_exercise = ttk.Button(self.root, text="Просмотр", command=self.view_record_exercise)
-        self.view_button_exercise.grid(column=3, row=8, columnspan=1)
+        self.view_button_exercise.grid(column=3, row=9, columnspan=1)
 
         self.edit_button_exercise = ttk.Button(self.root, text="Редактировать", command=self.edit_record_exercise)
-        self.edit_button_exercise.grid(column=4, row=8, columnspan=1)
+        self.edit_button_exercise.grid(column=4, row=9, columnspan=1)
 
         self.delete_button_exercise = ttk.Button(self.root, text="Удалить", command=self.delete_record_exercise)
-        self.delete_button_exercise.grid(column=5, row=8, columnspan=1)
+        self.delete_button_exercise.grid(column=5, row=9, columnspan=1, pady=5, padx=5)
 
         self.button_csv = ttk.Button(self.root, text="Экспорт в CSV", command=self.export_all_records_csv)
-        self.button_csv.grid(column=0, row=10, columnspan=1)
+        self.button_csv.grid(column=0, row=11, columnspan=1, pady=5, padx=5)
 
         self.button_iport_csv = ttk.Button(self.root, text="Импорт из CSV", command=self.import_records_csv)
-        self.button_iport_csv.grid(column=1, row=10, columnspan=1)
+        self.button_iport_csv.grid(column=1, row=11, columnspan=1, pady=5, padx=5)
 
-        self.stat_label = ttk.Label(self.root, text="Статистика:")
+        self.stat_label = ttk.Label(self.root, text="Статистика:", font=("Arial", 16, "bold"))
         self.stat_label.grid(column=4, row=0, pady=5)
 
         self.stat_label_exercise = ttk.Label(self.root, text="Кол-во упражнении:")
@@ -234,7 +237,7 @@ class TrainingLogApp:
                 self.exercise_entry.insert(0, entry['exercise'])
                 self.weight_entry.insert(0, str(entry['weight']))
                 self.repetitions_entry.insert(0, str(entry['repetitions']))
-                self.view_button_exercise.config(text='Cохранить')
+                self.edit_button_exercise.config(text='Cохранить')
                 self.state['edit'] = True
                 break
         self.statistics()
@@ -248,7 +251,7 @@ class TrainingLogApp:
             for entry in data:
                 if entry['exercise'] == self.view_exercise_entry.get():
                     self.state['edit'] = False
-                    self.view_button_exercise.config(text='Редактировать')
+                    self.edit_button_exercise.config(text='Редактировать')
                     entry['exercise'] = self.exercise_entry.get()
                     entry['weight'] = self.weight_entry.get()
                     entry['repetitions'] = self.repetitions_entry.get()
@@ -307,24 +310,12 @@ class TrainingLogApp:
         for entry in data:
             dates.append(format(datetime.strptime(entry['date'], '%Y-%m-%d %H:%M:%S'), '%d.%m.%Y'))
             weights.append(int(entry['weight']))
-        # plt.plot(dates, weights)
-        # plt.xlabel('Дата')
-        # plt.ylabel('Вес')
-        # plt.title('График тренировок')
-        # plt.grid(True)
 
         ax = fig.add_subplot(111)
         ax.bar(dates, weights)
 
-        # frame = ttk.Frame(self.root, width=300, height=500)
-        canvas = FigureCanvasTkAgg(fig, master=self.root)  # A tk.DrawingArea window)
-        # frame.grid(row=8, column=0, columnspan=2)
-        canvas.get_tk_widget().grid(row=9, column=0, columnspan=6)
-
-        # canvas.show()
-        # canvas.grid(row=7, column=0, columnspan=2)
-        # plt.draw()
-        # canvas.get_tk_widget().pack()
+        canvas = FigureCanvasTkAgg(fig, master=self.root)
+        canvas.get_tk_widget().grid(row=10, column=0, columnspan=6)
 
 
 def main():
