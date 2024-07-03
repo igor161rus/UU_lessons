@@ -1,3 +1,7 @@
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
 import csv
 import tkinter as tk
 from tkinter import ttk, Toplevel, messagebox
@@ -6,6 +10,7 @@ from datetime import datetime
 
 # Файл для сохранения данных
 data_file = 'training_log.json'
+# LARGE_FONT = ("Verdana", 12)
 
 
 def load_data():
@@ -90,10 +95,10 @@ class TrainingLogApp:
         self.delete_button_exercise.grid(column=5, row=8, columnspan=1)
 
         self.button_csv = ttk.Button(self.root, text="Экспорт в CSV", command=self.export_all_records_csv)
-        self.button_csv.grid(column=0, row=9, columnspan=1)
+        self.button_csv.grid(column=0, row=10, columnspan=1)
 
         self.button_iport_csv = ttk.Button(self.root, text="Импорт из CSV", command=self.import_records_csv)
-        self.button_iport_csv.grid(column=1, row=9, columnspan=1)
+        self.button_iport_csv.grid(column=1, row=10, columnspan=1)
 
         self.stat_label = ttk.Label(self.root, text="Статистика:")
         self.stat_label.grid(column=4, row=0, pady=5)
@@ -289,6 +294,37 @@ class TrainingLogApp:
             weights += int(entry['weight'])
         self.stat_label_exercise_sum.config(text=exercises)
         self.stat_label_weight_sum.config(text=weights)
+        self.create_graph()
+
+    def create_graph(self):
+        """
+        График тренировок.
+        """
+        fig = Figure(figsize=(5, 5), dpi=100)
+        data = load_data()
+        dates = []
+        weights = []
+        for entry in data:
+            dates.append(format(datetime.strptime(entry['date'], '%Y-%m-%d %H:%M:%S'), '%d.%m.%Y'))
+            weights.append(int(entry['weight']))
+        # plt.plot(dates, weights)
+        # plt.xlabel('Дата')
+        # plt.ylabel('Вес')
+        # plt.title('График тренировок')
+        # plt.grid(True)
+
+        ax = fig.add_subplot(111)
+        ax.bar(dates, weights)
+
+        # frame = ttk.Frame(self.root, width=300, height=500)
+        canvas = FigureCanvasTkAgg(fig, master=self.root)  # A tk.DrawingArea window)
+        # frame.grid(row=8, column=0, columnspan=2)
+        canvas.get_tk_widget().grid(row=9, column=0, columnspan=6)
+
+        # canvas.show()
+        # canvas.grid(row=7, column=0, columnspan=2)
+        # plt.draw()
+        # canvas.get_tk_widget().pack()
 
 
 def main():
