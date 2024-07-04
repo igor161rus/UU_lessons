@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class AdvertisementForm(forms.ModelForm):
     class Meta:
         model = Advertisement
-        fields = ['title', 'content', 'author', 'photo']
+        fields = ['title', 'content', 'author', 'photo', 'like', 'dislike']
 
 
 class SignUpForm(UserCreationForm):
