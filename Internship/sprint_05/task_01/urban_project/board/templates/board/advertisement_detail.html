@@ -18,7 +18,7 @@
 
 <a href="{% url 'board:delete_advertisement' advertisement.pk %}">Delete</a>
 {% endif %}
-{{ advertisment.likes.count }} likes
+{{ advertisment.like }} likes
 
 <a href="{% url 'board:advertisement_list' %}">Back to list</a>
 
