@@ -4,6 +4,10 @@
 <h1>{{ advertisement.title }}</h1>
 <p>{{ advertisement.content }}</p>
 
+
+<img src="{{ advertisement.image.url }}" alt="foto">
+
+
 {% if advertisement.author == user %}
 <a href="{% url 'board:edit_advertisement' advertisement.pk %}">Edit</a>
 
