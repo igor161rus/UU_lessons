@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ advertisement.title }}</h1>
+<p>{{ advertisement.content }}</p>
+
+{% if advertisement.author == user %}
+<a href="{% url 'board:edit_advertisement' advertisement.pk %}">Edit</a>
+
+<a href="{% url 'board:delete_advertisement' advertisement.pk %}">Delete</a>
+{% endif %}
+{% endblock %}
