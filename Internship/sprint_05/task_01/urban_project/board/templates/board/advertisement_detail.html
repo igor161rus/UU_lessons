@@ -2,8 +2,9 @@
 
 {% block content %}
 <h1>{{ advertisement.title }}</h1>
-<p>{{ advertisement.content }}</p>
 
+<p>Объявление от: {{ advertisement.author.username }}</p>
+<p>{{ advertisement.content }}</p>
 
 {% if advertisement.photo %}
 <p class="photo">
@@ -17,4 +18,8 @@
 
 <a href="{% url 'board:delete_advertisement' advertisement.pk %}">Delete</a>
 {% endif %}
+{{ advertisment.likes.count }} likes
+
+<a href="{% url 'board:advertisement_list' %}">Back to list</a>
+
 {% endblock %}
