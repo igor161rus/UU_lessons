@@ -37,7 +37,6 @@ def advertisement_list(request):
 
 def advertisement_detail(request, pk):
     advertisement = Advertisement.objects.get(pk=pk)
-    print(advertisement.photo)
     return render(request, 'board/advertisement_detail.html', {'advertisement': advertisement})
 
 
