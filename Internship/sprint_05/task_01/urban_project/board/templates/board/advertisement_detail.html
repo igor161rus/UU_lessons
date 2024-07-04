@@ -5,7 +5,9 @@
 <p>{{ advertisement.content }}</p>
 
 
-<img src="{{ advertisement.ImageField.url }}" alt="foto">
+{% if advertisement.photo %}
+<img src="{{ advertisement.photo.url }}" alt="Advertisement image">
+{% endif %}
 
 
 {% if advertisement.author == user %}
