@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+
 from .models import Advertisement
 from .forms import AdvertisementForm
 from django.contrib.auth.decorators import login_required
@@ -38,8 +39,6 @@ def advertisement_list(request):
 def advertisement_detail(request, pk):
     advertisement = Advertisement.objects.get(pk=pk)
 
-    print(advertisement.like)
-    print(advertisement.dislike)
 
     return render(request, 'board/advertisement_detail.html', {'advertisement': advertisement})
 
@@ -84,18 +83,13 @@ def delete_advertisement(request, pk):
     return render(request, 'board/delete_advertisement.html', {'advertisement': advertisement})
 
 
-def count_likes_dislikes(request, pk):
-    advertisement = Advertisement.objects.get(pk=pk)
-    print(advertisement)
-    if request.user in advertisement.dislike:
-        advertisement.dislikes.remove(request.user)
+def blog_post_like(request, pk):
+    post = get_object_or_404(Advertisement, id=request.POST.get('advertisement_id'))
+
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
     else:
-        advertisement.dislikes.add(request.user)
-    if request.user in advertisement.like:
-        advertisement.likes.remove(request.user)
-    else:
-        advertisement.likes.add(request.user)
-    advertisement.save()
-    advertisement.refresh_from_db()
-    print(advertisement.like)
-    return render(request, 'board/count_likes.html', {'advertisement': advertisement})
+        post.likes.add(request.user)
+
+    return redirect('board:advertisement_detail', pk=pk)
+
