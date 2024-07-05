@@ -18,8 +18,9 @@
 
 <a href="{% url 'board:delete_advertisement' advertisement.pk %}">Delete</a>
 {% endif %}
-{{ advertisment.like }} likes
+<p> Лайки: {{ advertisement.like }} Дизлайки: {{ advertisement.dislike }}</p>
 
+<a href="{% url 'board:count_likes_dislikes' advertisement.pk %}">Like</a>
 <a href="{% url 'board:advertisement_list' %}">Back to list</a>
 
 {% endblock %}
