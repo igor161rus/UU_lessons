@@ -47,12 +47,13 @@ def advertisement_detail(request, pk):
 @login_required
 def add_advertisement(request):
     if request.method == "POST":
-        form = AdvertisementForm(request.POST)
+        form = AdvertisementForm(request.POST, request.FILES)
         if form.is_valid():
-            advertisement = form.save(commit=False)
-            advertisement.author = request.user
-            advertisement.save()
-            return redirect('board:advertisement_list')
+            form.instance.author = request.user
+            form.save()
+            img_obj = form.instance
+            return redirect('board:advertisement_detail', pk=img_obj.pk)
+            # return redirect('board:advertisement_list')
     else:
         form = AdvertisementForm()
     return render(request, 'board/add_advertisement.html', {'form': form})
@@ -62,10 +63,13 @@ def add_advertisement(request):
 def edit_advertisement(request, pk):
     advertisement = Advertisement.objects.get(pk=pk)
     if request.method == "POST":
-        form = AdvertisementForm(request.POST, instance=advertisement)
+        form = AdvertisementForm(request.POST, request.FILES, instance=advertisement)
         if form.is_valid():
+            form.instance.author = request.user
             form.save()
-            return redirect('board:advertisement_list')
+            img_obj = form.instance
+            return redirect('board:advertisement_detail', pk=img_obj.pk)
+            # return redirect('board:advertisement_list')
     else:
         form = AdvertisementForm(instance=advertisement)
     return render(request, 'board/edit_advertisement.html', {'form': form, 'advertisement': advertisement})
@@ -82,15 +86,16 @@ def delete_advertisement(request, pk):
 
 def count_likes_dislikes(request, pk):
     advertisement = Advertisement.objects.get(pk=pk)
-    if request.user in advertisement.dislikes.all():
+    print(advertisement)
+    if request.user in advertisement.dislike:
         advertisement.dislikes.remove(request.user)
     else:
         advertisement.dislikes.add(request.user)
-    if request.user in advertisement.likes.all():
+    if request.user in advertisement.like:
         advertisement.likes.remove(request.user)
     else:
         advertisement.likes.add(request.user)
     advertisement.save()
     advertisement.refresh_from_db()
-    print(advertisement.likes.count())
+    print(advertisement.like)
     return render(request, 'board/count_likes.html', {'advertisement': advertisement})
