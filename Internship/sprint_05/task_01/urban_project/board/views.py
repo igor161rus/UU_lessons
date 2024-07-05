@@ -39,8 +39,6 @@ def advertisement_list(request):
 def advertisement_detail(request, pk):
     advertisement = Advertisement.objects.get(pk=pk)
 
-    print(advertisement.like)
-    print(advertisement.dislike)
 
     return render(request, 'board/advertisement_detail.html', {'advertisement': advertisement})
 
