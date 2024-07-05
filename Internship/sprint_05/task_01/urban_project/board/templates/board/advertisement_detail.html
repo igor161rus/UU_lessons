@@ -2,10 +2,15 @@
 
 {% block content %}
 <h1>{{ advertisement.title }}</h1>
+
+<p>Объявление от: {{ advertisement.author.username }}</p>
 <p>{{ advertisement.content }}</p>
 
-
-<img src="{{ advertisement.ImageField.url }}" alt="foto">
+{% if advertisement.photo %}
+<p class="photo">
+<img src="{{ advertisement.photo.url }}" alt="Advertisement image">
+</p>
+{% endif %}
 
 
 {% if advertisement.author == user %}
@@ -13,4 +18,8 @@
 
 <a href="{% url 'board:delete_advertisement' advertisement.pk %}">Delete</a>
 {% endif %}
+{{ advertisment.like }} likes
+
+<a href="{% url 'board:advertisement_list' %}">Back to list</a>
+
 {% endblock %}

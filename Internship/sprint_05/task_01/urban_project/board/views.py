@@ -66,6 +66,7 @@ def edit_advertisement(request, pk):
         form = AdvertisementForm(instance=advertisement)
     return render(request, 'board/edit_advertisement.html', {'form': form, 'advertisement': advertisement})
 
+
 @login_required
 def delete_advertisement(request, pk):
     advertisement = Advertisement.objects.get(pk=pk)
@@ -73,3 +74,19 @@ def delete_advertisement(request, pk):
         advertisement.delete()
         return redirect('board:advertisement_list')
     return render(request, 'board/delete_advertisement.html', {'advertisement': advertisement})
+
+
+def count_likes_dislikes(request, pk):
+    advertisement = Advertisement.objects.get(pk=pk)
+    if request.user in advertisement.dislikes.all():
+        advertisement.dislikes.remove(request.user)
+    else:
+        advertisement.dislikes.add(request.user)
+    if request.user in advertisement.likes.all():
+        advertisement.likes.remove(request.user)
+    else:
+        advertisement.likes.add(request.user)
+    advertisement.save()
+    advertisement.refresh_from_db()
+    print(advertisement.likes.count())
+    return render(request, 'board/count_likes.html', {'advertisement': advertisement})
