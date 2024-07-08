@@ -21,15 +21,19 @@
 {% endif %}
 
 <!-- LIKES -->
-{% if user.is_authenticated %}
-  <form action="{% url 'board:like' advertisement.pk %}" method="POST">
-    {% csrf_token %}
 
+{% if user.is_authenticated %}
+  <form action="{% url 'board:post_like' advertisement.pk %}" method="POST">
+        {{advertisement.pk}}
+    {% csrf_token %}
+    <p>
     {% if post_is_liked %}
-    <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-info">Unlike</button>
+
+    <button type="submit" name="post_id" value="{{advertisement.pk}}" class="btn btn-info">Unlike</button>
     {% else %}
-    <button type="submit" name="post_id" value="{{object.id}}" class="btn btn-info">Like</button>
+    <button type="submit" name="post_id" value="{{advertisement.pk}}" class="btn btn-info">Like</button>
     {% endif %}
+  </p>
   </form>
 {% else %}
   <a class="btn btn-outline-info" href="{% url 'login' %}?next={{request.path}}">Log in to like this article!</a><br>

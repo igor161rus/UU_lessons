@@ -46,14 +46,12 @@ def advertisement_detail(request, pk):
     context = {
         'advertisement': advertisement,
     }
-    likes_connected = get_object_or_404(Advertisement, id='pk')
+    likes_connected = get_object_or_404(Advertisement, id=pk)
     liked = False
     if likes_connected.likes.filter(id=request.user.id).exists():
         liked = True
-    context = 'number_of_likes' = likes_connected.number_of_likes(),
-        'post_is_liked' = liked
-
-
+    context['number_of_likes'] = likes_connected.number_of_likes(),
+    context['post_is_liked'] = liked
 
     return render(request, 'board/advertisement_detail.html', context=context)
 
@@ -99,28 +97,10 @@ def delete_advertisement(request, pk):
 
 
 def post_like(request, pk):
-    post = get_object_or_404(Advertisement, id=request.POST.get('id'))
+    post = get_object_or_404(Advertisement, pk=pk)
     if post.likes.filter(id=request.user.id).exists():
         post.likes.remove(request.user)
     else:
         post.likes.add(request.user)
 
     return HttpResponseRedirect(reverse('board:advertisement_detail', args=[str(pk)]))
-
-
-class BlogPostDetailView(DetailView):
-    model = Advertisement
-
-    # template_name = MainApp/BlogPost_detail.html
-    # context_object_name = 'object'
-
-    def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
-
-        likes_connected = get_object_or_404(Advertisement, id=self.kwargs['pk'])
-        liked = False
-        if likes_connected.likes.filter(id=self.request.user.id).exists():
-            liked = True
-        data['number_of_likes'] = likes_connected.number_of_likes()
-        data['post_is_liked'] = liked
-        return data
