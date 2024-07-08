@@ -50,12 +50,12 @@ def advertisement_detail(request, pk):
     liked = False
     if likes_connected.likes.filter(id=request.user.id).exists():
         liked = True
-        context = {'number_of_likes' = likes_connected.number_of_likes(),
+    context = 'number_of_likes' = likes_connected.number_of_likes(),
         'post_is_liked' = liked
-        }
 
 
-    return render(request, 'board/advertisement_detail.html', {'advertisement': advertisement})
+
+    return render(request, 'board/advertisement_detail.html', context=context)
 
 
 @login_required
