@@ -43,6 +43,17 @@ def advertisement_list(request):
 
 def advertisement_detail(request, pk):
     advertisement = Advertisement.objects.get(pk=pk)
+    context = {
+        'advertisement': advertisement,
+    }
+    likes_connected = get_object_or_404(Advertisement, id='pk')
+    liked = False
+    if likes_connected.likes.filter(id=request.user.id).exists():
+        liked = True
+        context = {'number_of_likes' = likes_connected.number_of_likes(),
+        'post_is_liked' = liked
+        }
+
 
     return render(request, 'board/advertisement_detail.html', {'advertisement': advertisement})
 

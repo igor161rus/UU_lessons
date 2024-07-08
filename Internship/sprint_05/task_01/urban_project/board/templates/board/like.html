@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Delete advertisement</h1>
+<form action="board.post_like" method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to like this advertisement?</p>
+    <input type="submit" value="Like">
+</form>
+{% endblock %}
