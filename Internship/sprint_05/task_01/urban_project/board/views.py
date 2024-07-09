@@ -38,6 +38,10 @@ def home(request):
 
 def advertisement_list(request):
     advertisements = Advertisement.objects.all()
+    # adv_user_count = Advertisement.objects.filter(likes__id=request.user.id).count()
+    adv_user_count = Advertisement.objects.filter(likes__id=request.user.id).count()
+
+    print(adv_user_count)
     return render(request, 'board/advertisement_list.html', {'advertisements': advertisements})
 
 
