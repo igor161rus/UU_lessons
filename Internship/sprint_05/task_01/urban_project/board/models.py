@@ -11,7 +11,7 @@ class Advertisement(models.Model):
     likes = models.ManyToManyField(User, related_name='likes', blank=True)
 
     def __str__(self):
-        return self.title
+        return self.title, self.author, self.likes
 
     def number_of_likes(self):
         return self.likes.count()

@@ -38,11 +38,13 @@ def home(request):
 
 def advertisement_list(request):
     advertisements = Advertisement.objects.all()
-    # adv_user_count = Advertisement.objects.filter(likes__id=request.user.id).count()
-    adv_user_count = Advertisement.objects.filter(likes__id=request.user.id).count()
-
-    print(adv_user_count)
-    return render(request, 'board/advertisement_list.html', {'advertisements': advertisements})
+    count_likes = Advertisement.objects.filter(likes__id=request.user.id).count() + 1
+    context = {
+        'advertisements': advertisements,
+        'count_likes': count_likes
+    }
+    print('count_likes', count_likes)
+    return render(request, 'board/advertisement_list.html', context=context)
 
 
 def advertisement_detail(request, pk):
@@ -100,6 +102,7 @@ def delete_advertisement(request, pk):
     return render(request, 'board/delete_advertisement.html', {'advertisement': advertisement})
 
 
+@login_required
 def post_like(request, pk):
     post = get_object_or_404(Advertisement, pk=pk)
     if post.likes.filter(id=request.user.id).exists():
