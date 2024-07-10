@@ -1,4 +1,5 @@
 {% load static %}
+{% load board_tag %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,6 +36,11 @@
             <a href="{% url 'login' %}">Login</a>
             <a href="{% url 'signup' %}">Sign Up</a>
         {% endif %}
+        <p style="float: right; color: #f2f2f2">
+        {{ user.username }}
+
+        Лайков: {{ get_likes_count }}
+        </p>
     </div>
 
     {% block content %}
