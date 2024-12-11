@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi.responses import FileResponse
 
 # Создаем экземпляр приложения FastAPI
 app = FastAPI()
@@ -9,7 +10,8 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    return {"message": "Hello, FastAPI!"}
+    #return {"message": "Hello, FastAPI!"}
+    return FileResponse('index.html')
 
 
 @app.get("/items/{item_id}")
